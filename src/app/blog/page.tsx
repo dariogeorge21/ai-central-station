@@ -305,7 +305,7 @@ export default function BlogPage() {
           <div className="flex flex-col md:flex-row gap-8">
             {/* Sidebar */}
             <div className="md:w-1/4 lg:w-1/5">
-              <div className="sticky top-20 pt-2 bg-gray-800/20 backdrop-blur-sm rounded-xl border border-gray-700/30 p-4 h-[calc(100vh-120px)]">
+              <div className="sticky top-20 pt-2 bg-gray-800/20 backdrop-blur-sm rounded-xl border border-gray-700/30 p-4">
                 <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 mb-4">
                   Categories
                 </h3>
@@ -325,7 +325,7 @@ export default function BlogPage() {
                 </div>
                 
                 {/* Category List */}
-                <div className="space-y-1 h-[calc(100%-110px)] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="space-y-1">
                   {filteredCategories.map((category) => (
                     <motion.button
                       key={category}
