@@ -1,9 +1,32 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Search } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-import { Button } from '@/components/ui/button';
+
+// Blog categories
+const blogCategories = [
+  'Generative AI',
+  'Global',
+  'Hardware & Architecture',
+  'Health & Bioscience',
+  'Human-Computer Interaction and Visualization',
+  'Machine Intelligence',
+  'Machine Perception',
+  'Machine Translation',
+  'Mobile Systems',
+  'Natural Language Processing',
+  'Networking',
+  'Open Source Models & Datasets',
+  'Photography',
+  'Product',
+  'Programs',
+  'Quantum',
+  'RAI-HCT Highlights',
+  'Responsible AI',
+  'Robotics'
+];
 
 export default function BlogPage() {
   const [text] = useTypewriter({
@@ -17,15 +40,29 @@ export default function BlogPage() {
     delaySpeed: 2000,
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  const filteredCategories = searchQuery 
+    ? blogCategories.filter(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))
+    : blogCategories;
+
   const scrollToContent = () => {
     const contentSection = document.getElementById('blog-content');
     if (contentSection) {
-      contentSection.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 80; // Account for fixed header
+      const elementPosition = contentSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-hidden">
+    <>
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center">
         {/* Background Pattern */}
@@ -79,7 +116,7 @@ export default function BlogPage() {
             >
               <button
                 onClick={scrollToContent}
-                className="bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center"
+                className="bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center group"
               >
                 Explore Articles
                 <ChevronDown className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-1" />
@@ -89,10 +126,66 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Blog Content Section */}
-      <section id="blog-content" className="py-20 container mx-auto px-4 sm:px-6 max-w-screen-xl">
-        {/* Blog content will be added here */}
+      {/* Blog Content Section with Sidebar */}
+      <section id="blog-content" className="py-20">
+        <div className="container mx-auto px-4 sm:px-6 max-w-screen-xl">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Sidebar */}
+            <div className="md:w-1/4 lg:w-1/5">
+              <div className="sticky top-20 pt-2 bg-gray-800/20 backdrop-blur-sm rounded-xl border border-gray-700/30 p-4">
+                <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 mb-4">
+                  Categories
+                </h3>
+                
+                {/* Search Bar */}
+                <div className="relative mb-6">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Search className="h-4 w-4 text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    className="block w-full pl-10 pr-3 py-2 rounded-lg bg-gray-700/30 border border-gray-600/50 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    placeholder="Search categories..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                
+                {/* Category List */}
+                <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                  {filteredCategories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setActiveCategory(activeCategory === category ? null : category)}
+                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors duration-200 ${
+                        activeCategory === category
+                          ? 'bg-blue-500/20 text-blue-400 font-medium'
+                          : 'text-gray-300 hover:bg-gray-700/30 hover:text-white'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Main Content Area */}
+            <div className="md:w-3/4 lg:w-4/5">
+              <div className="bg-gray-800/20 backdrop-blur-sm rounded-xl border border-gray-700/30 p-6">
+                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 mb-6">
+                  {activeCategory || 'Latest Articles'}
+                </h2>
+                
+                <div className="text-gray-400 text-center py-12">
+                  <p className="text-lg">Blog content will be displayed here</p>
+                  <p className="text-sm mt-2">Select a category from the sidebar to filter articles</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-    </div>
+    </>
   );
 }
