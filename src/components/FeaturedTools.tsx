@@ -76,14 +76,14 @@ const FeaturedTools = () => {
   const [expandedTool, setExpandedTool] = useState<string | null>(null);
 
   return (
-    <section className="py-16 px-4 md:px-8 lg:px-16">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-600 font-jetbrains mb-8 text-center">
+    <section className="py-16">
+      <div className="w-full">
+        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 font-jetbrains mb-8 text-center">
           Popular AI Tools
         </h2>
         
         {/* Featured Tools Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {featuredTools.map((tool) => (
             <div
               key={tool.title}
@@ -146,7 +146,7 @@ const FeaturedTools = () => {
         <div className="text-center mt-12">
           <Link
             href="/tools"
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-blue-600 text-white rounded-full font-semibold hover:from-orange-600 hover:to-blue-700 transition-all duration-300 shadow-lg group"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 text-white rounded-full font-semibold hover:from-orange-600 hover:to-blue-700 transition-all duration-300 shadow-lg group"
           >
             Explore More Tools
             <svg

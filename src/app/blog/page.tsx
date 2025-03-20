@@ -25,7 +25,7 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full max-w-full overflow-hidden">
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center">
         {/* Background Pattern */}
@@ -50,14 +50,14 @@ export default function BlogPage() {
         </div>
 
         {/* Content */}
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 sm:px-6 max-w-screen-xl">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-5xl md:text-6xl font-bold mb-4 font-jetbrains">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 font-jetbrains bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 bg-clip-text text-transparent">
                 AI News and Blogs
               </h1>
             </motion.div>
@@ -66,7 +66,7 @@ export default function BlogPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-2xl md:text-3xl text-muted-foreground mb-8 font-jetbrains"
+              className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-8 font-jetbrains"
             >
               <span>{text}</span>
               <Cursor cursorStyle="_" />
@@ -77,22 +77,20 @@ export default function BlogPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <Button
+              <button
                 onClick={scrollToContent}
-                variant="outline"
-                size="lg"
-                className="group"
+                className="bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center"
               >
                 Explore Articles
                 <ChevronDown className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-1" />
-              </Button>
+              </button>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Blog Content Section */}
-      <section id="blog-content" className="py-20">
+      <section id="blog-content" className="py-20 container mx-auto px-4 sm:px-6 max-w-screen-xl">
         {/* Blog content will be added here */}
       </section>
     </div>

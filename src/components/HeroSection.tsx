@@ -6,7 +6,7 @@ import { TypeAnimation } from 'react-type-animation'
 
 const HeroSection = () => {
   return (
-    <div className="relative h-screen flex items-center">
+    <div className="relative h-screen flex items-center w-full max-w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -23,29 +23,31 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 text-white max-w-4xl mx-auto px-8 md:px-16 lg:px-24">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-blue-600 font-jetbrains">
-          Welcome to<br />AI Toolkit Hub
-        </h1>
-        <div className="text-xl md:text-2xl mb-8 text-gray-100 font-jetbrains h-20">
-          <TypeAnimation
-            sequence={[
-              'Explore, experiment, and elevate your AI projects with our dynamic AI Toolkit Hub.',
-              1000,
-            ]}
-            wrapper="span"
-            speed={50}
-            repeat={0}
-            cursor={true}
-            className="font-jetbrains"
-          />
+      <div className="relative z-10 text-white w-full max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-blue-600 font-jetbrains">
+            Welcome to<br />AI Toolkit Hub
+          </h1>
+          <div className="text-lg sm:text-xl md:text-2xl mb-8 text-gray-100 font-jetbrains h-20">
+            <TypeAnimation
+              sequence={[
+                'Explore, experiment, and elevate your AI projects with our dynamic AI Toolkit Hub.',
+                1000,
+              ]}
+              wrapper="span"
+              speed={50}
+              repeat={0}
+              cursor={true}
+              className="font-jetbrains"
+            />
+          </div>
+          <Link 
+            href="/explore"
+            className="bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:from-orange-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl inline-block"
+          >
+            Explore Now
+          </Link>
         </div>
-        <Link 
-          href="/explore"
-          className="bg-gradient-to-r from-orange-500 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:from-orange-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl inline-block"
-        >
-          Explore Now
-        </Link>
       </div>
     </div>
   )

@@ -82,11 +82,11 @@ const ToolsSection = () => {
   }, [])
 
   return (
-    <section className="py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-gray-900 to-black min-h-screen">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
+      <div className="w-full">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-600 font-jetbrains mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 font-jetbrains mb-4">
             Explore Our AI Tools
           </h2>
           <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto font-jetbrains">
@@ -95,7 +95,7 @@ const ToolsSection = () => {
         </div>
 
         {/* Tools Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {tools.map((tool, index) => (
             <Link 
               href={tool.link} 
