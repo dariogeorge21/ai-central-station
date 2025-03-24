@@ -1,7 +1,6 @@
     "use client"
 
 import { useState } from 'react'
-import Header from '@/components/Header'
 import ProductCard from '@/components/documentation/ProductCard'
 import ProductOverview from '@/components/documentation/ProductOverview'
 import { aiTools } from '@/data/ai-tools'
@@ -11,8 +10,6 @@ export default function Documentation() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
-      <Header />
-      
       {/* Hero Section */}
       <section className="pt-24 pb-12 px-4 md:px-8 lg:px-16">
         <div className="max-w-7xl mx-auto">
