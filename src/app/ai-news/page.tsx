@@ -1,0 +1,153 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { FiChevronDown } from 'react-icons/fi';
+import NewsFilters from './components/NewsFilters';
+import NewsGrid from './components/NewsGrid';
+
+// Types for our news data
+interface NewsItem {
+  id: string;
+  title: string;
+  description: string;
+  source: string;
+  imageUrl: string;
+  timestamp: string;
+  url: string;
+  category: string;
+  region: string;
+}
+
+export default function AINewsPage() {
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedRegion, setSelectedRegion] = useState('all');
+
+  const fetchNews = async (pageNum: number) => {
+    try {
+      setLoading(true);
+      // Replace with your actual API endpoint
+      const response = await fetch(`/api/news?page=${pageNum}&category=${selectedCategory}&region=${selectedRegion}`);
+      const data = await response.json();
+      
+      if (pageNum === 1) {
+        setNewsItems(data.news);
+      } else {
+        setNewsItems((prev) => [...prev, ...data.news]);
+      }
+      
+      setHasMore(data.hasMore);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setPage(1);
+    fetchNews(1);
+  }, [selectedCategory, selectedRegion]);
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchNews(nextPage);
+  };
+
+  const scrollToNews = () => {
+    document.getElementById('latest-news')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center">
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="/ai-news-hero.jpg"
+            alt="AI News Hero Background"
+            fill
+            className="object-cover opacity-40"
+            priority
+          />
+        </div>
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+          >
+            AI News: Breaking the Boundaries of Innovation
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl mb-8 text-gray-300"
+          >
+            Stay updated with the latest advancements, breakthroughs, and trends in AI from around the globe.
+          </motion.p>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            onClick={scrollToNews}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 flex items-center mx-auto gap-2"
+          >
+            Explore Latest Updates
+            <FiChevronDown className="animate-bounce" />
+          </motion.button>
+        </div>
+      </section>
+
+      {/* Introduction Section */}
+      <section className="py-16 bg-gray-900/50 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="text-lg text-gray-300 leading-relaxed">
+            Welcome to your definitive source for daily AI news and insights. Our platform aggregates and curates the most 
+            significant developments in artificial intelligence from trusted sources worldwide. Through rigorous verification 
+            and expert curation, we ensure you receive only the highest quality, most relevant updates in the rapidly evolving 
+            landscape of AI technology.
+          </p>
+        </div>
+      </section>
+
+      {/* Latest News Section */}
+      <section id="latest-news" className="py-16 px-4 max-w-7xl mx-auto">
+        <NewsFilters
+          selectedCategory={selectedCategory}
+          selectedRegion={selectedRegion}
+          onCategoryChange={setSelectedCategory}
+          onRegionChange={setSelectedRegion}
+        />
+        
+        <NewsGrid news={newsItems} loading={loading} />
+
+        {hasMore && (
+          <div className="mt-12 text-center">
+            <button
+              onClick={loadMore}
+              disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Loading...' : 'View More News'}
+            </button>
+          </div>
+        )}
+
+        {!hasMore && newsItems.length > 0 && (
+          <p className="mt-12 text-center text-gray-400">
+            You have reached the end of Latest News of past One week.
+          </p>
+        )}
+      </section>
+    </main>
+  );
+}

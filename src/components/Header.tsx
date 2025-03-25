@@ -37,10 +37,22 @@ const Header = () => {
               Benchmarks
             </Link>
             <Link 
+              href="/ai-news" 
+              className="text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200 font-medium"
+            >
+              AI News
+            </Link>
+            <Link 
               href="/blog" 
               className="text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200 font-medium"
             >
               Blog
+            </Link>
+            <Link 
+              href="/about" 
+              className="text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200 font-medium"
+            >
+              About
             </Link>
           </nav>
 
