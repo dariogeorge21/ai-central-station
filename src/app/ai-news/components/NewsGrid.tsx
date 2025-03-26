@@ -17,29 +17,26 @@ interface NewsItem {
 interface NewsGridProps {
   news: NewsItem[];
   loading: boolean;
+  page: number;
 }
 
-export default function NewsGrid({ news, loading }: NewsGridProps) {
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="bg-gray-800 rounded-xl overflow-hidden shadow-xl animate-pulse"
-          >
-            <div className="h-48 bg-gray-700" />
-            <div className="p-6">
-              <div className="h-6 bg-gray-700 rounded mb-4" />
-              <div className="h-4 bg-gray-700 rounded mb-2" />
-              <div className="h-4 bg-gray-700 rounded mb-2" />
-              <div className="h-4 bg-gray-700 rounded w-2/3" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+const SkeletonCard = () => (
+  <div className="bg-gray-800 rounded-xl overflow-hidden shadow-xl animate-pulse">
+    <div className="h-48 bg-gray-700" />
+    <div className="p-6">
+      <div className="h-6 bg-gray-700 rounded mb-4" />
+      <div className="h-4 bg-gray-700 rounded mb-2" />
+      <div className="h-4 bg-gray-700 rounded mb-2" />
+      <div className="h-4 bg-gray-700 rounded w-2/3" />
+    </div>
+  </div>
+);
+
+export default function NewsGrid({ news, loading, page }: NewsGridProps) {
+  // Calculate the number of skeleton cards to show based on the page
+  const skeletonCount = 9; // Number of items per page
+  const existingNewsCount = news.length;
+  const shouldShowSkeletons = loading && page > 1;
 
   return (
     <motion.div
@@ -48,9 +45,28 @@ export default function NewsGrid({ news, loading }: NewsGridProps) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {/* Render existing news items */}
       {news.map((item, index) => (
         <NewsCard key={`${item.url}-${index}`} {...item} />
       ))}
+
+      {/* Show skeletons only when loading more items */}
+      {shouldShowSkeletons && (
+        <>
+          {[...Array(skeletonCount)].map((_, index) => (
+            <SkeletonCard key={`skeleton-${existingNewsCount + index}`} />
+          ))}
+        </>
+      )}
+
+      {/* Show initial loading state */}
+      {loading && page === 1 && (
+        <>
+          {[...Array(skeletonCount)].map((_, index) => (
+            <SkeletonCard key={`initial-skeleton-${index}`} />
+          ))}
+        </>
+      )}
     </motion.div>
   );
 } 

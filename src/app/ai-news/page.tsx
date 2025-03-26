@@ -31,7 +31,9 @@ export default function AINewsPage() {
 
   const fetchNews = async (pageNum: number) => {
     try {
-      setLoading(true);
+      if (pageNum === 1) {
+        setLoading(true);
+      }
       setError(null);
       const response = await fetch(`/api/news?page=${pageNum}&category=${selectedCategory}`);
       if (!response.ok) {
@@ -137,7 +139,11 @@ export default function AINewsPage() {
           </div>
         )}
 
-        <NewsGrid news={newsItems} loading={loading} />
+        <NewsGrid 
+          news={newsItems} 
+          loading={loading}
+          page={page}
+        />
 
         {hasMore && (
           <div className="mt-12 text-center">
