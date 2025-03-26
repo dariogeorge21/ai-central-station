@@ -2,15 +2,16 @@ import { motion } from 'framer-motion';
 import NewsCard from './NewsCard';
 
 interface NewsItem {
-  id: string;
   title: string;
   description: string;
-  source: string;
-  imageUrl: string;
-  timestamp: string;
+  author: string;
+  source: {
+    id: string;
+    name: string;
+  };
+  urlToImage: string;
+  publishedAt: string;
   url: string;
-  category: string;
-  region: string;
 }
 
 interface NewsGridProps {
@@ -47,8 +48,8 @@ export default function NewsGrid({ news, loading }: NewsGridProps) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {news.map((item) => (
-        <NewsCard key={item.id} {...item} />
+      {news.map((item, index) => (
+        <NewsCard key={`${item.url}-${index}`} {...item} />
       ))}
     </motion.div>
   );

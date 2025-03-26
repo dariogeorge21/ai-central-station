@@ -9,15 +9,16 @@ import NewsGrid from './components/NewsGrid';
 
 // Types for our news data
 interface NewsItem {
-  id: string;
   title: string;
   description: string;
-  source: string;
-  imageUrl: string;
-  timestamp: string;
+  author: string;
+  source: {
+    id: string;
+    name: string;
+  };
+  urlToImage: string;
+  publishedAt: string;
   url: string;
-  category: string;
-  region: string;
 }
 
 export default function AINewsPage() {
@@ -26,13 +27,16 @@ export default function AINewsPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedRegion, setSelectedRegion] = useState('all');
+  const [error, setError] = useState<string | null>(null);
 
   const fetchNews = async (pageNum: number) => {
     try {
       setLoading(true);
-      // Replace with your actual API endpoint
-      const response = await fetch(`/api/news?page=${pageNum}&category=${selectedCategory}&region=${selectedRegion}`);
+      setError(null);
+      const response = await fetch(`/api/news?page=${pageNum}&category=${selectedCategory}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch news');
+      }
       const data = await response.json();
       
       if (pageNum === 1) {
@@ -44,6 +48,7 @@ export default function AINewsPage() {
       setHasMore(data.hasMore);
     } catch (error) {
       console.error('Error fetching news:', error);
+      setError('Failed to load news. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -52,7 +57,7 @@ export default function AINewsPage() {
   useEffect(() => {
     setPage(1);
     fetchNews(1);
-  }, [selectedCategory, selectedRegion]);
+  }, [selectedCategory]);
 
   const loadMore = () => {
     const nextPage = page + 1;
@@ -123,11 +128,15 @@ export default function AINewsPage() {
       <section id="latest-news" className="py-16 px-4 max-w-7xl mx-auto">
         <NewsFilters
           selectedCategory={selectedCategory}
-          selectedRegion={selectedRegion}
           onCategoryChange={setSelectedCategory}
-          onRegionChange={setSelectedRegion}
         />
         
+        {error && (
+          <div className="text-red-500 text-center mb-8">
+            {error}
+          </div>
+        )}
+
         <NewsGrid news={newsItems} loading={loading} />
 
         {hasMore && (
