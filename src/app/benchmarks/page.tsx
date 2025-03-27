@@ -287,7 +287,7 @@ export default function BenchmarksPage() {
           <TabsContent value="comparison" className="space-y-8">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               <div className="lg:col-span-1">
-                <Card>
+                <Card className="h-full">
                   <CardHeader>
                     <CardTitle>Model Selection</CardTitle>
                     <CardDescription>
@@ -295,7 +295,7 @@ export default function BenchmarksPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                       <div>
                         <label className="text-sm font-medium mb-2 block">Category Filter</label>
                         <Select
@@ -333,9 +333,9 @@ export default function BenchmarksPage() {
                         </Select>
                       </div>
                       
-                      <div className="space-y-2">
+                      <div>
                         <label className="text-sm font-medium mb-2 block">Available Models</label>
-                        <div className="max-h-96 overflow-y-auto space-y-2 pr-2">
+                        <div className="grid grid-cols-1 gap-2">
                           {filteredModels.map(modelId => (
                             <div key={modelId} className="flex items-center space-x-2">
                               <Checkbox 
