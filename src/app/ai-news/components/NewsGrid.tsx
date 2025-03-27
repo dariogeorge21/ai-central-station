@@ -34,7 +34,7 @@ const SkeletonCard = () => (
 
 export default function NewsGrid({ news, loading, page }: NewsGridProps) {
   // Calculate the number of skeleton cards to show based on the page
-  const skeletonCount = 9; // Number of items per page
+  const skeletonCount = page === 1 ? 18 : 9; // 18 skeletons for first page, 9 for subsequent pages
   const existingNewsCount = news.length;
   const shouldShowSkeletons = loading && page > 1;
 

@@ -16,7 +16,7 @@ async function fetchNewsFromAPI(page: number, category: string = 'all') {
 
   // Build the API URL
   const baseUrl = 'https://newsapi.org/v2/everything';
-  const pageSize = 9;
+  const pageSize = page === 1 ? 18 : 9; // 18 items for first page, 9 for subsequent pages
   
   // Construct search query based on category
   let query = 'artificial intelligence OR AI technology OR machine learning';
@@ -57,7 +57,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       news: newsData.articles,
-      hasMore: page * 9 < newsData.totalResults,
+      hasMore: (page === 1 ? 18 : (page - 1) * 9 + 18) < newsData.totalResults,
     });
   } catch (error) {
     console.error('Error in API route:', error);

@@ -62,6 +62,10 @@ export default function AINewsPage() {
   }, [selectedCategory]);
 
   const loadMore = () => {
+    if (!hasMore) {
+      setError('No more news available.');
+      return;
+    }
     const nextPage = page + 1;
     setPage(nextPage);
     fetchNews(nextPage);
@@ -134,7 +138,7 @@ export default function AINewsPage() {
         />
         
         {error && (
-          <div className="text-red-500 text-center mb-8">
+          <div className="text-red-500 text-center mb-8 bg-red-500/10 p-4 rounded-lg">
             {error}
           </div>
         )}
@@ -150,17 +154,26 @@ export default function AINewsPage() {
             <button
               onClick={loadMore}
               disabled={loading}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
             >
-              {loading ? 'Loading...' : 'View More News'}
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                'View More News'
+              )}
             </button>
           </div>
         )}
 
         {!hasMore && newsItems.length > 0 && (
-          <p className="mt-12 text-center text-gray-400">
-            You have reached the end of Latest News of past One week.
-          </p>
+          <div className="mt-12 text-center p-4 bg-gray-800/50 rounded-lg">
+            <p className="text-gray-300">
+              You've reached the end of available news. Check back later for more updates!
+            </p>
+          </div>
         )}
       </section>
     </main>
