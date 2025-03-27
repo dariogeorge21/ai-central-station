@@ -1,78 +1,45 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import { useTypewriter, Cursor } from 'react-simple-typewriter';
+import React, { useState } from 'react';
+import PageTitle from '@/components/PageTitle';
+import BlogFeed from '@/components/BlogFeed';
+import { RefreshCw } from 'lucide-react';
 
 export default function BlogPage() {
-  const [text] = useTypewriter({
-    words: [
-      'AI Research',
-      'Machine Learning',
-      'Deep Learning',
-      'Neural Networks',
-      'Computer Vision',
-      'Natural Language Processing',
-      'Robotics',
-      'Quantum Computing',
-      'AI Ethics',
-      'Future of AI'
-    ],
-    loop: true,
-    delaySpeed: 2000,
-  });
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const scrollToContent = () => {
-    document.getElementById('content')?.scrollIntoView({ behavior: 'smooth' });
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setRefreshKey(prev => prev + 1); // Increment the key to force a re-render
+    setTimeout(() => setIsRefreshing(false), 2000); // Reset after 2 seconds
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-purple-900/50" />
-        </div>
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+    <main className="bg-gradient-to-b from-gray-900 to-gray-950 min-h-screen">
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex justify-between items-center mb-8">
+          <PageTitle
+            title="AI Blog Portal"
+            subtitle="Explore articles, tutorials, and insights from the AI research community"
+          />
+          <button
+            onClick={handleRefresh}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition-all ${isRefreshing ? 'opacity-75' : ''}`}
+            disabled={isRefreshing}
           >
-            AI Blog
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-8 text-gray-300"
-          >
-            Exploring the frontiers of{' '}
-            <span className="text-blue-400">
-              {text}
-              <Cursor cursorColor="#60A5FA" />
-            </span>
-          </motion.p>
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            onClick={scrollToContent}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 flex items-center mx-auto gap-2"
-          >
-            Explore Articles
-            <ChevronDown className="animate-bounce" />
-          </motion.button>
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <span>{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
+          </button>
         </div>
-      </section>
-
-      {/* Content Section */}
-      <section id="content" className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Content will be added here */}
+        
+        <div className="bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-gray-700/50">
+          <div className="text-gray-300 mb-4 text-sm">
+            Showing the latest blog posts from top AI research institutions and thought leaders. Content refreshes every 30 minutes.
+          </div>
+          <BlogFeed forceRefresh={refreshKey > 0} />
         </div>
-      </section>
+                  </div>
     </main>
   );
 }
