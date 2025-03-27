@@ -34,9 +34,9 @@ export default function BlogPage() {
         </div>
         
         <div className="bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-gray-700/50">
-          <div className="text-gray-300 mb-4 text-sm">
-            Showing the latest blog posts from top AI research institutions and thought leaders. Content refreshes every 30 minutes.
-          </div>
+          {/* <div className="text-gray-300 mb-4 text-sm">
+            
+          </div> */}
           <BlogFeed forceRefresh={refreshKey > 0} />
         </div>
                   </div>

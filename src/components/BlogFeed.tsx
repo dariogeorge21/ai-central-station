@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Clock, Share2 } from 'lucide-react';
+import SharePopup from './SharePopup';
 
 type BlogPost = {
   title: string;
@@ -20,6 +21,17 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sharePopup, setSharePopup] = useState<{
+    isOpen: boolean;
+    title: string;
+    url: string;
+    position: { x: number; y: number } | null;
+  }>({
+    isOpen: false,
+    title: '',
+    url: '',
+    position: null
+  });
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -48,6 +60,29 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
 
     fetchBlogPosts();
   }, [forceRefresh]);
+
+  const handleShare = (title: string, url: string, event: React.MouseEvent) => {
+    // Get the button's position
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = rect.left + (rect.width / 2);
+    const y = rect.top + (rect.height / 2);
+
+    setSharePopup({
+      isOpen: true,
+      title,
+      url,
+      position: { x, y }
+    });
+  };
+
+  const closeSharePopup = () => {
+    setSharePopup({
+      isOpen: false,
+      title: '',
+      url: '',
+      position: null
+    });
+  };
 
   // Animation variants for staggered children
   const containerVariants = {
@@ -133,7 +168,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
         animate="visible"
       >
         {posts.map((post, index) => {
-          const gradientClass = generateGradient(post.source); // Use source instead of title for gradient
+          const gradientClass = generateGradient(post.source);
           
           return (
             <motion.div
@@ -176,18 +211,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
                   <button 
                     className="p-2 rounded hover:bg-gray-700/50 text-gray-400 hover:text-blue-400 transition-colors"
                     title="Share article"
-                    onClick={() => {
-                      if (navigator.share) {
-                        navigator.share({
-                          title: post.title,
-                          url: post.link
-                        }).catch(err => console.error('Error sharing', err));
-                      } else {
-                        navigator.clipboard.writeText(post.link)
-                          .then(() => alert('Link copied to clipboard!'))
-                          .catch(err => console.error('Failed to copy', err));
-                      }
-                    }}
+                    onClick={(e) => handleShare(post.title, post.link, e)}
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
@@ -197,6 +221,14 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
           );
         })}
       </motion.div>
+
+      <SharePopup
+        isOpen={sharePopup.isOpen}
+        onClose={closeSharePopup}
+        title={sharePopup.title}
+        url={sharePopup.url}
+        buttonPosition={sharePopup.position}
+      />
     </>
   );
 } 
