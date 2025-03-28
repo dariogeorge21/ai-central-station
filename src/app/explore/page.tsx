@@ -1,46 +1,40 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown, Menu, X, Search, Filter } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Menu, X, Search, Filter, Star, Users, ExternalLink } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-
-// Tool categories
-const categories = [
-  { id: 'all', name: 'All Tools', count: 150 },
-  { id: 'text', name: 'Text Generation', count: 45 },
-  { id: 'image', name: 'Image Generation', count: 35 },
-  { id: 'code', name: 'Code Assistant', count: 25 },
-  { id: 'audio', name: 'Audio & Voice', count: 20 },
-  { id: 'video', name: 'Video Creation', count: 15 },
-  { id: 'research', name: 'Research & Analysis', count: 10 },
-];
-
-// Mock tool data
-const tools = [
-  {
-    id: 1,
-    name: 'GPT-4 Assistant',
-    description: 'Advanced language model for text generation and analysis',
-    category: 'text',
-    rating: 4.8,
-    users: '1.2M',
-  },
-  {
-    id: 2,
-    name: 'DALL-E 3',
-    description: 'State-of-the-art image generation from text descriptions',
-    category: 'image',
-    rating: 4.9,
-    users: '800K',
-  },
-  // Add more mock tools as needed
-];
+import { aiTools, categoryLabels, AITool, ToolCategory } from '@/data/aiTools';
 
 export default function ExplorePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState<ToolCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
+  const [filteredTools, setFilteredTools] = useState(aiTools);
+
+  // Filter tools when category or search query changes
+  useEffect(() => {
+    let filtered = aiTools;
+    
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(tool => 
+        tool.categories.includes(selectedCategory)
+      );
+    }
+    
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(tool =>
+        tool.name.toLowerCase().includes(query) ||
+        tool.description.toLowerCase().includes(query)
+      );
+    }
+    
+    setFilteredTools(filtered);
+  }, [selectedCategory, searchQuery]);
 
   const [text] = useTypewriter({
     words: [
@@ -62,6 +56,18 @@ export default function ExplorePage() {
   const scrollToContent = () => {
     document.getElementById('content')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Get categories with counts
+  const categoriesWithCounts = Object.entries(categoryLabels).map(([id, name]) => {
+    const count = aiTools.filter(tool => tool.categories.includes(id as ToolCategory)).length;
+    return { id: id as ToolCategory, name, count };
+  });
+
+  // Category counts including 'all'
+  const allCategories = [
+    { id: 'all' as ToolCategory, name: 'All Tools', count: aiTools.length },
+    ...categoriesWithCounts
+  ];
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
@@ -135,13 +141,17 @@ export default function ExplorePage() {
           </button>
 
           {/* Main Content Grid */}
-          <div className="flex gap-6">
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Sidebar */}
             <motion.div
               initial={{ x: -300, opacity: 0 }}
-              animate={{ x: isSidebarOpen ? 0 : -300, opacity: isSidebarOpen ? 1 : 0 }}
+              animate={{ 
+                x: isSidebarOpen ? 0 : -300, 
+                opacity: isSidebarOpen ? 1 : 0,
+                width: isSidebarOpen ? 'auto' : 0
+              }}
               transition={{ duration: 0.3 }}
-              className={`fixed lg:static inset-y-0 left-0 w-64 bg-gray-800/50 backdrop-blur-sm border-r border-gray-700/50 p-4 z-40 lg:z-0`}
+              className={`fixed lg:static inset-y-0 left-0 w-64 lg:w-64 bg-gray-800/50 backdrop-blur-sm border-r border-gray-700/50 p-4 z-40 lg:z-0 overflow-auto max-h-screen lg:max-h-[calc(100vh-100px)] ${isSidebarOpen ? 'block' : 'hidden lg:block'}`}
             >
               <div className="space-y-4">
                 <div className="relative">
@@ -155,13 +165,13 @@ export default function ExplorePage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between text-sm text-gray-400">
+                <div className="flex items-center justify-between text-sm text-gray-400 pt-2">
                   <span>Categories</span>
                   <Filter className="w-4 h-4" />
                 </div>
 
                 <div className="space-y-2">
-                  {categories.map((category) => (
+                  {allCategories.map((category) => (
                     <button
                       key={category.id}
                       onClick={() => setSelectedCategory(category.id)}
@@ -182,33 +192,192 @@ export default function ExplorePage() {
             </motion.div>
 
             {/* Tools Grid */}
-            <div className="flex-1">
+            <div className="flex-1 lg:ml-0">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {tools.map((tool) => (
+                {filteredTools.map((tool) => (
                   <motion.div
                     key={tool.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                     viewport={{ once: true }}
-                    className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-emerald-500/30 transition-all duration-300"
+                    className="bg-gray-800/30 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 hover:border-emerald-500/30 transition-all duration-300 cursor-pointer group"
+                    onClick={() => setSelectedTool(tool)}
                   >
-                    <h3 className="text-xl font-bold text-gray-100 mb-2">{tool.name}</h3>
-                    <p className="text-gray-400 text-sm mb-4">{tool.description}</p>
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2 text-emerald-400">
-                        <span>★</span>
-                        <span>{tool.rating}</span>
+                    {/* Category Label */}
+                    <div className="flex justify-end p-2">
+                      <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-700/50 backdrop-blur-sm text-emerald-400">
+                        {tool.categories.length > 0 && categoryLabels[tool.categories[0]]}
+                      </span>
+                    </div>
+                    
+                    {/* Tool Logo */}
+                    <div className="px-6 pt-2 pb-4 flex justify-center items-center">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                        <div className="w-full h-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                          <img 
+                            src={tool.logoUrl} 
+                            alt={tool.name} 
+                            className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                            loading="lazy"
+                          />
+                        </div>
                       </div>
-                      <span className="text-gray-500">{tool.users} users</span>
+                    </div>
+                    
+                    {/* Tool Info */}
+                    <div className="p-6 pt-0">
+                      <h3 className="text-xl font-bold text-gray-100 mb-2 group-hover:text-emerald-400 transition-colors">{tool.name}</h3>
+                      <p className="text-gray-400 text-sm mb-4 line-clamp-2">{tool.description}</p>
+                      
+                      {/* Footer */}
+                      <div className="flex items-center justify-between text-sm mt-auto">
+                        <div className="flex items-center gap-1 text-yellow-400">
+                          <Star size={14} className="fill-yellow-400" />
+                          <span>Top Rated</span>
+                        </div>
+                        <span className="text-gray-500 flex items-center gap-1">
+                          <Users size={14} />
+                          <span>Popular</span>
+                        </span>
+                      </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
+              
+              {/* Empty State */}
+              {filteredTools.length === 0 && (
+                <div className="text-center py-16">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-gray-400"
+                  >
+                    <h3 className="text-xl font-semibold mb-2">No tools found</h3>
+                    <p>Try adjusting your search or category filter</p>
+                    <button 
+                      onClick={() => {
+                        setSelectedCategory('all');
+                        setSearchQuery('');
+                      }}
+                      className="mt-4 text-emerald-400 hover:text-emerald-300"
+                    >
+                      Reset filters
+                    </button>
+                  </motion.div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Tool Detail Popup */}
+      <AnimatePresence>
+        {selectedTool && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              onClick={() => setSelectedTool(null)}
+            />
+            
+            {/* Popup */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-700 z-50 w-[90%] max-w-2xl max-h-[90vh] overflow-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedTool(null)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              >
+                <X size={24} />
+              </button>
+              
+              {/* Tool Content */}
+              <div className="flex flex-col md:flex-row gap-6">
+                {/* Logo */}
+                <div className="flex-shrink-0">
+                  <div className="w-24 h-24 rounded-xl overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800">
+                    <img 
+                      src={selectedTool.logoUrl} 
+                      alt={selectedTool.name} 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                
+                {/* Details */}
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-gray-100 mb-2">{selectedTool.name}</h2>
+                  <p className="text-gray-300 mb-4">{selectedTool.description}</p>
+                  
+                  {/* Metadata Sections */}
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-400 mb-1">Pricing</h3>
+                      <p className="text-gray-200">{selectedTool.pricing}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-400 mb-1">Main Use</h3>
+                      <p className="text-gray-200">{selectedTool.mainUse}</p>
+                    </div>
+                    
+                    {selectedTool.otherUses && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-gray-400 mb-1">Other Uses</h3>
+                        <p className="text-gray-200">{selectedTool.otherUses}</p>
+                      </div>
+                    )}
+                    
+                    {selectedTool.userExperience && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-gray-400 mb-1">User Experience</h3>
+                        <p className="text-gray-200">{selectedTool.userExperience}</p>
+                      </div>
+                    )}
+                    
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-400 mb-1">Categories</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedTool.categories.map((category) => (
+                          <span 
+                            key={category} 
+                            className="text-xs px-2 py-1 rounded-full bg-emerald-900/30 text-emerald-400 border border-emerald-800/50"
+                          >
+                            {categoryLabels[category]}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Visit Website Button */}
+                  <a
+                    href={selectedTool.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Visit Website
+                    <ExternalLink size={16} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
