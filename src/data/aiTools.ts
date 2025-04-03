@@ -1,17 +1,29 @@
 // AI Tool Categories
-export type ToolCategory = 
-  | 'models' 
-  | 'chatbots' 
-  | 'search-engines' 
-  | 'local-search' 
-  | 'writing' 
-  | 'chatgpt-extensions' 
-  | 'productivity' 
-  | 'meeting' 
-  | 'academia' 
-  | 'text-generators' 
-  | 'developer' 
-  | 'code';
+export type ToolCategory =
+  | 'models'
+  | 'chatbots'
+  | 'search-engines'
+  | 'local-search'
+  | 'writing'
+  | 'chatgpt-extensions'
+  | 'productivity'
+  | 'meeting'
+  | 'academia'
+  | 'text-generators'
+  | 'developer'
+  | 'code'
+  | 'website-builders'
+  | 'voice-cloning'
+  | 'virtual-assistants'
+  | 'translation'
+  | 'social-media'
+  | 'sales'
+  | 'recruitment'
+  | 'email'
+  | 'customer-support'
+  | 'content-creation'
+  | 'browser-extensions'
+  | 'design';
 
 export interface AITool {
   id: string;
@@ -24,6 +36,7 @@ export interface AITool {
   otherUses?: string;
   userExperience?: string;
   websiteUrl: string;
+  rating?: number;
 }
 
 export const categoryLabels: Record<ToolCategory, string> = {
@@ -38,7 +51,19 @@ export const categoryLabels: Record<ToolCategory, string> = {
   'academia': 'Academia',
   'text-generators': 'Text Generators',
   'developer': 'Developer Tools',
-  'code': 'Code Tools'
+  'code': 'Code Tools',
+  'website-builders': 'Website Builders',
+  'voice-cloning': 'Voice Cloning',
+  'virtual-assistants': 'Virtual Assistants',
+  'translation': 'Translation',
+  'social-media': 'Social Media',
+  'sales': 'Sales Tools',
+  'recruitment': 'Recruitment',
+  'email': 'Email Tools',
+  'customer-support': 'Customer Support',
+  'content-creation': 'Content Creation',
+  'browser-extensions': 'Browser Extensions',
+  'design': 'Design Tools'
 };
 
 // AI Tools Data
@@ -54,7 +79,8 @@ export const aiTools: AITool[] = [
     pricing: 'Pay-per-use pricing based on tokens and model used',
     otherUses: 'Text generation, summarization, translation, code generation',
     userExperience: 'Developer-friendly API with comprehensive documentation',
-    websiteUrl: 'https://openai.com/api/'
+    websiteUrl: 'https://openai.com/api/',
+    rating: 5
   },
   {
     id: 'gopher',
@@ -163,7 +189,7 @@ export const aiTools: AITool[] = [
     userExperience: 'Superior performance but requires significant computational resources',
     websiteUrl: 'https://huggingface.co/stabilityai/StableBeluga2'
   },
-  
+
   // Chatbots
   {
     id: 'chatgpt',
@@ -249,7 +275,7 @@ export const aiTools: AITool[] = [
     userExperience: 'Clean interface with code-focused answers and syntax highlighting',
     websiteUrl: 'https://www.phind.com/'
   },
-  
+
   // Search Engines
   {
     id: 'perplexity-ai',
@@ -299,7 +325,7 @@ export const aiTools: AITool[] = [
     userExperience: 'Simple interface focused on direct answers',
     websiteUrl: 'https://komo.ai/'
   },
-  
+
   // Local Search Engines
   {
     id: 'privategpt',
@@ -325,7 +351,7 @@ export const aiTools: AITool[] = [
     userExperience: 'Web interface with chat-based document interactions',
     websiteUrl: 'https://github.com/StanGirard/quivr'
   },
-  
+
   // Too many tools to include in a single file, let's continue with a selection of the most important ones
   // I'll include some from each category to maintain a good representation
 
@@ -354,7 +380,7 @@ export const aiTools: AITool[] = [
     userExperience: 'Simple interface with many templates for different content types',
     websiteUrl: 'https://www.copy.ai/'
   },
-  
+
   // ChatGPT Extensions (selection)
   {
     id: 'webchatgpt',
@@ -380,7 +406,7 @@ export const aiTools: AITool[] = [
     userExperience: 'Clean, customizable interface with conversation management',
     websiteUrl: 'https://github.com/mckaywrigley/chatbot-ui'
   },
-  
+
   // Code tools (selection)
   {
     id: 'github-copilot',
@@ -406,4 +432,4 @@ export const aiTools: AITool[] = [
     userExperience: 'Works with multiple programming languages and IDEs',
     websiteUrl: 'https://www.tabnine.com/'
   }
-]; 
+];
