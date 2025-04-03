@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowUpDown } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
@@ -23,7 +23,7 @@ export default function ExplorePage() {
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>('nameAsc');
   // Combine all AI tools
-  const allTools = [...expandedAiTools, ...additionalAiTools];
+  const allTools = useMemo(() => [...expandedAiTools, ...additionalAiTools], []);
   const [filteredTools, setFilteredTools] = useState(allTools);
 
   // Sort tools based on selected option
@@ -47,7 +47,6 @@ export default function ExplorePage() {
   // Filter and sort tools when categories or sort option changes
   useEffect(() => {
     let result;
-
     if (selectedCategories.length === 0) {
       result = allTools;
     } else {
@@ -55,10 +54,8 @@ export default function ExplorePage() {
         selectedCategories.some(category => tool.categories.includes(category))
       );
     }
-
     // Apply sorting
     result = sortTools(result, sortOption);
-
     setFilteredTools(result);
   }, [selectedCategories, sortOption, allTools]);
 
@@ -263,3 +260,4 @@ export default function ExplorePage() {
     </main>
   );
 }
+

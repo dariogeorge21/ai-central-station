@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
@@ -29,7 +29,7 @@ export default function AINewsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [error, setError] = useState<string | null>(null);
 
-  const fetchNews = async (pageNum: number) => {
+  const fetchNews = useCallback(async (pageNum: number) => {
     try {
       if (pageNum === 1) {
         setLoading(true);
@@ -54,12 +54,12 @@ export default function AINewsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCategory]);
 
   useEffect(() => {
     setPage(1);
     fetchNews(1);
-  }, [selectedCategory]);
+  }, [selectedCategory, fetchNews]);
 
   const loadMore = () => {
     if (!hasMore) {
@@ -179,3 +179,4 @@ export default function AINewsPage() {
     </main>
   );
 }
+

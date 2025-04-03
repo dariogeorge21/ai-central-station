@@ -10,7 +10,7 @@ interface CategoryFilterProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   selectedCategories: ToolCategory[];
-  setSelectedCategories: (categories: ToolCategory[]) => void;
+  setSelectedCategories: React.Dispatch<React.SetStateAction<ToolCategory[]>>;
 }
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({
@@ -73,7 +73,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
                     key={id}
                     onClick={() => {
                       const category = id as ToolCategory;
-                      setSelectedCategories(prev =>
+                      setSelectedCategories((prev: ToolCategory[]) =>
                         prev.includes(category)
                           ? prev.filter(c => c !== category)
                           : [...prev, category]
@@ -113,3 +113,4 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 };
 
 export default CategoryFilter;
+
