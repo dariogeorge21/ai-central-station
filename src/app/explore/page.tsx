@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ArrowUpDown } from 'lucide-react';
+import { ChevronDown, ArrowUpDown, Search } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { ToolCategory, AITool, aiTools } from '@/data/aiTools';
 
@@ -23,7 +23,12 @@ export default function ExplorePage() {
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>('nameAsc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const itemsPerPage = 12;
+
+  // Debounce search query
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Combine all AI tools with error handling
   const allTools = useMemo(() => aiTools, []);
@@ -99,17 +104,54 @@ export default function ExplorePage() {
   // Filter and sort tools when categories or sort option changes
   useEffect(() => {
     let result: AITool[];
+    
+    // First apply category filtering
     if (selectedCategories.length === 0) {
       result = allTools;
     } else {
-      result = allTools.filter((tool: AITool) =>
+      result = allTools.filter((tool) =>
         selectedCategories.some(category => tool.categories.includes(category))
       );
     }
-    // Apply sorting
+    
+    // Then apply search filtering if search is active
+    if (isSearching && searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((tool) => 
+        tool.name.toLowerCase().includes(query) || 
+        tool.description.toLowerCase().includes(query)
+      );
+      // Reset to first page when searching
+      setCurrentPage(1);
+    }
+    
+    // Finally apply sorting
     result = sortTools(result, sortOption);
     setFilteredTools(result);
-  }, [selectedCategories, sortOption, allTools]);
+  }, [selectedCategories, sortOption, allTools, searchQuery, isSearching]);
+
+  // Handle search input with debounce
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    
+    // Clear any existing timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    // Set a new timeout for debouncing
+    searchTimeoutRef.current = setTimeout(() => {
+      setIsSearching(value.trim() !== '');
+    }, 300);
+  };
+
+  // Clear search
+  const clearSearch = () => {
+    setSearchQuery('');
+    setIsSearching(false);
+    setCurrentPage(1);
+  };
 
   const [text] = useTypewriter({
     words: [
@@ -217,7 +259,7 @@ export default function ExplorePage() {
           ) : (
             <>
               {/* Filter and Sort Controls */}
-              <div className="flex flex-col md:flex-row gap-4 mb-12">
+              <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <div className="flex-1 filter-dropdown">
                   <CategoryFilter
                     isOpen={isFilterOpen}
@@ -314,18 +356,54 @@ export default function ExplorePage() {
                 </div>
               </div>
 
+              {/* Search Bar */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="relative mb-8"
+              >
+                <div className="relative flex items-center">
+                  <Search className="absolute left-4 text-gray-400" size={20} aria-hidden="true" />
+                  <input
+                    type="text"
+                    aria-label="Search for AI tools"
+                    placeholder="Search tools by name or description..."
+                    value={searchQuery}
+                    onChange={handleSearchInput}
+                    className="w-full bg-gray-800 border border-gray-700 text-gray-200 pl-12 pr-12 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={clearSearch}
+                      className="absolute right-4 text-gray-400 hover:text-gray-200"
+                      aria-label="Clear search"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                {isSearching && (
+                  <div className="mt-2 text-sm text-gray-400">
+                    Found {filteredTools.length} result{filteredTools.length !== 1 ? 's' : ''}
+                  </div>
+                )}
+              </motion.div>
+
               {/* AI Tools Grid Component */}
               <AIToolsGrid
-                tools={paginatedTools}
+                tools={isSearching ? filteredTools : paginatedTools}
                 onSelectTool={setSelectedTool}
                 onClearFilters={() => {
                   setSelectedCategories([]);
+                  clearSearch();
                   setCurrentPage(1);
                 }}
               />
 
-              {/* Pagination */}
-              {totalPages > 1 && (
+              {/* Pagination - only show when not searching */}
+              {!isSearching && totalPages > 1 && (
                 <div className="flex justify-center mt-8 gap-2">
                   <button
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
@@ -345,6 +423,23 @@ export default function ExplorePage() {
                     aria-label="Next page"
                   >
                     Next
+                  </button>
+                </div>
+              )}
+
+              {/* No results message */}
+              {!isLoading && filteredTools.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-xl text-gray-400 mb-4">No AI tools found matching your criteria</p>
+                  <button
+                    onClick={() => {
+                      setSelectedCategories([]);
+                      clearSearch();
+                      setCurrentPage(1);
+                    }}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-full transition-all duration-300"
+                  >
+                    Clear Filters
                   </button>
                 </div>
               )}
