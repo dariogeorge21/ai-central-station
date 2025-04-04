@@ -12,7 +12,7 @@ import AIToolsGrid from '@/components/explore/AIToolsGrid';
 import AIToolDetail from '@/components/explore/AIToolDetail';
 
 // Sort options type
-type SortOption = 'nameAsc' | 'nameDesc' | 'popularity' | 'satisfaction';
+type SortOption = 'nameAsc' | 'nameDesc' | 'popularity';
 
 export default function ExplorePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +21,7 @@ export default function ExplorePage() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
-  const [sortOption, setSortOption] = useState<SortOption>('nameAsc');
+  const [sortOption, setSortOption] = useState<SortOption>('popularity');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -43,7 +43,9 @@ export default function ExplorePage() {
         setIsLoading(true);
         // Simulate network delay for demo
         await new Promise(resolve => setTimeout(resolve, 500));
-        setFilteredTools(allTools);
+        // Sort tools by popularity by default
+        const sortedTools = sortToolsByOption(aiTools, 'popularity');
+        setFilteredTools(sortedTools);
       } catch (err) {
         setError('Failed to initialize tools');
       } finally {
@@ -52,7 +54,7 @@ export default function ExplorePage() {
     };
 
     initializeTools();
-  }, [allTools]);
+  }, []);
 
   // Improved scroll behavior using ref
   const exploreRef = useRef<HTMLElement>(null);
@@ -83,33 +85,41 @@ export default function ExplorePage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSortOpen, isFilterOpen]);
 
-  // Sort tools based on selected option
-  const sortTools = (tools: AITool[], option: SortOption): AITool[] => {
+  // New utility function for sorting tools
+  const sortToolsByOption = (tools: AITool[], option: SortOption): AITool[] => {
+    const toolsCopy = [...tools]; // Create a shallow copy to avoid mutating the original
+
     switch (option) {
       case 'nameAsc':
-        return [...tools].sort((a, b) => a.name.localeCompare(b.name));
+        return toolsCopy.sort((a, b) => 
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        );
       case 'nameDesc':
-        return [...tools].sort((a, b) => b.name.localeCompare(a.name));
+        return toolsCopy.sort((a, b) => 
+          b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+        );
       case 'popularity':
-        // Sort by popularity (using the number of categories as a proxy for popularity)
-        return [...tools].sort((a, b) => (b.categories.length - a.categories.length));
-      case 'satisfaction':
-        // Sort by customer satisfaction (using rating)
-        return [...tools].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        // Sort by number of categories and then by rating as secondary factor
+        return toolsCopy.sort((a, b) => {
+          // Primary sort by categories length (more categories = more versatile/popular)
+          const categoryDiff = b.categories.length - a.categories.length;
+          if (categoryDiff !== 0) return categoryDiff;
+          
+          // Secondary sort by rating
+          return (b.rating || 0) - (a.rating || 0);
+        });
       default:
-        return tools;
+        return toolsCopy;
     }
   };
 
-  // Filter and sort tools when categories or sort option changes
+  // Filter and sort tools when categories, search, or sort option changes
   useEffect(() => {
-    let result: AITool[];
+    let result: AITool[] = allTools;
     
     // First apply category filtering
-    if (selectedCategories.length === 0) {
-      result = allTools;
-    } else {
-      result = allTools.filter((tool) =>
+    if (selectedCategories.length > 0) {
+      result = result.filter((tool) =>
         selectedCategories.some(category => tool.categories.includes(category))
       );
     }
@@ -121,12 +131,12 @@ export default function ExplorePage() {
         tool.name.toLowerCase().includes(query) || 
         tool.description.toLowerCase().includes(query)
       );
-      // Reset to first page when searching
-      setCurrentPage(1);
     }
     
-    // Finally apply sorting
-    result = sortTools(result, sortOption);
+    // Apply sorting
+    result = sortToolsByOption(result, sortOption);
+    
+    // Update filtered tools
     setFilteredTools(result);
   }, [selectedCategories, sortOption, allTools, searchQuery, isSearching]);
 
@@ -169,6 +179,13 @@ export default function ExplorePage() {
     loop: true,
     delaySpeed: 2000,
   });
+
+  // Handle sort option change
+  const handleSortChange = (option: SortOption) => {
+    setSortOption(option);
+    setCurrentPage(1); // Reset to first page when sorting changes
+    setIsSortOpen(false);
+  };
 
   // Error component
   if (error) {
@@ -285,8 +302,7 @@ export default function ExplorePage() {
                     <ArrowUpDown size={18} aria-hidden="true" />
                     Sort By: {sortOption === 'nameAsc' ? 'Name (A-Z)' :
                               sortOption === 'nameDesc' ? 'Name (Z-A)' :
-                              sortOption === 'popularity' ? 'Popularity' :
-                              'Customer Satisfaction'}
+                              'Popularity'}
                     <ChevronDown 
                       className={`ml-2 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
                       aria-hidden="true"
@@ -313,40 +329,22 @@ export default function ExplorePage() {
                         >
                           <div className="py-2">
                             <button
-                              onClick={() => {
-                                setSortOption('nameAsc');
-                                setIsSortOpen(false);
-                              }}
-                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameAsc' ? 'text-emerald-400' : 'text-gray-200'}`}
-                            >
-                              Name (A-Z)
-                            </button>
-                            <button
-                              onClick={() => {
-                                setSortOption('nameDesc');
-                                setIsSortOpen(false);
-                              }}
-                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameDesc' ? 'text-emerald-400' : 'text-gray-200'}`}
-                            >
-                              Name (Z-A)
-                            </button>
-                            <button
-                              onClick={() => {
-                                setSortOption('popularity');
-                                setIsSortOpen(false);
-                              }}
+                              onClick={() => handleSortChange('popularity')}
                               className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'popularity' ? 'text-emerald-400' : 'text-gray-200'}`}
                             >
                               Popularity
                             </button>
                             <button
-                              onClick={() => {
-                                setSortOption('satisfaction');
-                                setIsSortOpen(false);
-                              }}
-                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'satisfaction' ? 'text-emerald-400' : 'text-gray-200'}`}
+                              onClick={() => handleSortChange('nameAsc')}
+                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameAsc' ? 'text-emerald-400' : 'text-gray-200'}`}
                             >
-                              Customer Satisfaction
+                              Name (A-Z)
+                            </button>
+                            <button
+                              onClick={() => handleSortChange('nameDesc')}
+                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameDesc' ? 'text-emerald-400' : 'text-gray-200'}`}
+                            >
+                              Name (Z-A)
                             </button>
                           </div>
                         </motion.div>
