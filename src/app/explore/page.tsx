@@ -4,9 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowUpDown } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-import { ToolCategory, AITool } from '@/data/aiTools';
-import { expandedAiTools } from '@/data/expandedAiTools';
-import { additionalAiTools } from '@/data/additionalAiTools';
+import { ToolCategory, AITool, aiTools } from '@/data/aiTools';
 
 // Import components
 import CategoryFilter from '@/components/explore/CategoryFilter';
@@ -28,14 +26,7 @@ export default function ExplorePage() {
   const itemsPerPage = 12;
 
   // Combine all AI tools with error handling
-  const allTools = useMemo(() => {
-    try {
-      return [...expandedAiTools, ...additionalAiTools];
-    } catch (err) {
-      setError('Failed to load AI tools');
-      return [];
-    }
-  }, []);
+  const allTools = useMemo(() => aiTools, []);
 
   // Initialize filtered tools with loading state
   const [filteredTools, setFilteredTools] = useState<AITool[]>([]);
@@ -107,11 +98,11 @@ export default function ExplorePage() {
 
   // Filter and sort tools when categories or sort option changes
   useEffect(() => {
-    let result;
+    let result: AITool[];
     if (selectedCategories.length === 0) {
       result = allTools;
     } else {
-      result = allTools.filter(tool =>
+      result = allTools.filter((tool: AITool) =>
         selectedCategories.some(category => tool.categories.includes(category))
       );
     }

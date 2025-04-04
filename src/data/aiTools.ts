@@ -66,7 +66,7 @@ export const categoryLabels: Record<ToolCategory, string> = {
   'design': 'Design Tools'
 };
 
-// AI Tools Data
+// Consolidated AI Tools Data
 export const aiTools: AITool[] = [
   // AI Models
   {
@@ -74,7 +74,7 @@ export const aiTools: AITool[] = [
     name: 'OpenAI API',
     description: 'Access to GPT-3, GPT-4 models, and Codex for various AI applications',
     logoUrl: 'https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?q=80&w=400&auto=format',
-    categories: ['models'],
+    categories: ['models', 'developer'],
     mainUse: 'Integrate AI capabilities into applications with state-of-the-art language models',
     pricing: 'Pay-per-use pricing based on tokens and model used',
     otherUses: 'Text generation, summarization, translation, code generation',
@@ -91,7 +91,8 @@ export const aiTools: AITool[] = [
     mainUse: 'Advanced language understanding and generation for research',
     pricing: 'Not publicly available, research access only',
     userExperience: 'Designed for AI researchers and enterprise applications',
-    websiteUrl: 'https://deepmind.com/'
+    websiteUrl: 'https://deepmind.com/',
+    rating: 4
   },
   {
     id: 'opt',
@@ -103,7 +104,8 @@ export const aiTools: AITool[] = [
     pricing: 'Free and open source',
     otherUses: 'Text generation, research on language models',
     userExperience: 'Open source model with different parameter sizes available',
-    websiteUrl: 'https://huggingface.co/facebook/opt-350m'
+    websiteUrl: 'https://huggingface.co/facebook/opt-350m',
+    rating: 4
   },
   {
     id: 'bloom',
@@ -115,153 +117,77 @@ export const aiTools: AITool[] = [
     pricing: 'Free and open source',
     otherUses: 'Cross-lingual applications, code generation',
     userExperience: 'Accessible through Hugging Face with multiple integration options',
-    websiteUrl: 'https://huggingface.co/bigscience/bloom'
+    websiteUrl: 'https://huggingface.co/bigscience/bloom',
+    rating: 4
   },
   {
     id: 'llama',
-    name: 'LLaMA',
-    description: 'A foundational, 65-billion-parameter large language model by Meta',
+    name: 'Llama',
+    description: 'Meta\'s family of open-source large language models including LLaMA and Llama 2',
     logoUrl: 'https://images.unsplash.com/photo-1682687219570-4c596363fd96?q=80&w=400&auto=format',
-    categories: ['models'],
-    mainUse: 'Research on large language models',
-    pricing: 'Free for research with application process',
-    otherUses: 'Text generation, dialog systems, content creation',
-    userExperience: 'Requires technical knowledge to implement and run',
-    websiteUrl: 'https://ai.meta.com/llama/'
-  },
-  {
-    id: 'llama-2',
-    name: 'Llama 2',
-    description: 'The next generation of Meta\'s open source large language model',
-    logoUrl: 'https://images.unsplash.com/photo-1675456503697-a577e5ed296b?q=80&w=400&auto=format',
-    categories: ['models'],
-    mainUse: 'Building advanced AI applications with improved capabilities',
+    categories: ['models', 'chatbots'],
+    mainUse: 'Open-source foundation model for various applications',
     pricing: 'Free for research and commercial use',
-    otherUses: 'Chatbots, content generation, text analysis',
-    userExperience: 'Improved performance and safety compared to original Llama',
-    websiteUrl: 'https://ai.meta.com/llama/'
-  },
-  {
-    id: 'claude-2',
-    name: 'Claude 2',
-    description: 'An AI assistant from Anthropic designed to be helpful, harmless, and honest',
-    logoUrl: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=400&auto=format',
-    categories: ['models', 'chatbots'],
-    mainUse: 'Safe and steerable AI assistant for various tasks',
-    pricing: 'API access with pay-per-use model',
-    otherUses: 'Content creation, summarization, coding assistance',
-    userExperience: 'Clean interface with focus on safety and reduced hallucinations',
-    websiteUrl: 'https://www.anthropic.com/claude'
-  },
-  {
-    id: 'vicuna-13b',
-    name: 'Vicuna-13B',
-    description: 'An open-source chatbot trained by fine-tuning LLaMA',
-    logoUrl: 'https://images.unsplash.com/photo-1694163773774-3ca53b644d06?q=80&w=400&auto=format',
-    categories: ['models', 'chatbots'],
-    mainUse: 'Research and development of conversational AI',
-    pricing: 'Free and open source',
-    otherUses: 'Text generation, dialog systems',
-    userExperience: 'Requires technical setup but provides good performance for its size',
-    websiteUrl: 'https://lmsys.org/blog/2023-03-30-vicuna/'
-  },
-  {
-    id: 'stable-beluga',
-    name: 'Stable Beluga',
-    description: 'A finetuned LLaMA 65B model optimized for instruction following',
-    logoUrl: 'https://images.unsplash.com/photo-1584824388197-4bc24788801d?q=80&w=400&auto=format',
-    categories: ['models'],
-    mainUse: 'Research and development of instruction-following AI',
-    pricing: 'Free for research use',
-    otherUses: 'Conversational AI, content generation',
-    userExperience: 'Requires significant computational resources to run',
-    websiteUrl: 'https://huggingface.co/stabilityai/StableBeluga-65B'
-  },
-  {
-    id: 'stable-beluga-2',
-    name: 'Stable Beluga 2',
-    description: 'A finetuned LLaMA2 70B model with improved capabilities',
-    logoUrl: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=400&auto=format',
-    categories: ['models'],
-    mainUse: 'Advanced instruction-following and conversational AI',
-    pricing: 'Free for research use',
-    otherUses: 'Text generation, dialog systems, creative writing',
-    userExperience: 'Superior performance but requires significant computational resources',
-    websiteUrl: 'https://huggingface.co/stabilityai/StableBeluga2'
+    otherUses: 'Text generation, dialog systems, content creation, application development',
+    userExperience: 'Accessible through various interfaces and APIs',
+    websiteUrl: 'https://ai.meta.com/llama/',
+    rating: 5
   },
 
   // Chatbots
   {
     id: 'chatgpt',
     name: 'ChatGPT',
-    description: 'A conversational language model by OpenAI',
+    description: 'Advanced conversational AI for natural language processing and generation',
     logoUrl: 'https://images.unsplash.com/photo-1677442135146-767f343952e5?q=80&w=400&auto=format',
     categories: ['chatbots'],
     mainUse: 'Conversational assistant for various tasks',
-    pricing: 'Free tier available, ChatGPT Plus at $20/month',
-    otherUses: 'Content creation, coding help, information retrieval',
-    userExperience: 'User-friendly interface with quick responses',
-    websiteUrl: 'https://chat.openai.com/'
+    pricing: 'Free tier available, paid plans start at $20/month',
+    otherUses: 'Writing assistance, coding help, creative writing, translations',
+    userExperience: 'User-friendly interface with quick response times',
+    websiteUrl: 'https://chat.openai.com/',
+    rating: 5
   },
   {
-    id: 'bing-chat',
-    name: 'Bing Chat',
-    description: 'A conversational AI language model powered by Microsoft Bing',
-    logoUrl: 'https://images.unsplash.com/photo-1633419798863-8e929c545f46?q=80&w=400&auto=format',
-    categories: ['chatbots', 'search-engines'],
-    mainUse: 'Web-connected chatbot for search and conversation',
-    pricing: 'Free with Microsoft account',
-    otherUses: 'Search, content creation, real-time information',
-    userExperience: 'Integrated with Bing search for up-to-date information',
-    websiteUrl: 'https://www.bing.com/chat'
+    id: 'claude',
+    name: 'Claude',
+    description: 'Anthropic\'s AI assistant known for helpfulness, harmlessness, and honesty',
+    logoUrl: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=400&auto=format',
+    categories: ['chatbots', 'models', 'writing'],
+    mainUse: 'Conversational AI assistant for various tasks',
+    pricing: 'Free tier with Claude Pro at $20/month',
+    otherUses: 'Content creation, research, coding assistance, data analysis',
+    userExperience: 'Natural conversational interface with reduced hallucinations',
+    websiteUrl: 'https://claude.ai/',
+    rating: 5
   },
   {
-    id: 'bard',
-    name: 'Bard',
-    description: 'An experimental AI chatbot by Google',
-    logoUrl: 'https://images.unsplash.com/photo-1675956473142-347e271cc00d?q=80&w=400&auto=format',
-    categories: ['chatbots'],
-    mainUse: 'Conversational AI assistant with web search capabilities',
-    pricing: 'Free with Google account',
-    otherUses: 'Information retrieval, content creation, brainstorming',
-    userExperience: 'Simple interface integrated with Google\'s ecosystem',
-    websiteUrl: 'https://bard.google.com/'
+    id: 'gemini',
+    name: 'Gemini',
+    description: 'Google\'s multimodal AI for text, image, and video understanding (formerly Bard)',
+    logoUrl: 'https://images.unsplash.com/photo-1675456503697-a577e5ed296b?q=80&w=400&auto=format',
+    categories: ['chatbots', 'models'],
+    mainUse: 'Multimodal understanding and generation',
+    pricing: 'Free tier available, Gemini Advanced at $19.99/month',
+    otherUses: 'Image analysis, code generation, research assistance',
+    userExperience: 'Integrated with Google ecosystem',
+    websiteUrl: 'https://gemini.google.com/',
+    rating: 4
   },
+
+  // Search Engines
   {
-    id: 'character-ai',
-    name: 'Character.AI',
-    description: 'Create and chat with AI characters',
-    logoUrl: 'https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=400&auto=format',
-    categories: ['chatbots'],
-    mainUse: 'Roleplay and character-based conversations',
-    pricing: 'Free tier with premium subscription available',
-    otherUses: 'Entertainment, storytelling, creative writing',
-    userExperience: 'Fun and engaging interface for character creation and interaction',
-    websiteUrl: 'https://character.ai/'
-  },
-  {
-    id: 'chatpdf',
-    name: 'ChatPDF',
-    description: 'Chat with any PDF document using AI',
-    logoUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=400&auto=format',
-    categories: ['chatbots', 'productivity'],
-    mainUse: 'Extract information from PDF documents through conversation',
-    pricing: 'Free tier with premium plans starting at $5/month',
-    otherUses: 'Research, document analysis, knowledge extraction',
-    userExperience: 'Simple drag-and-drop interface for PDFs with conversational UI',
-    websiteUrl: 'https://www.chatpdf.com/'
-  },
-  {
-    id: 'chatsonic',
-    name: 'ChatSonic',
-    description: 'An AI-powered assistant for text and image creation',
-    logoUrl: 'https://images.unsplash.com/photo-1548783094-f8a1d2c9b481?q=80&w=400&auto=format',
-    categories: ['chatbots', 'writing'],
-    mainUse: 'Web-connected AI assistant for content creation',
-    pricing: 'Free trial with subscription plans starting at $12.67/month',
-    otherUses: 'Image generation, writing assistance, real-time information',
-    userExperience: 'Feature-rich interface with voice commands and multiple personalities',
-    websiteUrl: 'https://writesonic.com/chat'
+    id: 'perplexity',
+    name: 'Perplexity',
+    description: 'AI-powered search engine with conversational interface and cited sources',
+    logoUrl: 'https://images.unsplash.com/photo-1621252179027-1326761702a4?q=80&w=400&auto=format',
+    categories: ['search-engines', 'chatbots'],
+    mainUse: 'AI-powered research and information discovery',
+    pricing: 'Free tier with Pro plan at $20/month',
+    otherUses: 'Academic research, fact checking, information gathering',
+    userExperience: 'Conversational interface with cited sources',
+    websiteUrl: 'https://www.perplexity.ai/',
+    rating: 5
   },
   {
     id: 'phind',
@@ -273,163 +199,254 @@ export const aiTools: AITool[] = [
     pricing: 'Free, with Pro plan at $15/month',
     otherUses: 'Code generation, debugging, technical documentation',
     userExperience: 'Clean interface with code-focused answers and syntax highlighting',
-    websiteUrl: 'https://www.phind.com/'
+    websiteUrl: 'https://www.phind.com/',
+    rating: 5
+  },
+  {
+    id: 'microsoft-copilot',
+    name: 'Microsoft Copilot',
+    description: 'AI assistant from Microsoft integrated with Bing search',
+    logoUrl: 'https://images.unsplash.com/photo-1633419798863-8e929c545f46?q=80&w=400&auto=format',
+    categories: ['chatbots', 'search-engines'],
+    mainUse: 'Web search with conversational AI',
+    pricing: 'Free with Microsoft account',
+    otherUses: 'Content creation, research, image generation',
+    userExperience: 'Integrated with Microsoft ecosystem',
+    websiteUrl: 'https://copilot.microsoft.com/',
+    rating: 4
   },
 
-  // Search Engines
-  {
-    id: 'perplexity-ai',
-    name: 'Perplexity AI',
-    description: 'AI-powered search tools with cited sources',
-    logoUrl: 'https://images.unsplash.com/photo-1621252179027-1326761702a4?q=80&w=400&auto=format',
-    categories: ['search-engines'],
-    mainUse: 'Research with AI-generated answers and source citations',
-    pricing: 'Free tier with Pro plan at $20/month',
-    otherUses: 'Academic research, fact checking, information gathering',
-    userExperience: 'Clean interface with sources and follow-up questions',
-    websiteUrl: 'https://www.perplexity.ai/'
-  },
-  {
-    id: 'metaphor',
-    name: 'Metaphor',
-    description: 'Language model powered search',
-    logoUrl: 'https://images.unsplash.com/photo-1618044733300-9472054094ee?q=80&w=400&auto=format',
-    categories: ['search-engines'],
-    mainUse: 'Discovering content through natural language search',
-    pricing: 'Free with API access available',
-    otherUses: 'Research, content discovery, trend analysis',
-    userExperience: 'Intuitive search with rich content previews',
-    websiteUrl: 'https://metaphor.systems/'
-  },
-  {
-    id: 'you-dot-com',
-    name: 'You.com',
-    description: 'A private search engine built on AI',
-    logoUrl: 'https://images.unsplash.com/photo-1632243313742-8124e8654adf?q=80&w=400&auto=format',
-    categories: ['search-engines'],
-    mainUse: 'Privacy-focused web search with AI assistance',
-    pricing: 'Free',
-    otherUses: 'Shopping, news, image search',
-    userExperience: 'Ad-free with customizable app-based results',
-    websiteUrl: 'https://you.com/'
-  },
-  {
-    id: 'komo-ai',
-    name: 'Komo AI',
-    description: 'An AI-based search engine which provides quick and short answers',
-    logoUrl: 'https://images.unsplash.com/photo-1595515106864-077d30192c56?q=80&w=400&auto=format',
-    categories: ['search-engines'],
-    mainUse: 'Getting concise answers to questions',
-    pricing: 'Free',
-    otherUses: 'Quick research, fact checking',
-    userExperience: 'Simple interface focused on direct answers',
-    websiteUrl: 'https://komo.ai/'
-  },
-
-  // Local Search Engines
-  {
-    id: 'privategpt',
-    name: 'privateGPT',
-    description: 'Ask questions to your documents without an internet connection',
-    logoUrl: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=400&auto=format',
-    categories: ['local-search'],
-    mainUse: 'Private document analysis and question answering',
-    pricing: 'Free and open source',
-    otherUses: 'Processing sensitive documents, offline research',
-    userExperience: 'Command line interface requiring technical setup',
-    websiteUrl: 'https://github.com/imartinez/privateGPT'
-  },
-  {
-    id: 'quivr',
-    name: 'Quivr',
-    description: 'Chat with your files using LLMs & embeddings',
-    logoUrl: 'https://images.unsplash.com/photo-1553749062-ca1a78fa3c18?q=80&w=400&auto=format',
-    categories: ['local-search'],
-    mainUse: 'Personal knowledge base with conversational access',
-    pricing: 'Free and open source',
-    otherUses: 'Document analysis, knowledge management',
-    userExperience: 'Web interface with chat-based document interactions',
-    websiteUrl: 'https://github.com/StanGirard/quivr'
-  },
-
-  // Too many tools to include in a single file, let's continue with a selection of the most important ones
-  // I'll include some from each category to maintain a good representation
-
-  // Writing Assistants (selection)
-  {
-    id: 'jasper',
-    name: 'Jasper',
-    description: 'Create content faster with AI writing assistance',
-    logoUrl: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=400&auto=format',
-    categories: ['writing'],
-    mainUse: 'AI-powered content creation for marketing and blogs',
-    pricing: 'Starts at $39/month',
-    otherUses: 'Long-form content, social media posts, email copy',
-    userExperience: 'User-friendly interface with templates and brand voice settings',
-    websiteUrl: 'https://www.jasper.ai/'
-  },
-  {
-    id: 'copyai',
-    name: 'Copy.ai',
-    description: 'Write better marketing copy with AI',
-    logoUrl: 'https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=400&auto=format',
-    categories: ['writing'],
-    mainUse: 'AI-powered copywriting for marketing and business',
-    pricing: 'Free plan with premium starting at $36/month',
-    otherUses: 'Social media content, email copy, product descriptions',
-    userExperience: 'Simple interface with many templates for different content types',
-    websiteUrl: 'https://www.copy.ai/'
-  },
-
-  // ChatGPT Extensions (selection)
-  {
-    id: 'webchatgpt',
-    name: 'WebChatGPT',
-    description: 'Augment ChatGPT prompts with web results',
-    logoUrl: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=400&auto=format',
-    categories: ['chatgpt-extensions'],
-    mainUse: 'Add real-time web information to ChatGPT responses',
-    pricing: 'Free browser extension',
-    otherUses: 'Research, fact-checking, current events questions',
-    userExperience: 'Seamless integration with ChatGPT interface',
-    websiteUrl: 'https://www.webchatgpt.app/'
-  },
-  {
-    id: 'chatbot-ui',
-    name: 'Chatbot UI',
-    description: 'An open source ChatGPT UI',
-    logoUrl: 'https://images.unsplash.com/photo-1596443686812-2f45229eebc3?q=80&w=400&auto=format',
-    categories: ['chatgpt-extensions'],
-    mainUse: 'Self-hosted alternative interface for ChatGPT',
-    pricing: 'Free and open source',
-    otherUses: 'Custom AI implementations, development',
-    userExperience: 'Clean, customizable interface with conversation management',
-    websiteUrl: 'https://github.com/mckaywrigley/chatbot-ui'
-  },
-
-  // Code tools (selection)
+  // Code Tools
   {
     id: 'github-copilot',
     name: 'GitHub Copilot',
-    description: 'Suggests code and functions in real-time',
+    description: 'AI pair programmer that suggests code and functions in real-time',
     logoUrl: 'https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=400&auto=format',
-    categories: ['code'],
+    categories: ['code', 'developer'],
     mainUse: 'AI pair programmer for code suggestions and completion',
     pricing: '$10/month or $100/year, free for students',
     otherUses: 'Learning programming, exploring solutions, code documentation',
     userExperience: 'Seamless integration with code editors like VS Code',
-    websiteUrl: 'https://github.com/features/copilot'
+    websiteUrl: 'https://github.com/features/copilot',
+    rating: 5
+  },
+  {
+    id: 'cursor',
+    name: 'Cursor',
+    description: 'AI-first code editor built for pair programming',
+    logoUrl: 'https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=400&auto=format',
+    categories: ['code', 'developer'],
+    mainUse: 'AI-assisted coding and development',
+    pricing: 'Free tier with premium plans',
+    otherUses: 'Code explanation, debugging, refactoring',
+    userExperience: 'Code editor with integrated AI capabilities',
+    websiteUrl: 'https://cursor.sh/',
+    rating: 5
   },
   {
     id: 'tabnine',
     name: 'Tabnine',
-    description: 'Code faster with AI code completions',
+    description: 'AI-powered code completion tool for developers',
     logoUrl: 'https://images.unsplash.com/photo-1618477462146-050d2064cd43?q=80&w=400&auto=format',
-    categories: ['code'],
+    categories: ['code', 'developer'],
     mainUse: 'AI-powered code completion and suggestion',
     pricing: 'Free tier with Pro plans starting at $12/month',
     otherUses: 'Learning new languages, improving code quality',
     userExperience: 'Works with multiple programming languages and IDEs',
-    websiteUrl: 'https://www.tabnine.com/'
+    websiteUrl: 'https://www.tabnine.com/',
+    rating: 4
+  },
+  {
+    id: 'sourcegraph-cody',
+    name: 'Sourcegraph Cody',
+    description: 'AI coding assistant that understands your entire codebase',
+    logoUrl: 'https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=400&auto=format',
+    categories: ['code', 'developer'],
+    mainUse: 'AI-powered code assistance with codebase understanding',
+    pricing: 'Free tier with premium plans for teams',
+    otherUses: 'Code search, documentation, onboarding',
+    userExperience: 'IDE extensions and web interface',
+    websiteUrl: 'https://sourcegraph.com/cody',
+    rating: 4
+  },
+
+  // Design Tools
+  {
+    id: 'canva',
+    name: 'Canva',
+    description: 'Design platform with AI-powered features for creating visual content',
+    logoUrl: 'https://images.unsplash.com/photo-1611784728558-6a7645e72a03?q=80&w=400&auto=format',
+    categories: ['productivity', 'design'],
+    mainUse: 'Creating designs with AI assistance',
+    pricing: 'Free tier with premium plans starting at $12.99/month',
+    otherUses: 'Social media graphics, presentations, marketing materials',
+    userExperience: 'User-friendly interface with drag-and-drop functionality',
+    websiteUrl: 'https://www.canva.com/',
+    rating: 5
+  },
+  {
+    id: 'figma',
+    name: 'Figma',
+    description: 'Collaborative design tool with AI features',
+    logoUrl: 'https://images.unsplash.com/photo-1611784728558-6a7645e72a03?q=80&w=400&auto=format',
+    categories: ['productivity', 'design'],
+    mainUse: 'Collaborative design with AI assistance',
+    pricing: 'Free tier with premium plans starting at $12/month',
+    otherUses: 'UI/UX design, prototyping, design systems',
+    userExperience: 'Web-based platform with real-time collaboration',
+    websiteUrl: 'https://www.figma.com/',
+    rating: 5
+  },
+  {
+    id: 'adobe-firefly',
+    name: 'Adobe Firefly',
+    description: 'AI image generation tool from Adobe',
+    logoUrl: 'https://images.unsplash.com/photo-1682687219570-4c596363fd96?q=80&w=400&auto=format',
+    categories: ['text-generators', 'design'],
+    mainUse: 'Creating and editing images with AI',
+    pricing: 'Included with Creative Cloud subscription',
+    otherUses: 'Content creation, design assets, creative exploration',
+    userExperience: 'Integrated with Adobe Creative Cloud ecosystem',
+    websiteUrl: 'https://www.adobe.com/products/firefly.html',
+    rating: 4
+  },
+
+  // Productivity and Browser Extensions
+  {
+    id: 'glasp',
+    name: 'Glasp',
+    description: 'Social web highlighter with AI summarization capabilities',
+    logoUrl: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=400&auto=format',
+    categories: ['productivity', 'browser-extensions'],
+    mainUse: 'Highlighting and summarizing web content',
+    pricing: 'Free with premium features',
+    otherUses: 'Research, knowledge management, content curation',
+    userExperience: 'Browser extension with social sharing features',
+    websiteUrl: 'https://glasp.co/',
+    rating: 4
+  },
+  {
+    id: 'wordtune',
+    name: 'Wordtune',
+    description: 'AI writing assistant and content summarizer',
+    logoUrl: 'https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=400&auto=format',
+    categories: ['writing', 'browser-extensions', 'productivity'],
+    mainUse: 'Improving writing and summarizing content',
+    pricing: 'Free tier with premium plans starting at $9.99/month',
+    otherUses: 'Content rewriting, tone adjustment, summarization',
+    userExperience: 'Browser extension with clean interface',
+    websiteUrl: 'https://www.wordtune.com/',
+    rating: 4
+  },
+  {
+    id: 'aiprm',
+    name: 'AIPRM for ChatGPT',
+    description: 'Browser extension with curated prompt templates for ChatGPT',
+    logoUrl: 'https://images.unsplash.com/photo-1677442135146-767f343952e5?q=80&w=400&auto=format',
+    categories: ['productivity', 'browser-extensions', 'chatgpt-extensions'],
+    mainUse: 'Enhanced ChatGPT experience with prompt templates',
+    pricing: 'Free tier with premium plans',
+    otherUses: 'Content creation, SEO, marketing, customer support',
+    userExperience: 'Seamless integration with ChatGPT interface',
+    websiteUrl: 'https://www.aiprm.com/',
+    rating: 4
+  },
+
+  // Meeting Tools
+  {
+    id: 'fireflies',
+    name: 'Fireflies.ai',
+    description: 'AI meeting assistant that records, transcribes, and analyzes conversations',
+    logoUrl: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?q=80&w=400&auto=format',
+    categories: ['productivity', 'meeting'],
+    mainUse: 'Meeting transcription and analysis',
+    pricing: 'Free tier with premium plans starting at $10/month',
+    otherUses: 'Meeting summaries, action item extraction, knowledge base',
+    userExperience: 'Integration with video conferencing platforms',
+    websiteUrl: 'https://fireflies.ai/',
+    rating: 4
+  },
+
+  // Research Tools
+  {
+    id: 'consensus',
+    name: 'Consensus',
+    description: 'AI-powered search engine for scientific research',
+    logoUrl: 'https://images.unsplash.com/photo-1618044733300-9472054094ee?q=80&w=400&auto=format',
+    categories: ['search-engines', 'academia'],
+    mainUse: 'Finding scientific papers and insights',
+    pricing: 'Free with premium features',
+    otherUses: 'Literature review, research validation, knowledge discovery',
+    userExperience: 'Search interface with citation extraction',
+    websiteUrl: 'https://consensus.app/',
+    rating: 4
+  },
+  {
+    id: 'elicit',
+    name: 'Elicit',
+    description: 'AI research assistant that finds and summarizes papers',
+    logoUrl: 'https://images.unsplash.com/photo-1618044733300-9472054094ee?q=80&w=400&auto=format',
+    categories: ['search-engines', 'academia'],
+    mainUse: 'Research assistance and paper summarization',
+    pricing: 'Free with premium features',
+    otherUses: 'Literature review, research planning, knowledge synthesis',
+    userExperience: 'Clean interface with paper visualization',
+    websiteUrl: 'https://elicit.org/',
+    rating: 4
+  },
+
+  // Email and Communication
+  {
+    id: 'flowrite',
+    name: 'Flowrite',
+    description: 'AI writing tool that turns instructions into ready-to-send emails',
+    logoUrl: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?q=80&w=400&auto=format',
+    categories: ['writing', 'productivity', 'email'],
+    mainUse: 'Generating professional emails from instructions',
+    pricing: 'Plans starting at $19/month',
+    otherUses: 'Business communication, follow-ups, outreach',
+    userExperience: 'Browser extension and web app',
+    websiteUrl: 'https://www.flowrite.com/',
+    rating: 4
+  },
+
+  // Personal AI Assistants
+  {
+    id: 'pi',
+    name: 'Pi',
+    description: 'Personal AI assistant focused on thoughtful conversation',
+    logoUrl: 'https://images.unsplash.com/photo-1677442135146-767f343952e5?q=80&w=400&auto=format',
+    categories: ['chatbots', 'productivity'],
+    mainUse: 'Conversational AI companion',
+    pricing: 'Free with usage limits',
+    otherUses: 'Brainstorming, emotional support, learning companion',
+    userExperience: 'Mobile app and web interface',
+    websiteUrl: 'https://heypi.com/',
+    rating: 4
+  },
+  {
+    id: 'merlin',
+    name: 'Merlin',
+    description: 'AI assistant browser extension for research and writing',
+    logoUrl: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=400&auto=format',
+    categories: ['productivity', 'browser-extensions', 'writing'],
+    mainUse: 'AI assistance anywhere on the web',
+    pricing: 'Free tier with premium features',
+    otherUses: 'Content summarization, writing assistance, research',
+    userExperience: 'Accessible via browser extension with simple interface',
+    websiteUrl: 'https://merlin.foyer.work/',
+    rating: 4
   }
+
+  // Note: More tools can be added here in their respective categories
 ];
+
+// Export a function to get tools by category
+export const getToolsByCategory = (category: ToolCategory): AITool[] => {
+  return aiTools.filter(tool => tool.categories.includes(category));
+};
+
+// Export a function to get tool by ID
+export const getToolById = (id: string): AITool | undefined => {
+  return aiTools.find(tool => tool.id === id);
+};
