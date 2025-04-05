@@ -66,8 +66,11 @@ export const categoryLabels: Record<ToolCategory, string> = {
   'design': 'Design Tools'
 };
 
-// Consolidated AI Tools Data
-export const aiTools: AITool[] = [
+// Import additional popular AI tools
+import { popularAiTools } from './popularAiTools';
+
+// Base AI Tools Data
+const baseAiTools: AITool[] = [
   // AI Models
   {
     id: 'openai-api',
@@ -437,9 +440,10 @@ export const aiTools: AITool[] = [
     websiteUrl: 'https://merlin.foyer.work/',
     rating: 4
   }
-
-  // Note: More tools can be added here in their respective categories
 ];
+
+// Merge base tools with popular tools and export
+export const aiTools: AITool[] = [...baseAiTools, ...popularAiTools];
 
 // Export a function to get tools by category
 export const getToolsByCategory = (category: ToolCategory): AITool[] => {

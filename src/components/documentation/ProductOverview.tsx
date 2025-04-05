@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { aiTools, type AITool } from '@/data/ai-tools'
+import { aiTools, type AITool } from '@/data/aiTools'
 
 interface ProductOverviewProps {
   toolId: string;

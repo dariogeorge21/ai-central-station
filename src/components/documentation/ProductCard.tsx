@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { AITool } from '@/data/ai-tools'
+import { AITool } from '@/data/aiTools'
 
 interface ProductCardProps {
   tool: AITool;
