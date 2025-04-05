@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Copy, 
@@ -21,6 +22,13 @@ interface SharePopupProps {
 
 export default function SharePopup({ isOpen, onClose, title, url, buttonPosition }: SharePopupProps) {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before creating portal (for SSR compatibility)
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   const handleCopyLink = async () => {
     try {
@@ -97,43 +105,8 @@ export default function SharePopup({ isOpen, onClose, title, url, buttonPosition
     }
   ];
 
-  // Calculate popup position
-  const getPopupStyle = () => {
-    if (!buttonPosition) return {};
-
-    const padding = 16; // Distance from the button
-    const popupWidth = 320; // Approximate popup width
-    const popupHeight = 280; // Approximate popup height
-    
-    // Get viewport dimensions
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    // Initial position (above the button)
-    let x = buttonPosition.x - (popupWidth / 2);
-    let y = buttonPosition.y - popupHeight - padding;
-
-    // Adjust horizontal position if too close to screen edges
-    if (x < padding) {
-      x = padding;
-    } else if (x + popupWidth > viewportWidth - padding) {
-      x = viewportWidth - popupWidth - padding;
-    }
-
-    // If popup would go above viewport, position it below the button instead
-    if (y < padding) {
-      y = buttonPosition.y + padding;
-    }
-
-    return {
-      position: 'fixed',
-      left: `${x}px`,
-      top: `${y}px`,
-      width: `${popupWidth}px`,
-    } as React.CSSProperties;
-  };
-
-  return (
+  // Content to be rendered through the portal
+  const content = (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -143,7 +116,8 @@ export default function SharePopup({ isOpen, onClose, title, url, buttonPosition
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           />
           
           {/* Popup */}
@@ -151,9 +125,18 @@ export default function SharePopup({ isOpen, onClose, title, url, buttonPosition
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            style={getPopupStyle()}
-            className="bg-gray-800 rounded-xl p-4 shadow-xl border border-gray-700 z-50"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 rounded-xl p-4 shadow-xl border border-gray-700 z-[9999] w-[320px]"
+            style={{ position: 'fixed', marginLeft: 'auto', marginRight: 'auto' }}
           >
+            {/* Close button */}
+            <button 
+              onClick={onClose}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white p-1 rounded-full hover:bg-gray-700/50 transition-colors"
+              aria-label="Close share dialog"
+            >
+              <X size={16} />
+            </button>
+            
             <div className="text-center mb-4">
               <h3 className="text-lg font-bold text-gray-100 mb-2">Share Article</h3>
               <p className="text-gray-400 text-xs line-clamp-1">{title}</p>
@@ -189,4 +172,7 @@ export default function SharePopup({ isOpen, onClose, title, url, buttonPosition
       )}
     </AnimatePresence>
   );
+
+  // Return null during SSR, and use portal after mounting
+  return mounted ? createPortal(content, document.body) : null;
 } 
