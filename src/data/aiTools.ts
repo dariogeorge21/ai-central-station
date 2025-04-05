@@ -23,7 +23,14 @@ export type ToolCategory =
   | 'customer-support'
   | 'content-creation'
   | 'browser-extensions'
-  | 'design';
+  | 'design'
+  | 'finance'
+  | 'health'
+  | 'language-learning'
+  | 'travel'
+  | 'home'
+  | 'music'
+  | 'video';
 
 export interface AITool {
   id: string;
@@ -48,7 +55,7 @@ export const categoryLabels: Record<ToolCategory, string> = {
   'chatgpt-extensions': 'ChatGPT Extensions',
   'productivity': 'Productivity',
   'meeting': 'Meeting Assistants',
-  'academia': 'Academia',
+  'academia': 'Academic Tools',
   'text-generators': 'Text Generators',
   'developer': 'Developer Tools',
   'code': 'Code Tools',
@@ -63,11 +70,19 @@ export const categoryLabels: Record<ToolCategory, string> = {
   'customer-support': 'Customer Support',
   'content-creation': 'Content Creation',
   'browser-extensions': 'Browser Extensions',
-  'design': 'Design Tools'
+  'design': 'Design Tools',
+  'finance': 'Finance Tools',
+  'health': 'Health & Wellness',
+  'language-learning': 'Language Learning',
+  'travel': 'Travel & Navigation',
+  'home': 'Home Management',
+  'music': 'Music Generation',
+  'video': 'Video Creation'
 };
 
-// Import additional popular AI tools
+// Import additional AI tools
 import { popularAiTools } from './popularAiTools';
+import { specializedAiTools } from './specializedAiTools';
 
 // Base AI Tools Data
 const baseAiTools: AITool[] = [
@@ -442,8 +457,42 @@ const baseAiTools: AITool[] = [
   }
 ];
 
-// Merge base tools with popular tools and export
-export const aiTools: AITool[] = [...baseAiTools, ...popularAiTools];
+// Update specialized tool categories to match our expanded ToolCategory type
+const updatedSpecializedTools = specializedAiTools.map(tool => {
+  const updatedCategories: ToolCategory[] = tool.categories.map(category => {
+    // Map any specialized categories to our expanded type
+    if (category === 'virtual-assistants' && tool.id === 'ada-health') {
+      return 'health' as ToolCategory;
+    }
+    if (category === 'virtual-assistants' && (tool.id === 'duolingo-max' || tool.id === 'lingvist')) {
+      return 'language-learning' as ToolCategory;
+    }
+    if (category === 'virtual-assistants' && (tool.id === 'wanderlog' || tool.id === 'hopper')) {
+      return 'travel' as ToolCategory;
+    }
+    if (category === 'virtual-assistants' && tool.id === 'joshua-ai') {
+      return 'home' as ToolCategory;
+    }
+    if (category === 'content-creation' && tool.id === 'soundraw') {
+      return 'music' as ToolCategory;
+    }
+    if (category === 'content-creation' && tool.id === 'runwayml') {
+      return 'video' as ToolCategory;
+    }
+    if (category === 'productivity' && (tool.id === 'cleo' || tool.id === 'pocketguard')) {
+      return 'finance' as ToolCategory;
+    }
+    return category as ToolCategory;
+  });
+  
+  return {
+    ...tool,
+    categories: updatedCategories
+  };
+});
+
+// Merge all tools and export
+export const aiTools: AITool[] = [...baseAiTools, ...popularAiTools, ...updatedSpecializedTools];
 
 // Export a function to get tools by category
 export const getToolsByCategory = (category: ToolCategory): AITool[] => {

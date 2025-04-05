@@ -31,13 +31,13 @@ export default function Documentation() {
           <div className="flex items-center justify-center mb-4">
             <FiCode className="text-blue-400 w-8 h-8 mr-3" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-600 tech-title mb-0">
-              AI Documentation
+              AI Tools Explorer
             </h1>
             <FiGrid className="text-orange-400 w-8 h-8 ml-3" />
           </div>
           
           <p className="text-gray-300 text-center text-lg md:text-xl max-w-2xl mx-auto tech-text mb-8">
-            Explore comprehensive guides and documentation for popular AI tools
+            Discover and explore hundreds of AI tools for everyday tasks and specialized needs
           </p>
           
           {/* Search Bar */}
