@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react'
 import ProductCard from '@/components/documentation/ProductCard'
 import ProductOverview from '@/components/documentation/ProductOverview'
 import { aiTools } from '@/data/ai-tools'
-import { motion, AnimatePresence } from 'framer-motion'
 import { FiSearch } from 'react-icons/fi'
 
 export default function Documentation() {
@@ -70,7 +69,7 @@ export default function Documentation() {
         </div>
       </section>
 
-      {/* Tools Grid */}
+      {/* Content Area - Placeholder for new card design */}
       <section className="px-4 md:px-8 lg:px-16 pb-16">
         <div className="max-w-7xl mx-auto">
           {selectedTool ? (
@@ -94,40 +93,31 @@ export default function Documentation() {
                 </svg>
                 Back to Tools
               </button>
-              <ProductOverview toolId={selectedTool} />
+              
+              {/* Product Detail Placeholder */}
+              <div className="product-detail-container">
+                <ProductOverview toolId={selectedTool} />
+              </div>
             </div>
           ) : (
-            <AnimatePresence mode="wait">
+            <div className="content-container">
               {filteredTools.length > 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                >
+                <div className="grid-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {/* Card placeholders for new design */}
                   {filteredTools.map((tool) => (
-                    <ProductCard
-                      key={tool.id}
-                      tool={tool}
-                      onSelect={() => setSelectedTool(tool.id)}
-                    />
+                    <div key={tool.id} onClick={() => setSelectedTool(tool.id)}>
+                      <ProductCard tool={tool} onSelect={() => setSelectedTool(tool.id)} />
+                    </div>
                   ))}
-                </motion.div>
+                </div>
               ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-center py-12"
-                >
+                <div className="text-center py-12">
                   <p className="text-gray-400 text-lg">
                     No tools found matching your search. Try adjusting your search terms.
                   </p>
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            </div>
           )}
         </div>
       </section>
