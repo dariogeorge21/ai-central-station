@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react'
 import { categoryLabels, type ToolCategory, getToolsByCategory } from '@/data/aiTools'
 import { FiArrowRight, FiLink, FiStar, FiHeart, FiDollarSign, FiGlobe, FiHome, FiMusic, FiVideo, FiTrendingUp } from 'react-icons/fi'
+import Link from 'next/link'
 
 interface CategoryListProps {
-  onSelectTool: (toolId: string) => void;
   searchQuery: string;
 }
 
@@ -21,7 +21,7 @@ const trendingTools = [
   'notion-ai', 'grammarly', 'eleven-labs', 'quillbot', 'runway'
 ];
 
-const CategoryList: React.FC<CategoryListProps> = ({ onSelectTool, searchQuery }) => {
+const CategoryList: React.FC<CategoryListProps> = ({ searchQuery }) => {
   const [visibleCategories, setVisibleCategories] = useState<boolean>(false);
   
   // Animation effect when component mounts
@@ -165,9 +165,9 @@ const CategoryList: React.FC<CategoryListProps> = ({ onSelectTool, searchQuery }
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {filteredTools.map((tool, toolIndex) => (
-                <div
+                <Link
                   key={tool.id}
-                  onClick={() => onSelectTool(tool.id)}
+                  href={`/tools/${tool.id}`}
                   className={`glassmorphic-tool-card group cursor-pointer fade-in delay-${Math.min((categoryIndex + toolIndex) * 50, 500)}`}
                 >
                   <div className="glassmorphic-card-content hover:bg-gray-800/60 hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 h-full flex flex-col justify-between p-4 neon-glow relative">
@@ -203,7 +203,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ onSelectTool, searchQuery }
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

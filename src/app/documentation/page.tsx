@@ -109,10 +109,7 @@ export default function Documentation() {
           ) : (
             <div className="content-container">
               {/* Categorized AI Tools List */}
-              <CategoryList 
-                onSelectTool={setSelectedTool}
-                searchQuery={searchQuery}
-              />
+              <CategoryList searchQuery={searchQuery} />
             </div>
           )}
         </div>
