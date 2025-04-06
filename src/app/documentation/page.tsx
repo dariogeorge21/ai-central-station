@@ -4,23 +4,34 @@ import { useState, useMemo } from 'react'
 import ProductCard from '@/components/documentation/ProductCard'
 import ProductOverview from '@/components/documentation/ProductOverview'
 import CategoryList from '@/components/documentation/CategoryList'
-import { aiTools } from '@/data/aiTools'
-import { FiSearch, FiCode, FiGrid } from 'react-icons/fi'
+import { aiTools, ToolCategory } from '@/data/aiTools'
+import { FiSearch, FiCode, FiGrid, FiFilter } from 'react-icons/fi'
+import CategoryFilter from '@/components/documentation/CategoryFilter'
 
 export default function Documentation() {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
 
-  // Filter tools based on search query
+  // Filter tools based on search query and selected categories
   const filteredTools = useMemo(() => {
-    if (!searchQuery.trim()) return aiTools;
+    if (!searchQuery.trim() && selectedCategories.length === 0) return aiTools;
     
     const query = searchQuery.toLowerCase().trim();
-    return aiTools.filter(tool => 
-      tool.name.toLowerCase().includes(query) ||
-      tool.description.toLowerCase().includes(query)
-    );
-  }, [searchQuery]);
+    return aiTools.filter(tool => {
+      // Filter by search query
+      const matchesSearch = !query || 
+        tool.name.toLowerCase().includes(query) ||
+        tool.description.toLowerCase().includes(query);
+      
+      // Filter by selected categories
+      const matchesCategories = selectedCategories.length === 0 || 
+        tool.categories.some(category => selectedCategories.includes(category));
+      
+      return matchesSearch && matchesCategories;
+    });
+  }, [searchQuery, selectedCategories]);
 
   return (
     <main className="min-h-screen circuit-bg">
@@ -41,7 +52,7 @@ export default function Documentation() {
           </p>
           
           {/* Search Bar */}
-          <div className="max-w-3xl mx-auto relative mb-12 fade-in">
+          <div className="max-w-3xl mx-auto relative mb-6 fade-in">
             <div className="relative">
               <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -72,6 +83,16 @@ export default function Documentation() {
                 </svg>
               </button>
             )}
+          </div>
+          
+          {/* Filter Button */}
+          <div className="max-w-3xl mx-auto relative mb-12 fade-in">
+            <CategoryFilter
+              isOpen={isFilterOpen}
+              setIsOpen={setIsFilterOpen}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+            />
           </div>
         </div>
       </section>
@@ -109,7 +130,10 @@ export default function Documentation() {
           ) : (
             <div className="content-container">
               {/* Categorized AI Tools List */}
-              <CategoryList searchQuery={searchQuery} />
+              <CategoryList 
+                searchQuery={searchQuery} 
+                selectedCategories={selectedCategories}
+              />
             </div>
           )}
         </div>

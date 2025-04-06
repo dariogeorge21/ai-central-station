@@ -7,6 +7,7 @@ import Link from 'next/link'
 
 interface CategoryListProps {
   searchQuery: string;
+  selectedCategories: ToolCategory[];
 }
 
 // List of new tools to show badges for
@@ -21,7 +22,7 @@ const trendingTools = [
   'notion-ai', 'grammarly', 'eleven-labs', 'quillbot', 'runway'
 ];
 
-const CategoryList: React.FC<CategoryListProps> = ({ searchQuery }) => {
+const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories }) => {
   const [visibleCategories, setVisibleCategories] = useState<boolean>(false);
   
   // Animation effect when component mounts
@@ -100,8 +101,13 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery }) => {
     return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
   });
   
+  // Filter categories based on selected categories and search query
+  const categoriesToShow = selectedCategories.length > 0 
+    ? sortedCategoryKeys.filter(category => selectedCategories.includes(category))
+    : sortedCategoryKeys;
+  
   // Filter categories that have at least one tool
-  const categoriesWithTools = sortedCategoryKeys.filter(category => {
+  const categoriesWithTools = categoriesToShow.filter(category => {
     const tools = getToolsByCategory(category);
     if (searchQuery.trim() === '') {
       return tools.length > 0;
