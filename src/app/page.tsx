@@ -8,11 +8,23 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection />
       
+      {/* Section Divider */}
+      <div className="relative">
+        <div className="absolute inset-x-0 -top-10 h-10 bg-gradient-to-b from-transparent to-black z-10"></div>
+      </div>
+      
       {/* Explore AI Tools Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-70"></div>
+        <div className="absolute top-10 right-10 w-20 h-20 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <FiGrid className="inline-block text-blue-500 mb-4 h-10 w-10" />
+            <div className="inline-flex items-center justify-center p-2 bg-blue-900/30 rounded-xl mb-4 border border-blue-500/20">
+              <FiGrid className="text-blue-500 h-10 w-10" />
+            </div>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600 mb-4 tech-title">
               Explore AI Tools
             </h2>
@@ -61,11 +73,24 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Section Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-gray-900 to-gray-900">
+        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+      </div>
+      
       {/* Documentation Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gray-900 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-70"></div>
+        <div className="absolute top-20 left-10 w-24 h-24 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <FiBook className="inline-block text-orange-500 mb-4 h-10 w-10" />
+            <div className="inline-flex items-center justify-center p-2 bg-orange-900/30 rounded-xl mb-4 border border-orange-500/20">
+              <FiBook className="text-orange-500 h-10 w-10" />
+            </div>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-600 mb-4 tech-title">
               Documentation
             </h2>
@@ -101,11 +126,24 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Section Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-gray-900 to-gray-800">
+        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+      </div>
+      
       {/* Benchmarks Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-b from-gray-800 to-gray-800 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-70"></div>
+        <div className="absolute top-20 right-20 w-28 h-28 bg-green-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-20 w-36 h-36 bg-teal-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <FiBarChart2 className="inline-block text-green-500 mb-4 h-10 w-10" />
+            <div className="inline-flex items-center justify-center p-2 bg-green-900/30 rounded-xl mb-4 border border-green-500/20">
+              <FiBarChart2 className="text-green-500 h-10 w-10" />
+            </div>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-600 mb-4 tech-title">
               Benchmarks
             </h2>
@@ -153,11 +191,24 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Section Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-gray-800 to-gray-800">
+        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+      </div>
+      
       {/* AI News Section */}
-      <section className="py-20 bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gray-800 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-70"></div>
+        <div className="absolute top-10 left-20 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <FiRss className="inline-block text-purple-500 mb-4 h-10 w-10" />
+            <div className="inline-flex items-center justify-center p-2 bg-purple-900/30 rounded-xl mb-4 border border-purple-500/20">
+              <FiRss className="text-purple-500 h-10 w-10" />
+            </div>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-600 mb-4 tech-title">
               AI News
             </h2>
@@ -200,11 +251,24 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Section Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-gray-800 to-gray-900">
+        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+      </div>
+      
       {/* Blog Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-900 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-70"></div>
+        <div className="absolute top-20 right-10 w-28 h-28 bg-pink-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <FiEdit3 className="inline-block text-pink-500 mb-4 h-10 w-10" />
+            <div className="inline-flex items-center justify-center p-2 bg-pink-900/30 rounded-xl mb-4 border border-pink-500/20">
+              <FiEdit3 className="text-pink-500 h-10 w-10" />
+            </div>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-600 mb-4 tech-title">
               Blog
             </h2>
@@ -241,38 +305,51 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Section Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-gray-900 to-gray-900">
+        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+      </div>
+      
       {/* About Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gray-900 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-70"></div>
+        <div className="absolute top-10 right-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <FiInfo className="inline-block text-yellow-500 mb-4 h-10 w-10" />
+            <div className="inline-flex items-center justify-center p-2 bg-yellow-900/30 rounded-xl mb-4 border border-yellow-500/20">
+              <FiInfo className="text-yellow-500 h-10 w-10" />
+            </div>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600 mb-4 tech-title">
-              About Us
+              About This Project
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              Our mission is to provide comprehensive resources for AI enthusiasts and professionals.
+              A comprehensive resource hub for AI enthusiasts and professionals, built by a solo developer.
             </p>
           </div>
           <div className="glassmorphic-card-content p-8 rounded-xl hover:shadow-lg hover:shadow-yellow-900/20 transition-all duration-300">
             <div className="max-w-3xl mx-auto">
               <p className="text-gray-300 mb-6">
-                AI Toolkit Hub is a community-driven platform dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence. We curate and review the best AI tools, provide educational resources, and foster a collaborative environment for sharing knowledge and expertise.
+                AI Toolkit Hub is a passion project dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence. I've curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI more accessible to everyone.
               </p>
               <p className="text-gray-300 mb-6">
-                Founded in 2023 by a group of AI researchers and enthusiasts, our team combines academic expertise with practical industry experience to deliver authoritative and accessible content.
+                This project combines my technical expertise with a vision to create an authoritative and accessible resource for anyone interested in exploring the world of AI tools and technologies.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <Link href="/about" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-3 rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all tech-text">
-                  Learn About Our Mission
+                  Learn About My Mission
                 </Link>
-                <Link href="/about/team" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text">
-                  Meet Our Team
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text">
+                  Contact Me
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
-      </div>
+    </div>
   )
 }
