@@ -11,7 +11,7 @@ import CategoryFilter from '@/components/explore/CategoryFilter';
 import AIToolsGrid from '@/components/explore/AIToolsGrid';
 
 // Sort options type
-type SortOption = 'nameAsc' | 'nameDesc' | 'popularity';
+type SortOption = 'nameAsc' | 'nameDesc' | 'mostlyUsed';
 
 export default function ExplorePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function ExplorePage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
-  const [sortOption, setSortOption] = useState<SortOption>('popularity');
+  const [sortOption, setSortOption] = useState<SortOption>('mostlyUsed');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
@@ -39,8 +39,8 @@ export default function ExplorePage() {
         setIsLoading(true);
         // Simulate network delay for demo
         await new Promise(resolve => setTimeout(resolve, 500));
-        // Sort tools by popularity by default
-        const sortedTools = sortToolsByOption(aiTools, 'popularity');
+        // Sort tools by mostly used by default
+        const sortedTools = sortToolsByOption(aiTools, 'mostlyUsed');
         setFilteredTools(sortedTools);
       } catch (err) {
         setError('Failed to initialize tools');
@@ -86,15 +86,15 @@ export default function ExplorePage() {
         return toolsCopy.sort((a, b) => 
           b.name.toLowerCase().localeCompare(a.name.toLowerCase())
         );
-      case 'popularity':
-        // Sort by number of categories and then by rating as secondary factor
+      case 'mostlyUsed':
+        // Sort by rating and then by categories length as secondary factor
         return toolsCopy.sort((a, b) => {
-          // Primary sort by categories length (more categories = more versatile/popular)
-          const categoryDiff = b.categories.length - a.categories.length;
-          if (categoryDiff !== 0) return categoryDiff;
+          // Primary sort by rating (higher rating = more used)
+          const ratingDiff = (b.rating || 0) - (a.rating || 0);
+          if (ratingDiff !== 0) return ratingDiff;
           
-          // Secondary sort by rating
-          return (b.rating || 0) - (a.rating || 0);
+          // Secondary sort by categories length (more categories = more versatile)
+          return b.categories.length - a.categories.length;
         });
       default:
         return toolsCopy;
@@ -281,7 +281,7 @@ export default function ExplorePage() {
                 <ArrowUpDown size={18} aria-hidden="true" />
                 Sort By: {sortOption === 'nameAsc' ? 'Name (A-Z)' :
                           sortOption === 'nameDesc' ? 'Name (Z-A)' :
-                          'Popularity'}
+                          'Mostly Used'}
                 <ChevronDown 
                   className={`ml-2 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
                   aria-hidden="true"
@@ -308,10 +308,10 @@ export default function ExplorePage() {
                     >
                       <div className="py-2">
                         <button
-                          onClick={() => handleSortChange('popularity')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'popularity' ? 'text-emerald-400' : 'text-gray-200'}`}
+                          onClick={() => handleSortChange('mostlyUsed')}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'mostlyUsed' ? 'text-emerald-400' : 'text-gray-200'}`}
                         >
-                          Popularity
+                          Mostly Used
                         </button>
                         <button
                           onClick={() => handleSortChange('nameAsc')}
