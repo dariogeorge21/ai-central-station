@@ -1,6 +1,5 @@
 "use client"
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { TypeAnimation } from 'react-type-animation'
 
@@ -41,12 +40,6 @@ const HeroSection = () => {
               className="font-jetbrains"
             />
           </div>
-          <Link 
-            href="/explore"
-            className="bg-gradient-to-r from-orange-500 via-pink-500 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:from-orange-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl inline-block"
-          >
-            Explore Now
-          </Link>
         </div>
       </div>
     </div>
