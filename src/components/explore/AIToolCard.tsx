@@ -25,20 +25,10 @@ const AIToolCard: React.FC<AIToolCardProps> = ({ tool, onClick }) => {
         </span>
       </div>
 
-      {/* Tool Logo */}
-      <div className="h-48 relative bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-6">
-        <img
-          src={tool.logoUrl}
-          alt={tool.name}
-          className="max-h-full max-w-full object-contain h-24 w-auto"
-          loading="lazy"
-        />
-      </div>
-
       {/* Tool Info */}
       <div className="p-5 flex flex-col flex-grow">
-        <h3 className="text-xl font-bold text-gray-100 mb-2 h-8">{tool.name}</h3>
-        <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-grow h-16">{tool.description}</p>
+        <h3 className="text-xl font-bold text-gray-100 mb-2">{tool.name}</h3>
+        <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-grow">{tool.description}</p>
 
         <button
           onClick={() => onClick(tool)}

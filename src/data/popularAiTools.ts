@@ -201,7 +201,7 @@ export const popularAiTools: AITool[] = [
   // Meeting Tools
   {
     id: 'otter-ai',
-    name: 'Otter.ai',
+    name: 'Otter.ai Transcription',
     description: 'AI meeting assistant for automatic transcription and analysis',
     logoUrl: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?q=80&w=400&auto=format',
     categories: ['meeting', 'productivity'],

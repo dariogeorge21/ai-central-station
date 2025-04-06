@@ -59,8 +59,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
         {isLoading ? (
           // Loading skeleton - show 8 cards on mobile, 12 on larger screens
           Array.from({ length: Math.min(12, ITEMS_PER_PAGE) }).map((_, index) => (
-            <div key={index} className="bg-gray-800/50 rounded-xl overflow-hidden animate-pulse h-[360px]">
-              <div className="h-48 bg-gray-700/50"></div>
+            <div key={index} className="bg-gray-800/50 rounded-xl overflow-hidden animate-pulse h-[240px]">
               <div className="p-5">
                 <div className="h-6 bg-gray-700/50 rounded w-3/4 mb-4"></div>
                 <div className="h-16 bg-gray-700/50 rounded mb-4"></div>

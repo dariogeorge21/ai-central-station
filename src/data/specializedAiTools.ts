@@ -17,7 +17,7 @@ export const specializedAiTools: AITool[] = [
     rating: 4
   },
   {
-    id: 'otter-ai',
+    id: 'otter-ai-specialized',
     name: 'Otter.ai',
     description: 'Real-time transcription and note-taking for meetings, lectures, and interviews',
     logoUrl: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?q=80&w=400&auto=format',
@@ -348,7 +348,7 @@ export const specializedAiTools: AITool[] = [
   },
   {
     id: 'otter-with-meeting-gems',
-    name: 'Otter with Meeting Gems',
+    name: 'Otter.ai Meeting Gems',
     description: 'AI meeting assistant that captures highlights, action items, and key decisions',
     logoUrl: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?q=80&w=400&auto=format',
     categories: ['meeting', 'productivity'],

@@ -11,7 +11,7 @@ interface CategoryListProps {
 
 // List of new tools to show badges for
 const newTools = [
-  'taskade', 'otter-ai', 'reclaim-ai', 'quillbot', 'cleo', 'scholar-ai', 'ada-health', 
+  'taskade', 'otter-ai', 'otter-ai-specialized', 'reclaim-ai', 'quillbot', 'cleo', 'scholar-ai', 'ada-health', 
   'artbreeder', 'duolingo-max', 'hopper', 'notion-ai', 'replika'
 ];
 
