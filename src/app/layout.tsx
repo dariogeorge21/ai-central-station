@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { JetBrains_Mono } from 'next/font/google'
 import Header from '@/components/Header'
+import ChatBot from '@/components/ChatBot'
+import WelcomeMessage from '@/components/WelcomeMessage'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,6 +44,8 @@ export default function RootLayout({
         <main className="min-h-screen w-full max-w-full overflow-hidden pt-14">
           {children}
         </main>
+        <ChatBot />
+        <WelcomeMessage />
       </body>
     </html>
   )
