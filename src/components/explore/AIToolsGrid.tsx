@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { AITool } from '@/data/aiTools';
-import AIToolCard from './AIToolCard';
 import Pagination from './Pagination';
 
 interface AIToolsGridProps {
@@ -11,7 +10,7 @@ interface AIToolsGridProps {
   onClearFilters: () => void;
 }
 
-const ITEMS_PER_PAGE = 32; // Show 32 cards per page
+const ITEMS_PER_PAGE = 32; // Show 32 items per page
 
 const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   tools,
@@ -50,43 +49,48 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Scroll to top of grid
+    // Scroll to top of list
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="w-full">
         {isLoading ? (
-          // Loading skeleton - show 8 cards on mobile, 12 on larger screens
-          Array.from({ length: Math.min(12, ITEMS_PER_PAGE) }).map((_, index) => (
-            <div key={index} className="bg-gray-800/50 rounded-xl overflow-hidden animate-pulse h-[240px]">
-              <div className="p-5">
-                <div className="h-6 bg-gray-700/50 rounded w-3/4 mb-4"></div>
-                <div className="h-16 bg-gray-700/50 rounded mb-4"></div>
-                <div className="h-10 bg-gray-700/50 rounded mt-auto"></div>
+          // Loading skeleton
+          <div className="space-y-4">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <div key={index} className="w-full bg-gray-800/50 rounded-lg p-4 animate-pulse">
+                <div className="h-6 bg-gray-700/50 rounded w-1/4 mb-2"></div>
+                <div className="h-4 bg-gray-700/50 rounded w-3/4"></div>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
-          // Actual tools (paginated)
-          paginatedTools.map((tool) => (
-            <AIToolCard
-              key={tool.id}
-              tool={tool}
-              onClick={onSelectTool}
-            />
-          ))
-        )}
-
-        {!isLoading && tools.length === 0 && (
-          <div className="col-span-full py-16 text-center">
-            <p className="text-gray-400 text-lg">No tools found matching the selected categories</p>
-            <button
-              onClick={onClearFilters}
-              className="mt-4 text-emerald-400 hover:text-emerald-300"
-            >
-              Clear filters
-            </button>
+          // Tool list without cards
+          <div className="space-y-4">
+            {paginatedTools.length > 0 ? (
+              paginatedTools.map((tool) => (
+                <div 
+                  key={tool.id} 
+                  className="w-full bg-gray-800/20 hover:bg-gray-800/30 border border-gray-800 hover:border-emerald-500/30 rounded-lg p-4 transition-all duration-300 cursor-pointer"
+                  onClick={() => onSelectTool(tool)}
+                >
+                  <h3 className="text-xl font-semibold text-gray-100 mb-2">{tool.name}</h3>
+                  <p className="text-gray-400 text-sm">{tool.description}</p>
+                </div>
+              ))
+            ) : (
+              <div className="py-16 text-center">
+                <p className="text-gray-400 text-lg">No tools found matching the selected categories</p>
+                <button
+                  onClick={onClearFilters}
+                  className="mt-4 text-emerald-400 hover:text-emerald-300"
+                >
+                  Clear filters
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

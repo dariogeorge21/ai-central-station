@@ -8,8 +8,6 @@ import { ToolCategory, AITool, aiTools } from '@/data/aiTools';
 
 // Import components
 import CategoryFilter from '@/components/explore/CategoryFilter';
-import AIToolsGrid from '@/components/explore/AIToolsGrid';
-import AIToolDetail from '@/components/explore/AIToolDetail';
 
 // Sort options type
 type SortOption = 'nameAsc' | 'nameDesc' | 'popularity';
@@ -20,12 +18,9 @@ export default function ExplorePage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
-  const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>('popularity');
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const itemsPerPage = 12;
 
   // Debounce search query
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -61,14 +56,6 @@ export default function ExplorePage() {
   const scrollToContent = () => {
     exploreRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // Pagination logic
-  const paginatedTools = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredTools.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredTools, currentPage]);
-
-  const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -160,7 +147,6 @@ export default function ExplorePage() {
   const clearSearch = () => {
     setSearchQuery('');
     setIsSearching(false);
-    setCurrentPage(1);
   };
 
   const [text] = useTypewriter({
@@ -183,7 +169,6 @@ export default function ExplorePage() {
   // Handle sort option change
   const handleSortChange = (option: SortOption) => {
     setSortOption(option);
-    setCurrentPage(1); // Reset to first page when sorting changes
     setIsSortOpen(false);
   };
 
@@ -268,193 +253,123 @@ export default function ExplorePage() {
             </p>
           </motion.div>
 
-          {/* Loading State */}
-          {isLoading ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+          {/* Filter and Sort Controls */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex-1 filter-dropdown">
+              <CategoryFilter
+                isOpen={isFilterOpen}
+                setIsOpen={setIsFilterOpen}
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+              />
             </div>
-          ) : (
-            <>
-              {/* Filter and Sort Controls */}
-              <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="flex-1 filter-dropdown">
-                  <CategoryFilter
-                    isOpen={isFilterOpen}
-                    setIsOpen={setIsFilterOpen}
-                    selectedCategories={selectedCategories}
-                    setSelectedCategories={setSelectedCategories}
-                  />
-                </div>
 
-                {/* Sort Dropdown with improved accessibility */}
-                <div className="relative sort-dropdown">
-                  <motion.button
-                    aria-haspopup="true"
-                    aria-expanded={isSortOpen}
-                    aria-label="Sort options"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    viewport={{ once: true }}
-                    onClick={() => setIsSortOpen(!isSortOpen)}
-                    className="flex items-center justify-center gap-2 bg-gray-800 border border-gray-700 text-gray-200 font-medium py-3 px-6 rounded-lg w-full md:w-auto hover:bg-gray-700 transition-all duration-300"
-                  >
-                    <ArrowUpDown size={18} aria-hidden="true" />
-                    Sort By: {sortOption === 'nameAsc' ? 'Name (A-Z)' :
-                              sortOption === 'nameDesc' ? 'Name (Z-A)' :
-                              'Popularity'}
-                    <ChevronDown 
-                      className={`ml-2 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
-                      aria-hidden="true"
-                    />
-                  </motion.button>
-
-                  <AnimatePresence>
-                    {isSortOpen && (
-                      <>
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="fixed inset-0 z-10"
-                          onClick={() => setIsSortOpen(false)}
-                        />
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute right-0 mt-2 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-20"
-                        >
-                          <div className="py-2">
-                            <button
-                              onClick={() => handleSortChange('popularity')}
-                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'popularity' ? 'text-emerald-400' : 'text-gray-200'}`}
-                            >
-                              Popularity
-                            </button>
-                            <button
-                              onClick={() => handleSortChange('nameAsc')}
-                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameAsc' ? 'text-emerald-400' : 'text-gray-200'}`}
-                            >
-                              Name (A-Z)
-                            </button>
-                            <button
-                              onClick={() => handleSortChange('nameDesc')}
-                              className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameDesc' ? 'text-emerald-400' : 'text-gray-200'}`}
-                            >
-                              Name (Z-A)
-                            </button>
-                          </div>
-                        </motion.div>
-                      </>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-
-              {/* Search Bar */}
-              <motion.div
+            {/* Sort Dropdown with improved accessibility */}
+            <div className="relative sort-dropdown">
+              <motion.button
+                aria-haspopup="true"
+                aria-expanded={isSortOpen}
+                aria-label="Sort options"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="relative mb-8"
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className="flex items-center justify-center gap-2 bg-gray-800 border border-gray-700 text-gray-200 font-medium py-3 px-6 rounded-lg w-full md:w-auto hover:bg-gray-700 transition-all duration-300"
               >
-                <div className="relative flex items-center">
-                  <Search className="absolute left-4 text-gray-400" size={20} aria-hidden="true" />
-                  <input
-                    type="text"
-                    aria-label="Search for AI tools"
-                    placeholder="Search tools by name or description..."
-                    value={searchQuery}
-                    onChange={handleSearchInput}
-                    className="w-full bg-gray-800 border border-gray-700 text-gray-200 pl-12 pr-12 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={clearSearch}
-                      className="absolute right-4 text-gray-400 hover:text-gray-200"
-                      aria-label="Clear search"
+                <ArrowUpDown size={18} aria-hidden="true" />
+                Sort By: {sortOption === 'nameAsc' ? 'Name (A-Z)' :
+                          sortOption === 'nameDesc' ? 'Name (Z-A)' :
+                          'Popularity'}
+                <ChevronDown 
+                  className={`ml-2 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
+                  aria-hidden="true"
+                />
+              </motion.button>
+
+              <AnimatePresence>
+                {isSortOpen && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="fixed inset-0 z-10"
+                      onClick={() => setIsSortOpen(false)}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-2 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-20"
                     >
-                      ✕
-                    </button>
-                  )}
-                </div>
-                {isSearching && (
-                  <div className="mt-2 text-sm text-gray-400">
-                    Found {filteredTools.length} result{filteredTools.length !== 1 ? 's' : ''}
-                  </div>
+                      <div className="py-2">
+                        <button
+                          onClick={() => handleSortChange('popularity')}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'popularity' ? 'text-emerald-400' : 'text-gray-200'}`}
+                        >
+                          Popularity
+                        </button>
+                        <button
+                          onClick={() => handleSortChange('nameAsc')}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameAsc' ? 'text-emerald-400' : 'text-gray-200'}`}
+                        >
+                          Name (A-Z)
+                        </button>
+                        <button
+                          onClick={() => handleSortChange('nameDesc')}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameDesc' ? 'text-emerald-400' : 'text-gray-200'}`}
+                        >
+                          Name (Z-A)
+                        </button>
+                      </div>
+                    </motion.div>
+                  </>
                 )}
-              </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
 
-              {/* AI Tools Grid Component */}
-              <AIToolsGrid
-                tools={isSearching ? filteredTools : paginatedTools}
-                onSelectTool={setSelectedTool}
-                onClearFilters={() => {
-                  setSelectedCategories([]);
-                  clearSearch();
-                  setCurrentPage(1);
-                }}
+          {/* Search Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="relative mb-8"
+          >
+            <div className="relative flex items-center">
+              <Search className="absolute left-4 text-gray-400" size={20} aria-hidden="true" />
+              <input
+                type="text"
+                aria-label="Search for AI tools"
+                placeholder="Search tools by name or description..."
+                value={searchQuery}
+                onChange={handleSearchInput}
+                className="w-full bg-gray-800 border border-gray-700 text-gray-200 pl-12 pr-12 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
               />
-
-              {/* Pagination - only show when not searching */}
-              {!isSearching && totalPages > 1 && (
-                <div className="flex justify-center mt-8 gap-2">
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 rounded-lg bg-gray-800 text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                    aria-label="Previous page"
-                  >
-                    Previous
-                  </button>
-                  <span className="px-4 py-2 text-gray-200">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 rounded-lg bg-gray-800 text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                    aria-label="Next page"
-                  >
-                    Next
-                  </button>
-                </div>
+              {searchQuery && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-4 text-gray-400 hover:text-gray-200"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
               )}
+            </div>
+            {isSearching && (
+              <div className="mt-2 text-sm text-gray-400">
+                Found {filteredTools.length} result{filteredTools.length !== 1 ? 's' : ''}
+              </div>
+            )}
+          </motion.div>
 
-              {/* No results message */}
-              {!isLoading && filteredTools.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-xl text-gray-400 mb-4">No AI tools found matching your criteria</p>
-                  <button
-                    onClick={() => {
-                      setSelectedCategories([]);
-                      clearSearch();
-                      setCurrentPage(1);
-                    }}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-full transition-all duration-300"
-                  >
-                    Clear Filters
-                  </button>
-                </div>
-              )}
-            </>
-          )}
+          {/* Content below the search bar has been removed */}
         </div>
       </section>
-
-      {/* Tool Detail Popup with improved accessibility */}
-      <AnimatePresence>
-        {selectedTool && (
-          <AIToolDetail
-            tool={selectedTool}
-            onClose={() => setSelectedTool(null)}
-          />
-        )}
-      </AnimatePresence>
     </main>
   );
 }
