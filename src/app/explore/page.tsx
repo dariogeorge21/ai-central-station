@@ -8,6 +8,7 @@ import { ToolCategory, AITool, aiTools } from '@/data/aiTools';
 
 // Import components
 import CategoryFilter from '@/components/explore/CategoryFilter';
+import AIToolsGrid from '@/components/explore/AIToolsGrid';
 
 // Sort options type
 type SortOption = 'nameAsc' | 'nameDesc' | 'popularity';
@@ -367,7 +368,30 @@ export default function ExplorePage() {
             )}
           </motion.div>
 
-          {/* Content below the search bar has been removed */}
+          {/* AI Tools Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="mb-8"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-gray-200">
+                Showing {filteredTools.length} of {aiTools.length} AI Tools
+              </h3>
+              {selectedCategories.length > 0 && (
+                <button
+                  onClick={() => setSelectedCategories([])}
+                  className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
+            
+            <AIToolsGrid tools={filteredTools} isLoading={isLoading} />
+          </motion.div>
         </div>
       </section>
     </main>
