@@ -327,13 +327,13 @@ export default function Home() {
               About This Project
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              A comprehensive resource hub for AI enthusiasts and professionals, built by a solo developer.
+              A comprehensive resource centre for AI enthusiasts and professionals, built by a solo developer.
             </p>
           </div>
           <div className="glassmorphic-card-content p-8 rounded-xl hover:shadow-lg hover:shadow-yellow-900/20 transition-all duration-300">
             <div className="max-w-3xl mx-auto">
               <p className="text-gray-300 mb-6">
-                AI Toolkit Hub is a passion project dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence. I've curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI more accessible to everyone.
+                AI Toolkit Centre is a passion project dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence. I've curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI toolsmore accessible to everyone.
               </p>
               <p className="text-gray-300 mb-6">
                 This project combines my technical expertise with a vision to create an authoritative and accessible resource for anyone interested in exploring the world of AI tools and technologies.
