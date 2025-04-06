@@ -1,19 +1,29 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FiArrowLeft, FiExternalLink, FiStar } from 'react-icons/fi';
 import { getAllTools, getToolById } from '@/lib/tools';
 import { Metadata } from 'next';
+import { AITool } from '@/data/aiTools';
 
-export async function generateStaticParams() {
+// Type for the internal parameters
+type PageParams = {
+  toolId: string;
+};
+
+// Type for the component props that satisfies Next.js expectations
+type Props = {
+  params: PageParams;
+};
+
+export async function generateStaticParams(): Promise<Array<PageParams>> {
   const tools = getAllTools();
   return tools.map(tool => ({
     toolId: tool.id,
   }));
 }
 
-export async function generateMetadata({ params }: { params: { toolId: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tool = getToolById(params.toolId);
   
   if (!tool) {
@@ -29,7 +39,8 @@ export async function generateMetadata({ params }: { params: { toolId: string } 
   };
 }
 
-export default function ToolPage({ params }: { params: { toolId: string } }) {
+// Define the component with the correct props type
+export default async function ToolPage({ params }: Props) {
   const tool = getToolById(params.toolId);
   
   if (!tool) {
@@ -146,8 +157,8 @@ export default function ToolPage({ params }: { params: { toolId: string } }) {
   );
 }
 
-// Helper functions to generate content for each section based on the tool
-function getIntroduction(tool: any) {
+// Only keep the functions that are used in the component
+function getIntroduction(tool: AITool) {
   const rating = tool.rating ?? 4.0;
   
   return `
@@ -164,7 +175,7 @@ function getIntroduction(tool: any) {
   `;
 }
 
-function getCoreFeatures(tool: any) {
+function getCoreFeatures(tool: AITool) {
   // Base features in HTML format
   let featuresHtml = `
     <p>${tool.name} offers a rich suite of features designed to maximize efficiency and quality:</p>
@@ -198,7 +209,7 @@ function getCoreFeatures(tool: any) {
   return featuresHtml;
 }
 
-function getPrimaryUseCases(tool: any) {
+function getPrimaryUseCases(tool: AITool) {
   return `
     <p>Based on our analysis, ${tool.name} excels in the following scenarios:</p>
     
@@ -220,419 +231,148 @@ function getPrimaryUseCases(tool: any) {
   `;
 }
 
-// Helper function to generate target audience based on tool categories and use case
-function generateAudienceList(tool: any) {
+// Helper function to generate audience list based on tool categories and use case
+function generateAudienceList(tool: AITool) {
   const baseAudiences = [
     `Professionals in the ${tool.categories[0]} industry seeking to optimize their workflow`,
-    `Teams looking for collaborative ${tool.categories.join('/')} solutions`,
-  ];
+    `Teams looking for solutions in ${tool.categories.join(' and ')} domains`,
+    // Check if specific categories exist using a type-safe approach
+    tool.categories.some(cat => cat === 'productivity') ? 'Anyone looking to improve their productivity and efficiency' : '',
+    tool.categories.some(cat => cat === 'writing') ? 'Content creators and writers seeking AI assistance' : '',
+    tool.categories.some(cat => cat === 'code') ? 'Developers and programmers looking for coding assistance' : '',
+    tool.categories.some(cat => cat === 'academia') ? 'Researchers and academics in need of analytical tools' : '',
+    tool.categories.some(cat => cat === 'design') ? 'Designers and creative professionals seeking inspiration' : '',
+  ].filter(Boolean); // Remove empty entries
   
-  // Add more specific audiences based on categories
-  if (tool.categories.includes('productivity')) {
-    baseAudiences.push('Knowledge workers managing multiple projects or tasks');
-    baseAudiences.push('Remote teams requiring centralized workflow management');
+  // Additional audience types based on main use
+  const mainUse = tool.mainUse.toLowerCase();
+  const additionalAudiences = [];
+  
+  if (mainUse.includes('data') || mainUse.includes('analysis')) {
+    additionalAudiences.push('Data analysts and data scientists');
+  }
+  if (mainUse.includes('learn') || mainUse.includes('education') || mainUse.includes('study')) {
+    additionalAudiences.push('Students and educators');
+  }
+  if (mainUse.includes('business') || mainUse.includes('enterprise')) {
+    additionalAudiences.push('Business owners and entrepreneurs');
   }
   
-  if (tool.categories.includes('writing')) {
-    baseAudiences.push('Content creators needing assistance with drafting or editing');
-    baseAudiences.push('Marketing professionals developing various types of written content');
-  }
-  
-  if (tool.categories.includes('research') || tool.categories.includes('education')) {
-    baseAudiences.push('Researchers gathering and analyzing information');
-    baseAudiences.push('Students working on academic assignments and projects');
-  }
-  
-  if (tool.categories.includes('creative') || tool.categories.includes('design')) {
-    baseAudiences.push('Designers seeking AI assistance for ideation or execution');
-    baseAudiences.push('Creative professionals exploring new artistic possibilities');
-  }
-
-  return baseAudiences;
+  // Combine base and additional audiences, ensuring no duplicates
+  return [...new Set([...baseAudiences, ...additionalAudiences])];
 }
 
 // Helper function to generate applications list based on the tool's main use
-function generateApplicationsList(tool: any) {
+function generateApplicationsList(tool: AITool) {
   const mainUseCase = tool.mainUse.toLowerCase();
   const applications = [
-    `Enhancing efficiency in ${mainUseCase}`,
-    `Integrating AI capabilities into existing ${tool.categories.join('/')} workflows`,
+    `${tool.name} for ${mainUseCase}`,
+    `Enhancing productivity in ${tool.categories.join(' and ')} workflows`,
   ];
   
-  // Add more specific applications based on the tool's main use
-  if (mainUseCase.includes('writing') || mainUseCase.includes('content')) {
-    applications.push('Creating and refining written content across various formats');
-    applications.push('Ensuring consistency and clarity in communication materials');
+  // Add specific applications based on categories
+  if (tool.categories.some(cat => cat === 'writing' || cat === 'content-creation')) {
+    applications.push('Creating high-quality content more efficiently');
+    applications.push('Overcoming writer\'s block and generating fresh ideas');
   }
   
-  if (mainUseCase.includes('analysis') || mainUseCase.includes('data')) {
-    applications.push('Extracting insights from complex datasets');
-    applications.push('Generating actionable reports from raw information');
+  if (tool.categories.some(cat => cat === 'code' || cat === 'developer')) {
+    applications.push('Accelerating development workflows');
+    applications.push('Simplifying debugging and code optimization');
   }
   
-  if (mainUseCase.includes('design') || mainUseCase.includes('creative')) {
-    applications.push('Generating visual assets for marketing or product materials');
-    applications.push('Streamlining design processes through AI assistance');
+  if (tool.categories.some(cat => cat === 'design')) {
+    applications.push('Streamlining the design process from concept to execution');
+    applications.push('Generating design variations and exploring creative possibilities');
   }
   
-  if (mainUseCase.includes('communication') || mainUseCase.includes('translation')) {
-    applications.push('Facilitating cross-language communication in global teams');
-    applications.push('Improving accessibility of content across different languages');
+  if (tool.categories.some(cat => cat === 'productivity')) {
+    applications.push('Automating repetitive tasks to save time');
+    applications.push('Organizing information and managing complex projects');
   }
   
   return applications;
 }
 
-function getDetailedPricing(tool: any) {
-  const pricingInfo = tool.pricing || 'Pricing information not available';
-  
-  // Generate pricing tiers based on basic info
-  let pricingText = '';
-  
-  if (pricingInfo.toLowerCase().includes('free')) {
-    pricingText += `
-      <p class="text-gray-300 mb-4">
-        <strong class="text-white">Free Tier:</strong> ${tool.name} offers a free option that provides access to basic features, allowing users to explore the tool's capabilities without financial commitment.
-      </p>
-    `;
-  }
-  
-  if (pricingInfo.toLowerCase().includes('premium') || pricingInfo.match(/\$\d+/)) {
-    pricingText += `
-      <p class="text-gray-300 mb-4">
-        <strong class="text-white">Premium Plans:</strong> For users requiring more advanced features or higher usage limits, ${tool.name} offers premium subscription options. ${pricingInfo}
-      </p>
-    `;
-  }
-  
-  if (pricingInfo.toLowerCase().includes('enterprise') || pricingInfo.toLowerCase().includes('custom')) {
-    pricingText += `
-      <p class="text-gray-300 mb-4">
-        <strong class="text-white">Enterprise Solutions:</strong> For organizations with specific requirements or larger teams, ${tool.name} provides custom enterprise packages with tailored pricing and features.
-      </p>
-    `;
-  }
-  
-  if (pricingInfo.toLowerCase().includes('api') || tool.categories.includes('developer')) {
-    pricingText += `
-      <p class="text-gray-300 mb-4">
-        <strong class="text-white">API Access:</strong> Developers looking to integrate ${tool.name} into their applications can access the API with appropriate pricing based on usage volume and requirements.
-      </p>
-    `;
-  }
-  
-  return pricingText || `
-    <p class="text-gray-300 mb-4">
-      For the most current and detailed pricing information, users are encouraged to visit the official ${tool.name} website. Pricing structures may include free trials, monthly or annual subscription options, and special rates for educational or non-profit organizations.
-    </p>
-  `;
-}
-
-function getUserExperience(tool: any) {
-  const userExp = tool.userExperience || 'The user experience is designed to be intuitive and accessible';
-  
-  return `
-    <p class="text-gray-300 mb-4">
-      ${userExp}. Users of ${tool.name} generally report a positive experience with the platform, noting its ${tool.rating && tool.rating >= 4 ? 'high-quality outputs' : 'functional interface'} and ${tool.rating && tool.rating >= 4 ? 'efficient workflow' : 'useful features'}.
-    </p>
-    
-    <p class="text-gray-300 mb-4">
-      The community around ${tool.name} has grown steadily, with users sharing insights, templates, and best practices across various forums and social media platforms. ${tool.rating && tool.rating >= 4 ? 'The tool has received particularly positive feedback for its ' + tool.mainUse.toLowerCase() + ' capabilities.' : 'User feedback has helped shape the tool\'s development, with regular updates addressing common requests and concerns.'}
-    </p>
-    
-    <p class="text-gray-300 mb-4">
-      In terms of performance, ${tool.name} ${tool.rating && tool.rating >= 4 ? 'excels' : 'performs adequately'} in handling typical tasks within its domain, with ${tool.rating && tool.rating >= 4 ? 'minimal latency' : 'reasonable response times'} and ${tool.rating && tool.rating >= 4 ? 'high-quality' : 'satisfactory'} outputs. The interface is designed to accommodate both beginners and advanced users, with a learning curve that most find manageable given the tool's capabilities.
-    </p>
-  `;
-}
-
-function getDevelopmentHistory(tool: any) {
-  return `
-    <p class="text-gray-300 mb-4">
-      ${tool.name} emerged as part of the growing wave of specialized AI tools designed to address specific needs in the ${tool.categories.join(' and ')} space. While the exact launch date isn't specified in our data, the tool has evolved substantially since its initial release.
-    </p>
-    
-    <p class="text-gray-300 mb-4">
-      The development trajectory of ${tool.name} reflects the broader trends in AI advancement, with regular updates enhancing its core capabilities and expanding its feature set. The team behind the tool has demonstrated a commitment to continuous improvement, responding to user feedback and incorporating technological innovations to keep the platform relevant and competitive.
-    </p>
-    
-    <p class="text-gray-300 mb-4">
-      Notable milestones in the tool's evolution likely include:
-    </p>
-    
-    <ul class="text-gray-300 list-disc pl-6 mb-4 space-y-1">
-      <li>Initial launch with core ${tool.categories[0]} capabilities</li>
-      <li>Expansion of features to include ${tool.otherUses || 'additional functionalities'}</li>
-      <li>Interface refinements to enhance usability and accessibility</li>
-      <li>Performance optimizations to improve speed and reliability</li>
-      <li>Integration capabilities with complementary tools and platforms</li>
-    </ul>
-    
-    <p class="text-gray-300 mb-4">
-      As the AI landscape continues to evolve, ${tool.name} is positioned to adapt to emerging trends and technologies, ensuring its continued relevance for users in the ${tool.categories.join(' and ')} domains.
-    </p>
-  `;
-}
-
-function getTechnicalInsights(tool: any) {
-  let technicalContent = `
-    <p class="text-gray-300 mb-4">
-      ${tool.name} leverages advanced AI technologies to deliver its core functionality. While specific details about the underlying architecture aren't provided in our data, we can infer that the tool likely employs state-of-the-art approaches relevant to its domain.
-    </p>
-    
-    <p class="text-gray-300 mb-4">
-      For a tool focused on ${tool.categories.join(' and ')}, the technical foundation probably includes:
-    </p>
-    
-    <ul class="text-gray-300 list-disc pl-6 mb-6 space-y-1">
-  `;
-  
-  // Add domain-specific technical details
-  if (tool.categories.includes('code') || tool.categories.includes('developer')) {
-    technicalContent += `
-      <li>Code analysis algorithms and pattern recognition for intelligent suggestions</li>
-      <li>Language-specific parsers and syntax understanding</li>
-      <li>Context-aware code completion systems</li>
-    `;
-  }
-  
-  if (tool.categories.includes('writing') || tool.categories.includes('content-creation')) {
-    technicalContent += `
-      <li>Natural language processing models for text generation and analysis</li>
-      <li>Semantic understanding capabilities for contextual awareness</li>
-      <li>Style and tone analysis for tailored content creation</li>
-    `;
-  }
-  
-  if (tool.categories.includes('design')) {
-    technicalContent += `
-      <li>Computer vision algorithms for image analysis and generation</li>
-      <li>Pattern recognition for design element identification</li>
-      <li>Style transfer capabilities for creative applications</li>
-    `;
-  }
-  
-  if (tool.categories.includes('productivity')) {
-    technicalContent += `
-      <li>Task prioritization algorithms for efficient workflow management</li>
-      <li>Pattern recognition for identifying optimization opportunities</li>
-      <li>Automation frameworks for repetitive task handling</li>
-    `;
-  }
-  
-  // Add general technical points if nothing specific was added
-  if (!tool.categories.includes('code') && !tool.categories.includes('developer') && 
-      !tool.categories.includes('writing') && !tool.categories.includes('content-creation') &&
-      !tool.categories.includes('design') && !tool.categories.includes('productivity')) {
-    technicalContent += `
-      <li>AI algorithms specialized for ${tool.categories[0]} applications</li>
-      <li>Data processing pipelines optimized for relevant use cases</li>
-      <li>User interaction models that facilitate intuitive usage</li>
-    `;
-  }
-  
-  technicalContent += `
-    </ul>
-    
-    <p class="text-gray-300 mb-4">
-      The technical architecture likely includes a combination of proprietary algorithms and established AI models, optimized for performance and reliability. The system architecture is designed to balance computational efficiency with output quality, ensuring responsive performance across different use cases.
-    </p>
-    
-    <p class="text-gray-300 mb-4">
-      For developers interested in integrating with ${tool.name}, the platform ${tool.categories.includes('developer') ? 'likely' : 'may'} offer API access with appropriate documentation, enabling custom implementations and extensions of the core functionality.
-    </p>
-  `;
-  
-  return technicalContent;
-}
-
-function getAssessment(tool: any) {
-  const rating = tool.rating ? Math.round(tool.rating * 2) : 7; // Convert 5-star to 10-star or default to 7
-  
-  return `
-    <p class="text-gray-300 mb-4">
-      Based on its features, performance, and user feedback, ${tool.name} earns a rating of <span class="text-blue-400 font-semibold">${rating}/10</span>. This score reflects its ${rating >= 8 ? 'excellent' : rating >= 6 ? 'solid' : 'adequate'} performance in its core functionality areas and its ${rating >= 8 ? 'exceptional' : rating >= 6 ? 'good' : 'reasonable'} value proposition for its target audience.
-    </p>
-    
-    <div class="bg-gray-800/30 rounded-lg p-5 border border-gray-700/50 mb-6">
-      <h3 class="text-xl font-semibold text-white mb-3">Who Would Benefit Most</h3>
-      
-      <p class="text-gray-300 mb-2">
-        ${tool.name} is particularly well-suited for:
-      </p>
-      
-      <ul class="text-gray-300 list-disc pl-6 mb-2 space-y-1">
-        ${tool.categories.map((category: string) => {
-          switch(category) {
-            case 'writing':
-              return '<li>Writers and content creators seeking to enhance their productivity and content quality</li>';
-            case 'productivity':
-              return '<li>Professionals looking to optimize their workflow and automate routine tasks</li>';
-            case 'chatbots':
-              return '<li>Businesses requiring conversational AI for customer interactions or internal processes</li>';
-            case 'code':
-            case 'developer':
-              return '<li>Developers seeking to accelerate their coding process and improve code quality</li>';
-            case 'design':
-              return '<li>Designers looking for AI assistance in creating and refining visual content</li>';
-            case 'content-creation':
-              return '<li>Content creators and marketers producing various forms of digital media</li>';
-            case 'search-engines':
-              return '<li>Researchers and professionals needing advanced information retrieval capabilities</li>';
-            case 'finance':
-              return '<li>Individuals and professionals managing financial data and transactions</li>';
-            case 'health':
-              return '<li>Health-conscious individuals and healthcare professionals</li>';
-            default:
-              return `<li>Professionals in the ${category} field seeking specialized AI assistance</li>`;
-          }
-        }).join('')}
-      </ul>
-    </div>
-    
-    <div class="bg-gray-800/30 rounded-lg p-5 border border-gray-700/50 mb-6">
-      <h3 class="text-xl font-semibold text-white mb-3">Potential Limitations</h3>
-      
-      <p class="text-gray-300 mb-2">
-        While ${tool.name} offers significant value, potential users should be aware of these limitations:
-      </p>
-      
-      <ul class="text-gray-300 list-disc pl-6 space-y-1">
-        <li>As with many AI tools, outputs may require human review and refinement</li>
-        <li>The learning curve may be steeper for users without previous experience in similar tools</li>
-        <li>Certain advanced features may only be available in premium pricing tiers</li>
-        <li>Integration capabilities may be limited to specific platforms or ecosystems</li>
-      </ul>
-    </div>
-    
-    <p class="text-gray-300 mb-4">
-      <strong class="text-white">Final Verdict:</strong> ${tool.name} represents a ${rating >= 8 ? 'leading' : rating >= 6 ? 'solid' : 'functional'} option in the ${tool.categories.join(' and ')} space, offering a compelling combination of ${rating >= 8 ? 'advanced features, excellent performance, and user-friendly design' : rating >= 6 ? 'useful features, reliable performance, and accessible design' : 'core features, adequate performance, and functional design'}. For professionals and organizations working in related domains, it merits serious consideration as part of their technology toolkit.
-    </p>
-  `;
-}
-
-function getAdditionalResources(tool: any) {
-  return `
-    <p class="text-gray-300 mb-4">
-      To learn more about ${tool.name} and maximize your experience with the tool, consider exploring these resources:
-    </p>
-    
-    <ul class="text-gray-300 list-none space-y-3 pl-0 mb-4">
-      <li>
-        <strong class="text-white">Official Website:</strong> 
-        <a href="${tool.websiteUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 transition-colors">
-          ${tool.name}
-        </a> - The primary source for the most current information, documentation, and access options
-      </li>
-      
-      <li>
-        <strong class="text-white">Documentation and Guides:</strong> 
-        Most likely available through the official website, offering detailed instructions on features and best practices
-      </li>
-      
-      <li>
-        <strong class="text-white">Community Forums:</strong> 
-        Look for user communities on platforms like Reddit, Stack Overflow, or dedicated forums where users share experiences and tips
-      </li>
-      
-      <li>
-        <strong class="text-white">Tutorial Videos:</strong> 
-        Search YouTube for walkthroughs and demonstrations of ${tool.name} in action
-      </li>
-      
-      <li>
-        <strong class="text-white">Blog Articles and Reviews:</strong> 
-        Independent assessments can provide additional perspectives on the tool's strengths and limitations
-      </li>
-      
-      <li>
-        <strong class="text-white">Social Media:</strong> 
-        Follow ${tool.name} on platforms like Twitter, LinkedIn, or Facebook for announcements and usage tips
-      </li>
-    </ul>
-    
-    <p class="text-gray-300 mb-4">
-      For developers interested in technical integration, look for API documentation, SDKs, and code examples that may be available through the official channels.
-    </p>
-  `;
-} 
-
-function getPricingInfo(tool: any) {
+function getPricingInfo(tool: AITool) {
   // Base pricing information in HTML format
-  let pricingHtml = `
-    <p>${tool.name} offers the following pricing structure:</p>
+  const pricingHtml = `
+    <p class="mb-4">${tool.pricing}</p>
     
-    <ul class="list-disc pl-6 mb-4 space-y-2">
-  `;
-  
-  // Format pricing based on available information
-  if (tool.pricing) {
-    const pricingOptions = tool.pricing.split(',');
-    
-    pricingOptions.forEach((option: string) => {
-      const trimmedOption = option.trim();
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="p-4 bg-gray-800/50 rounded-lg">
+        <h4 class="font-medium text-blue-400 mb-2">Value Assessment</h4>
+        <p class="text-gray-400 text-sm">
+          ${
+            tool.pricing.toLowerCase().includes('free') ? 'Excellent value with no financial investment required for basic functionality.' : 
+            tool.pricing.toLowerCase().includes('trial') ? 'Try before you buy with a risk-free evaluation period.' : 
+            'Consider the ROI based on time saved and quality improvements in your workflow.'
+          }
+        </p>
+      </div>
       
-      if (trimmedOption.toLowerCase().includes('free')) {
-        pricingHtml += `<li><strong>Free tier:</strong> ${trimmedOption}</li>`;
-      } else if (trimmedOption.toLowerCase().includes('trial')) {
-        pricingHtml += `<li><strong>Trial option:</strong> ${trimmedOption}</li>`;
-      } else if (trimmedOption.toLowerCase().includes('premium') || 
-                trimmedOption.toLowerCase().includes('pro') ||
-                trimmedOption.toLowerCase().includes('business')) {
-        pricingHtml += `<li><strong>Premium plan:</strong> ${trimmedOption}</li>`;
-      } else {
-        pricingHtml += `<li><strong>Additional option:</strong> ${trimmedOption}</li>`;
-      }
-    });
-  } else {
-    pricingHtml += `<li>Pricing information not available. Please visit the official website for current pricing details.</li>`;
-  }
-  
-  pricingHtml += `
-    </ul>
+      <div class="p-4 bg-gray-800/50 rounded-lg">
+        <h4 class="font-medium text-blue-400 mb-2">Pricing Model</h4>
+        <p class="text-gray-400 text-sm">
+          ${
+            tool.pricing.toLowerCase().includes('subscription') || tool.pricing.toLowerCase().includes('month') ? 'Subscription-based with recurring payments.' : 
+            tool.pricing.toLowerCase().includes('one-time') ? 'One-time purchase with perpetual access.' : 
+            tool.pricing.toLowerCase().includes('free') ? 'Free access with possible premium upgrades.' : 
+            'Check the official website for detailed pricing structure.'
+          }
+        </p>
+      </div>
+      
+      <div class="p-4 bg-gray-800/50 rounded-lg">
+        <h4 class="font-medium text-blue-400 mb-2">Business Considerations</h4>
+        <p class="text-gray-400 text-sm">
+          ${
+            tool.pricing.toLowerCase().includes('enterprise') ? 'Enterprise options available with custom pricing and additional features.' : 
+            tool.pricing.toLowerCase().includes('team') ? 'Team plans offer collaboration features and volume discounts.' : 
+            'Evaluate how this investment scales with your needs and team size.'
+          }
+        </p>
+    </div>
+    </div>
     
-    <p>For the most current and detailed pricing information, we recommend visiting the <a href="${tool.websiteUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">official ${tool.name} website</a>.</p>
+    <p class="text-gray-300 text-sm">
+      <strong>Note:</strong> Pricing information may change over time. Visit the official website for the most current pricing details.
+    </p>
   `;
   
   return pricingHtml;
 } 
 
-function getAlternatives(tool: any, allTools: any[]) {
+function getAlternatives(tool: AITool, allTools: AITool[]) {
   // Find up to 3 alternative tools in the same category
   const alternatives = allTools.filter(alt => 
-    alt.id !== tool.id && 
-    alt.categories.some((cat: string) => tool.categories.includes(cat))
+    alt.id !== tool.id && // Not the same tool
+    // Check if they share at least one category in a type-safe way
+    alt.categories.some(altCat => tool.categories.some(toolCat => toolCat === altCat))
   ).slice(0, 3);
   
   if (alternatives.length === 0) {
-    return `
-      <p>While ${tool.name} offers a unique feature set, the AI tools landscape is constantly evolving. 
-      Check back later for comparable alternatives as we continue to expand our database.</p>
-    `;
+    return `<p>No direct alternatives found in our database. This may be because ${tool.name} offers unique functionality or is a market leader in its category.</p>`;
   }
   
-  // Format alternatives as HTML with list
-  let alternativesHtml = `
-    <p>If you're exploring options similar to ${tool.name}, consider these alternative tools that offer comparable functionality:</p>
+  return `
+    <p>If you're considering alternatives to ${tool.name}, here are some options to explore:</p>
     
     <ul class="list-disc pl-6 mb-4 space-y-4">
-  `;
-  
-  alternatives.forEach(alt => {
-    alternativesHtml += `
-      <li>
-        <strong>${alt.name}</strong> - ${alt.description.substring(0, 120)}... 
-        <a href="/tools/${alt.id}" class="text-blue-500 hover:underline">Learn more</a>
-      </li>
-    `;
-  });
-  
-  alternativesHtml += `
+      ${alternatives.map(alt => `
+        <li>
+          <strong>${alt.name}</strong> - ${alt.description}
+          <div class="mt-1">
+            <a href="${alt.websiteUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 inline-flex items-center">
+              Visit Website <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+        </li>
+      `).join('')}
     </ul>
     
-    <p>Each alternative offers its own unique strengths and focus areas, which may better align with your specific needs 
-    or preferences.</p>
+    <p>Each of these alternatives offers similar functionality to ${tool.name}, but may differ in terms of pricing, feature set, or user experience.</p>
   `;
-  
-  return alternativesHtml;
 } 
