@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, X, Send, Loader2, ChevronDown, MessageSquare } from 'lucide-react';
+import { Bot, X, Send, Loader2, MessageSquare } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 interface Message {
@@ -12,17 +12,28 @@ interface Message {
 
 const rotatingTexts = ['Chat', 'Ask', 'Learn', 'Search'];
 
+// Default suggestions to help users get started
+const defaultSuggestions = [
+  "What AI tools do you have for writing?",
+  "How do I access the documentation?",
+  "Tell me about this website's features",
+  "What are the most popular AI tools?",
+  "How can I read AI news?",
+  "How is this website useful for me?"
+];
+
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
-      role: 'system',
+      role: 'assistant',
       content: 'Welcome to AI Toolkit Hub! I can help you find the right AI tool for your needs, answer questions about our website, or discuss AI-related topics. How can I assist you today?'
     }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [errorCount, setErrorCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
@@ -53,10 +64,11 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
-  const handleSendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSendMessage = async (message?: string) => {
+    const messageToSend = message || input;
+    if ((!messageToSend.trim() || isLoading) && !message) return;
     
-    const userMessage: Message = { role: 'user', content: input };
+    const userMessage: Message = { role: 'user', content: messageToSend };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
@@ -77,12 +89,27 @@ export default function ChatBot() {
       }
       
       const data = await response.json();
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.response }]);
+      
+      if (data.response) {
+        setMessages((prev) => [...prev, { role: 'assistant', content: data.response }]);
+        setErrorCount(0); // Reset error count on successful response
+      } else {
+        throw new Error('Invalid response format');
+      }
     } catch (error) {
       console.error('Error sending message:', error);
+      setErrorCount(prev => prev + 1);
+      
+      // Different error messages based on error count
+      let errorMessage = 'I encountered a problem. Please try again.';
+      
+      if (errorCount > 1) {
+        errorMessage = 'I apologize, but I seem to be having trouble connecting. You can still explore the website using the navigation menu.';
+      }
+      
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: 'Sorry, I encountered an error. Please try again later.' }
+        { role: 'assistant', content: errorMessage }
       ]);
     } finally {
       setIsLoading(false);
@@ -154,7 +181,7 @@ export default function ChatBot() {
               
               {/* Messages */}
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {messages.filter(msg => msg.role !== 'system').map((message, index) => (
+                {messages.map((message, index) => (
                   <div
                     key={index}
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -179,6 +206,23 @@ export default function ChatBot() {
                   </div>
                 )}
                 
+                {messages.length === 1 && !isLoading && (
+                  <div className="mt-4 space-y-2">
+                    <p className="text-xs text-gray-400">Try asking:</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {defaultSuggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleSendMessage(suggestion)}
+                          className="text-xs text-left bg-gray-800 hover:bg-gray-700 text-gray-300 p-2 rounded-lg transition-colors"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
                 <div ref={messagesEndRef} />
               </div>
               
@@ -196,7 +240,7 @@ export default function ChatBot() {
                     style={{ maxHeight: '120px' }}
                   />
                   <button
-                    onClick={handleSendMessage}
+                    onClick={() => handleSendMessage()}
                     disabled={!input.trim() || isLoading}
                     className={`p-3 rounded-lg ${
                       !input.trim() || isLoading
@@ -210,9 +254,6 @@ export default function ChatBot() {
                       <Send className="w-5 h-5" />
                     )}
                   </button>
-                </div>
-                <div className="mt-2 text-xs text-gray-500 text-center">
-                  Powered by Groq AI
                 </div>
               </div>
             </motion.div>

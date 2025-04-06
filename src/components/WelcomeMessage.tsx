@@ -1,10 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, ChevronRight } from 'lucide-react';
 
 export default function WelcomeMessage() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -14,12 +18,8 @@ export default function WelcomeMessage() {
     >
       <button 
         className="absolute -top-2 -right-2 bg-gray-800 rounded-full p-1 text-gray-400 hover:text-white"
-        onClick={() => {
-          const element = document.getElementById('welcome-message');
-          if (element) {
-            element.style.display = 'none';
-          }
-        }}
+        onClick={() => setIsVisible(false)}
+        aria-label="Close message"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
