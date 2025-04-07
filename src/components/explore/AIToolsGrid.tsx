@@ -139,19 +139,19 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
-  
+
   // Reset to first page when tools list changes
   useEffect(() => {
     setCurrentPage(1);
   }, [tools.length]);
-  
+
   // Calculate pagination
   const totalPages = Math.ceil(tools.length / ITEMS_PER_PAGE);
   const currentItems = tools.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
-  
+
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -198,7 +198,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
             <AIToolCard tool={tool} />
           </motion.div>
         ))}
-      </div>
+              </div>
       
       {/* Pagination controls */}
       {totalPages > 1 && (
@@ -206,7 +206,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
           <div className="text-sm text-gray-400 tech-text">
             Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to{' '}
             {Math.min(currentPage * ITEMS_PER_PAGE, tools.length)} of {tools.length} tools
-          </div>
+            </div>
           
           <div className="flex items-center gap-1 flex-wrap">
             <button
