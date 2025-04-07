@@ -348,7 +348,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <p className="text-gray-300 tech-text relative pl-6">
                     <span className="absolute left-0 top-0 text-yellow-500">◆</span>
-                    AI Toolkit Centre is dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence.
+                    AI Central Station is dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence.
                   </p>
                   
                   <p className="text-gray-300 tech-text relative pl-6">

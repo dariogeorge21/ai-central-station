@@ -27,7 +27,7 @@ export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Welcome to AI Toolkit Hub! I can help you find the right AI tool for your needs, answer questions about our website, or discuss AI-related topics. How can I assist you today?'
+      content: 'Welcome to AI Central Station! I can help you find the right AI tool for your needs, answer questions about our website, or discuss AI-related topics. How can I assist you today?'
     }
   ]);
   const [input, setInput] = useState('');

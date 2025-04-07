@@ -55,7 +55,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2 z-10">
             <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 bg-clip-text text-transparent">
-              AI Toolkit Hub
+              AI Central Station
             </span>
           </Link>
           

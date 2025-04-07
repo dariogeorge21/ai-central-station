@@ -28,12 +28,12 @@ const HeroSection = () => {
       <div className="relative z-10 text-white w-full max-w-screen-xl mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-16 sm:py-20 md:py-24">
         <div className="max-w-3xl mx-auto text-center sm:text-left">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600 tech-title leading-tight">
-            Welcome to<br className="hidden sm:block" /> AI Toolkit Hub
+            Welcome to<br className="hidden sm:block" /> AI Central Station
           </h1>
           <div className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-gray-100 tech-text min-h-[5rem] sm:min-h-[6rem]">
             <TypeAnimation
               sequence={[
-                'Explore, experiment, and elevate your AI projects with our dynamic AI Toolkit Hub.',
+                'Explore, experiment, and elevate your AI projects with our dynamic AI Central Station.',
                 1000,
               ]}
               wrapper="span"

@@ -96,7 +96,7 @@ export default function AboutPage() {
               <FiInfo className="text-yellow-500 h-10 w-10" />
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600 mb-6 tech-title">
-              About AI Toolkit Hub
+              About AI Central Station
             </h1>
             <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-8">
               An independent project dedicated to making AI tools accessible, understandable, and useful for everyone.
@@ -146,7 +146,7 @@ export default function AboutPage() {
               
               <div className="space-y-6 text-gray-300">
                 <p>
-                  AI Toolkit Hub was created to serve as a comprehensive resource center for AI enthusiasts, developers, researchers, and businesses navigating the rapidly evolving landscape of artificial intelligence tools.
+                  AI Central Station was created to serve as a comprehensive resource center for AI enthusiasts, developers, researchers, and businesses navigating the rapidly evolving landscape of artificial intelligence tools.
                 </p>
                 
                 <p>
@@ -250,7 +250,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-gray-300">
                 <p>
-                  The AI landscape is evolving at an unprecedented pace, and AI Toolkit Hub will continue to grow alongside it. My vision for the future includes:
+                  The AI landscape is evolving at an unprecedented pace, and AI Central Station will continue to grow alongside it. My vision for the future includes:
                 </p>
                 
                 <ul className="space-y-3">
@@ -352,7 +352,7 @@ export default function AboutPage() {
               Technology Stack
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              The technical architecture and components that power the AI Toolkit Hub platform.
+              The technical architecture and components that power the AI Central Station platform.
             </p>
           </motion.div>
           
@@ -622,7 +622,7 @@ export default function AboutPage() {
               About Me
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              The creator and developer behind AI Toolkit Hub.
+              The creator and developer behind AI Central Station.
             </p>
           </motion.div>
           
@@ -686,7 +686,7 @@ export default function AboutPage() {
                   </div> */}
                   
                   <div className="pt-2">
-                    <h4 className="text-pink-400 font-medium mb-2">Why I Built AI Toolkit Hub:</h4>
+                    <h4 className="text-pink-400 font-medium mb-2">Why I Built AI Central Station:</h4>
                     <p>
                       I created this platform to help others navigate the rapidly evolving AI landscape. My goal is to make AI tools familiar and accessible to everyone, whether you're a developer, student, researcher, or business professional.
                     </p>

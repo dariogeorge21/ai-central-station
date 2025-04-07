@@ -58,7 +58,7 @@ export default function Footer() {
           {/* Company / Brand section */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 bg-clip-text text-transparent tech-title">
-              AI Toolkit Hub
+              AI Central Station
             </h3>
             <p className="text-gray-300 text-sm tech-text">
               A comprehensive resource for exploring, comparing, and leveraging AI tools in your workflow.
@@ -160,7 +160,7 @@ export default function Footer() {
         {/* Bottom section */}
         <div className="pt-6 sm:pt-8 border-t border-gray-800/50 flex flex-col sm:flex-row justify-between items-center">
           <div className="text-gray-400 text-xs sm:text-sm tech-text text-center sm:text-left">
-            &copy; {currentYear} AI Toolkit Hub by <span className="text-blue-400">Dario George</span>. All rights reserved.
+            &copy; {currentYear} AI Central Station by <span className="text-blue-400">Dario George</span>. All rights reserved.
           </div>
           <div className="flex items-center text-gray-400 text-xs sm:text-sm mt-3 sm:mt-0 tech-text">
             <span>Made with</span>

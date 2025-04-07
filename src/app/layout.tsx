@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'AI Tools Hub - Explore AI Applications for Every Need',
+  title: 'AI Central Station - Explore AI Applications for Every Need',
   description: 'Discover a wide range of AI tools for productivity, creativity, coding, and more. Find the perfect AI assistant for your workflow.',
   icons: {
     icon: [

@@ -1,6 +1,6 @@
 # Documentation Page Images Guide
 
-This guide provides instructions for adding and managing images for the AI Toolkit Hub Documentation page.
+This guide provides instructions for adding and managing images for the AI Central Station Documentation page.
 
 ## Directory Structure
 

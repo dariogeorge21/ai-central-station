@@ -1,4 +1,4 @@
-# AI Toolkit Hub
+# AI Central Station
 
 A comprehensive platform for exploring, comparing, and benchmarking AI tools and models.
 
