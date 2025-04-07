@@ -364,7 +364,7 @@ export default function Home() {
                 
                 <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-start">
                   <Link href="/about" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-3 rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all tech-text shadow-md shadow-yellow-900/20 hover:shadow-yellow-900/40">
-                    <FiArrowRight className="mr-2" /> Learn About My Mission
+                    <FiArrowRight className="mr-2" /> Learn More About this Website
                   </Link>
                   <Link href="/about" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500/50 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text backdrop-blur-sm">
                     Contact Me
@@ -413,7 +413,7 @@ export default function Home() {
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </span>
-                  <span>Built with security and privacy in mind</span>
+                  <span>Built to help you navigate the AI </span>
                 </div>
               </div>
             </div>

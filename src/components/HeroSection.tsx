@@ -17,11 +17,12 @@ const HeroSection = () => {
           priority
           sizes="100vw"
           quality={90}
+          unoptimized={true}
         />
-        {/* Overlay with improved contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80" />
-        {/* Additional overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
+        {/* Overlay with improved contrast - reduced opacity for better image visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
+        {/* Additional overlay for better text readability - reduced opacity */}
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
       </div>
 
       {/* Content */}
