@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { JetBrains_Mono } from 'next/font/google'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import ChatBot from '@/components/ChatBot'
 import WelcomeMessage from '@/components/WelcomeMessage'
 
@@ -42,6 +43,7 @@ export default function RootLayout({
         <main className="min-h-screen w-full max-w-full overflow-hidden pt-14">
           {children}
         </main>
+        <Footer />
         <ChatBot />
         <WelcomeMessage />
       </body>
