@@ -1,16 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Github, 
-  Twitter, 
-  Linkedin, 
-  Mail, 
-  Globe, 
-  Heart, 
-  ArrowUpRight, 
+import {
+  Github,
+  Twitter,
+  Linkedin,
+  Mail,
+  Globe,
+  Heart,
+  ArrowUpRight,
   Code,
   BookOpen,
   MessageSquare,
@@ -19,7 +19,9 @@ import {
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
+  const [email, setEmail] = useState('');
+  const [subscriptionStatus, setSubscriptionStatus] = useState('idle'); // 'idle', 'subscribing', 'subscribed'
+
   const mainLinks = [
     { href: '/', label: 'Home' },
     { href: '/explore', label: 'Explore Apps' },
@@ -29,7 +31,7 @@ export default function Footer() {
     { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' }
   ];
-  
+
   const resourceLinks = [
     { href: '/privacy', label: 'Privacy Policy' },
     { href: '/terms', label: 'Terms of Service' },
@@ -37,21 +39,39 @@ export default function Footer() {
     { href: '/contact', label: 'Contact Us' },
     { href: '/sitemap', label: 'Sitemap' }
   ];
-  
+
   const socialLinks = [
     { href: 'https://github.com/dariogeorge21', icon: <Github className="w-5 h-5" />, label: 'GitHub' },
     { href: 'https://twitter.com/dariogeorge21', icon: <Twitter className="w-5 h-5" />, label: 'Twitter' },
     { href: 'https://linkedin.com/in/dariogeorge21', icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
     { href: 'mailto:edu.dariogeorge21@gmail.com', icon: <Mail className="w-5 h-5" />, label: 'Email' }
   ];
-  
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubscribe = () => {
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      return; // Basic email validation
+    }
+
+    setSubscriptionStatus('subscribing');
+
+    // Simulate API call with timeout
+    setTimeout(() => {
+      setSubscriptionStatus('subscribed');
+      // In a real app, you would make an API call to your backend here
+    }, 1500);
+  };
+
   return (
     <footer className="relative mt-16 border-t border-gray-800">
       {/* Blue glow effect */}
       <div className="absolute top-0 left-1/4 w-1/2 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
       <div className="absolute -top-20 right-10 sm:right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
       <div className="absolute -top-20 left-10 sm:left-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl"></div>
-      
+
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
@@ -63,10 +83,10 @@ export default function Footer() {
             <p className="text-gray-300 text-sm tech-text">
               A comprehensive resource for exploring, comparing, and leveraging AI tools in your workflow.
             </p>
-            
+
             <div className="flex space-x-3 pt-4">
               {socialLinks.map((link) => (
-                <a 
+                <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
@@ -79,14 +99,14 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          
+
           {/* Mobile layout: 2 columns side by side for navigation and resources */}
           <div className="sm:col-span-2 lg:col-span-1">
             <h4 className="text-white font-medium mb-4 tech-title">Navigation</h4>
             <ul className="space-y-2">
               {mainLinks.map((link) => (
                 <li key={link.label}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-400 hover:text-blue-400 transition-colors tech-text text-sm flex items-center"
                   >
@@ -97,14 +117,14 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
+
           {/* Resources */}
           <div className="sm:col-span-2 lg:col-span-1">
             <h4 className="text-white font-medium mb-4 tech-title">Resources</h4>
             <ul className="space-y-2">
               {resourceLinks.map((link) => (
                 <li key={link.label}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-400 hover:text-blue-400 transition-colors tech-text text-sm flex items-center"
                   >
@@ -115,28 +135,53 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
+
           {/* Newsletter / Contact */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <h4 className="text-white font-medium mb-4 tech-title">Stay Updated</h4>
             <p className="text-gray-400 text-sm tech-text">
               Subscribe to receive the latest AI tool updates and resources directly to your inbox.
             </p>
-            <div className="relative mt-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full bg-gray-800/60 border border-gray-700/50 rounded-lg py-2 pl-3 pr-10 text-sm text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-              <button
-                className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r-lg bg-blue-600 hover:bg-blue-700 transition-colors text-white text-sm"
+            {subscriptionStatus === 'subscribed' ? (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 text-center"
               >
-                Subscribe
-              </button>
-            </div>
+                <p className="text-green-400 text-sm tech-text">
+                  Thank you for subscribing!
+                </p>
+              </motion.div>
+            ) : (
+              <div className="relative mt-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  disabled={subscriptionStatus === 'subscribing'}
+                  className="w-full bg-gray-800/60 border border-gray-700/50 rounded-lg py-2 pl-3 pr-10 text-sm text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-70"
+                />
+                <button
+                  onClick={handleSubscribe}
+                  disabled={subscriptionStatus === 'subscribing' || !email}
+                  className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r-lg bg-blue-600 hover:bg-blue-700 transition-colors text-white text-sm disabled:bg-blue-800/50 disabled:cursor-not-allowed"
+                >
+                  {subscriptionStatus === 'subscribing' ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1" />
+                      <span>Subscribing...</span>
+                    </>
+                  ) : (
+                    'Subscribe'
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </div>
-        
+
         {/* Features Section */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-10 mb-10 sm:mt-12 sm:mb-12">
           <div className="glassmorphic-card-content p-3 sm:p-4 rounded-xl text-center">
@@ -156,7 +201,7 @@ export default function Footer() {
             <div className="text-xs sm:text-sm text-gray-300 tech-text">Technical Resources</div>
           </div>
         </div>
-        
+
         {/* Bottom section */}
         <div className="pt-6 sm:pt-8 border-t border-gray-800/50 flex flex-col sm:flex-row justify-between items-center">
           <div className="text-gray-400 text-xs sm:text-sm tech-text text-center sm:text-left">
@@ -172,4 +217,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-} 
+}
