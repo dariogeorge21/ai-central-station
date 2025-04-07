@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 import NewsFilters from './components/NewsFilters';
@@ -40,13 +39,13 @@ export default function AINewsPage() {
         throw new Error('Failed to fetch news');
       }
       const data = await response.json();
-      
+
       if (pageNum === 1) {
         setNewsItems(data.news);
       } else {
         setNewsItems((prev) => [...prev, ...data.news]);
       }
-      
+
       setHasMore(data.hasMore);
     } catch (error) {
       console.error('Error fetching news:', error);
@@ -78,18 +77,7 @@ export default function AINewsPage() {
   return (
     <main className="min-h-screen circuit-bg text-white">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center">
-        <div className="absolute inset-0 overflow-hidden">
-          <Image
-            src="/ai-news-hero.jpg"
-            alt="AI News Hero Background"
-            fill
-            className="object-cover opacity-40"
-            priority
-          />
-          {/* Overlay for better readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-transparent" />
-        </div>
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-blue-900/20 to-transparent">
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -125,9 +113,9 @@ export default function AINewsPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="glassmorphic-card-content p-8 rounded-xl">
             <p className="text-lg text-gray-300 leading-relaxed tech-text">
-              Welcome to your definitive source for daily AI news and insights. Our platform aggregates and curates the most 
-              significant developments in artificial intelligence from trusted sources worldwide. Through rigorous verification 
-              and expert curation, we ensure you receive only the highest quality, most relevant updates in the rapidly evolving 
+              Welcome to your definitive source for daily AI news and insights. Our platform aggregates and curates the most
+              significant developments in artificial intelligence from trusted sources worldwide. Through rigorous verification
+              and expert curation, we ensure you receive only the highest quality, most relevant updates in the rapidly evolving
               landscape of AI technology.
             </p>
           </div>
@@ -140,15 +128,15 @@ export default function AINewsPage() {
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
         />
-        
+
         {error && (
           <div className="text-red-500 text-center mb-8 glassmorphic-card-content p-4 rounded-xl">
             {error}
           </div>
         )}
 
-        <NewsGrid 
-          news={newsItems} 
+        <NewsGrid
+          news={newsItems}
           loading={loading}
           page={page}
         />
