@@ -64,6 +64,19 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
+  // Handle body scroll lock when chat is open on mobile
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const handleSendMessage = async (message?: string) => {
     const messageToSend = message || input;
     if ((!messageToSend.trim() || isLoading) && !message) return;
@@ -125,10 +138,10 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating button - smaller on mobile */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-blue-600/20 transition-all duration-300"
+        className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-full shadow-lg hover:shadow-blue-600/20 transition-all duration-300"
       >
         <MessageSquare className="w-5 h-5" />
         <motion.span 
@@ -137,7 +150,7 @@ export default function ChatBot() {
           animate={{ opacity: 1, y: 0 }} 
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="font-medium"
+          className="font-medium hidden sm:inline"
         >
           {rotatingTexts[currentTextIndex]}
         </motion.span>
@@ -147,26 +160,28 @@ export default function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop - fullscreen on mobile */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 md:hidden"
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 sm:bg-black/10"
             />
             
-            {/* Chat container */}
+            {/* Chat container - larger area on mobile */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed bottom-20 right-6 z-50 w-[95%] sm:w-[450px] max-w-full flex flex-col bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl overflow-hidden"
-              style={{ maxHeight: 'calc(100vh - 8rem)' }}
+              className="fixed bottom-0 sm:bottom-20 right-0 sm:right-6 z-50 w-full sm:w-[450px] max-w-full h-[80vh] sm:h-auto flex flex-col bg-gray-900 border border-gray-800 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden"
+              style={{ maxHeight: '80vh' }}
+              onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 bg-gray-800/50 border-b border-gray-700">
+              {/* Header with drag indicator for mobile */}
+              <div className="flex items-center justify-between p-4 bg-gray-800/50 border-b border-gray-700 relative">
+                <div className="absolute top-1.5 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gray-600 rounded-full sm:hidden"></div>
                 <div className="flex items-center gap-2">
                   <Bot className="w-5 h-5 text-blue-400" />
                   <h3 className="font-medium text-white">AI Tools Assistant</h3>
@@ -187,7 +202,7 @@ export default function ChatBot() {
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] p-3 rounded-2xl ${
+                      className={`max-w-[85%] p-3 rounded-2xl ${
                         message.role === 'user'
                           ? 'bg-blue-600 text-white rounded-tr-none'
                           : 'bg-gray-800 text-gray-200 rounded-tl-none'
@@ -200,7 +215,7 @@ export default function ChatBot() {
                 
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="max-w-[80%] p-3 bg-gray-800 text-gray-200 rounded-2xl rounded-tl-none">
+                    <div className="max-w-[85%] p-3 bg-gray-800 text-gray-200 rounded-2xl rounded-tl-none">
                       <Loader2 className="w-5 h-5 animate-spin text-blue-400" />
                     </div>
                   </div>
@@ -209,7 +224,7 @@ export default function ChatBot() {
                 {messages.length === 1 && !isLoading && (
                   <div className="mt-4 space-y-2">
                     <p className="text-xs text-gray-400">Try asking:</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {defaultSuggestions.map((suggestion, index) => (
                         <button
                           key={index}
@@ -226,9 +241,9 @@ export default function ChatBot() {
                 <div ref={messagesEndRef} />
               </div>
               
-              {/* Input */}
+              {/* Input - taller on mobile for better usability */}
               <div className="p-3 border-t border-gray-800 bg-gray-900">
-                <div className="flex items-center gap-2">
+                <div className="flex items-start sm:items-center gap-2">
                   <textarea
                     ref={inputRef}
                     value={input}
@@ -236,13 +251,13 @@ export default function ChatBot() {
                     onKeyDown={handleKeyDown}
                     placeholder="Ask about AI tools, features, or help..."
                     className="flex-1 bg-gray-800 text-white placeholder-gray-400 border border-gray-700 rounded-lg resize-none p-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
-                    rows={1}
+                    rows={2}
                     style={{ maxHeight: '120px' }}
                   />
                   <button
                     onClick={() => handleSendMessage()}
                     disabled={!input.trim() || isLoading}
-                    className={`p-3 rounded-lg ${
+                    className={`p-3 rounded-lg self-stretch ${
                       !input.trim() || isLoading
                         ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
                         : 'bg-blue-600 text-white hover:bg-blue-700'
@@ -254,6 +269,9 @@ export default function ChatBot() {
                       <Send className="w-5 h-5" />
                     )}
                   </button>
+                </div>
+                <div className="text-xs text-center text-gray-500 mt-2 sm:hidden">
+                  Press Enter to send
                 </div>
               </div>
             </motion.div>

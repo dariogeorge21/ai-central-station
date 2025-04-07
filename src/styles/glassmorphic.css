@@ -132,6 +132,26 @@
   background-position: -1px -1px;
 }
 
+/* Mobile-friendly circuit pattern - smaller grid on mobile */
+@media (max-width: 640px) {
+  .circuit-bg {
+    background-size: 15px 15px;
+  }
+}
+
+/* Reduced motion preference support */
+@media (prefers-reduced-motion) {
+  .new-badge,
+  .trending-badge,
+  .specialized-category::after,
+  .neon-glow:hover,
+  .glassmorphic-tool-card:hover {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
@@ -167,11 +187,21 @@
   animation: fadeIn 0.5s ease forwards;
 }
 
+/* Animation delays with responsive adjustments */
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 .delay-500 { animation-delay: 0.5s; }
+
+/* Shorten animation delays on mobile for better UX */
+@media (max-width: 640px) {
+  .delay-100 { animation-delay: 0.05s; }
+  .delay-200 { animation-delay: 0.1s; }
+  .delay-300 { animation-delay: 0.15s; }
+  .delay-400 { animation-delay: 0.2s; }
+  .delay-500 { animation-delay: 0.25s; }
+}
 
 /* Pulse animation for new category label */
 @keyframes pulse {
@@ -190,15 +220,128 @@
   animation: pulse 2s infinite;
 }
 
-/* Media queries for better responsiveness */
+/* Touch-friendly adjustments for mobile */
 @media (max-width: 640px) {
-  .glassmorphic-tool-card {
-    width: 100%;
+  /* Increase touch targets for better mobile experience */
+  button, 
+  a, 
+  .interactive-element {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Adjust spacing for mobile view */
+  .card-spacing {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Improve readability on small screens */
+  .glassmorphic-card-content {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(30, 41, 59, 0.6); /* Slightly more opaque for readability */
   }
 }
 
+/* Tablet optimizations */
 @media (min-width: 641px) and (max-width: 1024px) {
   .category-section h3 {
     font-size: 1.5rem;
+  }
+  
+  /* Better touch targets for tablets */
+  button,
+  a,
+  .interactive-element {
+    min-height: 40px;
+  }
+  
+  /* Card spacing for tablets */
+  .card-spacing {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Container width for better responsive layout */
+.responsive-container {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .responsive-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: 1280px;
+  }
+}
+
+/* Responsive typography */
+.responsive-text-xs {
+  font-size: 0.75rem;
+}
+
+.responsive-text-sm {
+  font-size: 0.875rem;
+}
+
+.responsive-text-base {
+  font-size: 1rem;
+}
+
+.responsive-text-lg {
+  font-size: 1.125rem;
+}
+
+.responsive-text-xl {
+  font-size: 1.25rem;
+}
+
+.responsive-text-2xl {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .responsive-text-xs {
+    font-size: 0.8125rem;
+  }
+  
+  .responsive-text-sm {
+    font-size: 0.9375rem;
+  }
+  
+  .responsive-text-base {
+    font-size: 1.0625rem;
+  }
+  
+  .responsive-text-lg {
+    font-size: 1.25rem;
+  }
+  
+  .responsive-text-xl {
+    font-size: 1.5rem;
+  }
+  
+  .responsive-text-2xl {
+    font-size: 1.75rem;
   }
 } 

@@ -59,6 +59,8 @@ const tools: Tool[] = [
 
 const ToolsSection = () => {
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const observerOptions = {
       root: null,
       rootMargin: '0px',
@@ -82,28 +84,28 @@ const ToolsSection = () => {
   }, [])
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
-      <div className="w-full">
+    <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black px-4 sm:px-6 md:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 font-jetbrains mb-4">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-blue-600 font-jetbrains mb-4">
             Explore Our AI Tools
           </h2>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto font-jetbrains">
+          <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto font-jetbrains">
             Discover powerful AI and design tools to enhance your creative workflow
           </p>
         </div>
 
         {/* Tools Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {tools.map((tool, index) => (
             <Link 
               href={tool.link} 
               key={tool.title}
-              className="tool-card opacity-0 transform translate-y-8 transition-all duration-700 ease-out"
+              className={`tool-card opacity-0 transform translate-y-8 transition-all duration-700 ease-out delay-${index * 100}`}
             >
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-gray-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 group">
-                <div className="relative w-12 h-12 mb-4">
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 sm:p-6 border border-gray-700/50 hover:border-gray-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 group h-full">
+                <div className="relative w-10 h-10 sm:w-12 sm:h-12 mb-4">
                   <Image
                     src={tool.icon}
                     alt={tool.title}
@@ -111,14 +113,14 @@ const ToolsSection = () => {
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
                   {tool.title}
                 </h3>
-                <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
+                <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors mb-4">
                   {tool.description}
                 </p>
-                <div className="mt-4">
-                  <span className={`inline-block px-3 py-1 rounded-full text-sm ${
+                <div className="mt-auto">
+                  <span className={`inline-block px-3 py-1 rounded-full text-xs ${
                     tool.category === 'ai' 
                       ? 'bg-blue-500/20 text-blue-400' 
                       : 'bg-orange-500/20 text-orange-400'
@@ -129,6 +131,16 @@ const ToolsSection = () => {
               </div>
             </Link>
           ))}
+        </div>
+        
+        {/* CTA Button */}
+        <div className="text-center mt-10 sm:mt-12">
+          <Link 
+            href="/explore" 
+            className="inline-block px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-lg shadow-blue-600/20 transition-all duration-300"
+          >
+            Browse All AI Tools
+          </Link>
         </div>
       </div>
     </section>

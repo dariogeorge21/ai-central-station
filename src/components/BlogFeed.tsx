@@ -25,12 +25,10 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     isOpen: boolean;
     title: string;
     url: string;
-    position: { x: number; y: number } | null;
   }>({
     isOpen: false,
     title: '',
-    url: '',
-    position: null
+    url: ''
   });
 
   useEffect(() => {
@@ -61,17 +59,11 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     fetchBlogPosts();
   }, [forceRefresh]);
 
-  const handleShare = (title: string, url: string, event: React.MouseEvent) => {
-    // Get the button's position
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = rect.left + (rect.width / 2);
-    const y = rect.top + (rect.height / 2);
-
+  const handleShare = (title: string, url: string) => {
     setSharePopup({
       isOpen: true,
       title,
-      url,
-      position: { x, y }
+      url
     });
   };
 
@@ -79,8 +71,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     setSharePopup({
       isOpen: false,
       title: '',
-      url: '',
-      position: null
+      url: ''
     });
   };
 
@@ -110,26 +101,26 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
+        <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-20">
-        <h3 className="text-xl text-red-400 mb-4">Oops! Something went wrong</h3>
-        <p className="text-gray-400">{error}</p>
+      <div className="text-center py-12 sm:py-16 md:py-20 px-4">
+        <h3 className="text-lg sm:text-xl text-red-400 mb-4">Oops! Something went wrong</h3>
+        <p className="text-gray-400 text-sm sm:text-base">{error}</p>
       </div>
     );
   }
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-20">
-        <h3 className="text-xl text-gray-300 mb-4">No blog posts found</h3>
-        <p className="text-gray-400">Check back later for new content</p>
+      <div className="text-center py-12 sm:py-16 md:py-20 px-4">
+        <h3 className="text-lg sm:text-xl text-gray-300 mb-4">No blog posts found</h3>
+        <p className="text-gray-400 text-sm sm:text-base">Check back later for new content</p>
       </div>
     );
   }
@@ -158,11 +149,11 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
 
   return (
     <>
-      <div className="text-gray-400 text-sm mb-4">
+      <div className="text-gray-400 text-xs sm:text-sm mb-4 px-1">
         Showing {posts.length} blog posts from various AI research sources
       </div>
       <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -176,44 +167,45 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
               className="bg-gray-800/30 rounded-xl overflow-hidden border border-gray-700/50 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 flex flex-col h-full"
               variants={itemVariants}
             >
-              <div className="px-4 pt-4 flex justify-between items-start">
-                <div className={`text-xs font-medium bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent px-2 py-1 rounded-sm flex items-center`}>
+              <div className="px-3 sm:px-4 pt-3 sm:pt-4 flex justify-between items-start">
+                <div className={`text-xs font-medium bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent px-2 py-1 rounded-sm flex items-center truncate max-w-[70%]`}>
                   {post.source}
                 </div>
                 <div className="flex items-center text-gray-400 text-xs">
-                  <Clock className="w-3 h-3 mr-1" />
-                  <span>{post.pubDate}</span>
+                  <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
+                  <span className="truncate">{post.pubDate}</span>
                 </div>
               </div>
               
-              <div className="p-4 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-gray-100 mb-3 line-clamp-2 hover:text-blue-400 transition-colors group">
+              <div className="p-3 sm:p-4 flex flex-col flex-grow">
+                <h3 className="text-base sm:text-lg font-bold text-gray-100 mb-2 sm:mb-3 line-clamp-2 hover:text-blue-400 transition-colors group">
                   <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
                     {post.title}
                     <span className="block h-0.5 w-0 group-hover:w-full bg-blue-400 transition-all duration-300"></span>
                   </a>
                 </h3>
                 
-                <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-grow">
+                <p className="text-gray-400 text-xs sm:text-sm mb-4 line-clamp-3 flex-grow">
                   {post.description}
                 </p>
                 
-                <div className="flex items-center justify-between mt-auto">
+                <div className="flex items-center justify-between mt-auto pt-2">
                   <a 
                     href={post.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 hover:text-blue-300 py-2 px-4 rounded transition-colors font-medium text-sm"
+                    className="flex items-center bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 hover:text-blue-300 py-1.5 sm:py-2 px-3 sm:px-4 rounded transition-colors font-medium text-xs sm:text-sm"
                   >
-                    Read More <ExternalLink className="ml-2 w-4 h-4" />
+                    Read <span className="hidden sm:inline ml-1">More</span> <ExternalLink className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4" />
                   </a>
                   
                   <button 
-                    className="p-2 rounded hover:bg-gray-700/50 text-gray-400 hover:text-blue-400 transition-colors"
+                    className="p-1.5 sm:p-2 rounded hover:bg-gray-700/50 text-gray-400 hover:text-blue-400 transition-colors"
                     title="Share article"
-                    onClick={(e) => handleShare(post.title, post.link, e)}
+                    onClick={() => handleShare(post.title, post.link)}
+                    aria-label="Share article"
                   >
-                    <Share2 className="w-4 h-4" />
+                    <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               </div>
@@ -227,7 +219,6 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
         onClose={closeSharePopup}
         title={sharePopup.title}
         url={sharePopup.url}
-        buttonPosition={sharePopup.position}
       />
     </>
   );

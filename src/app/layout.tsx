@@ -27,6 +27,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'AI Tools Hub - Explore AI Applications for Every Need',
   description: 'Discover a wide range of AI tools for productivity, creativity, coding, and more. Find the perfect AI assistant for your workflow.',
+  icons: {
+    icon: [
+      { url: '/icon.svg' }
+    ]
+  },
 }
 
 export default function RootLayout({
@@ -36,9 +41,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased`}>
         <Header />
         <main className="min-h-screen w-full max-w-full overflow-hidden pt-14">
