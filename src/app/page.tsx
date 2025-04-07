@@ -75,7 +75,7 @@ export default function Home() {
       
       {/* Section Divider */}
       <div className="relative h-24 bg-gradient-to-b from-gray-900 to-gray-900">
-        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute inset-0 opacity-10 circuit-bg"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
       </div>
       
@@ -128,7 +128,7 @@ export default function Home() {
       
       {/* Section Divider */}
       <div className="relative h-24 bg-gradient-to-b from-gray-900 to-gray-800">
-        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute inset-0 opacity-10 circuit-bg"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
       </div>
       
@@ -193,7 +193,7 @@ export default function Home() {
       
       {/* Section Divider */}
       <div className="relative h-24 bg-gradient-to-b from-gray-800 to-gray-800">
-        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute inset-0 opacity-10 circuit-bg"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
       </div>
       
@@ -253,7 +253,7 @@ export default function Home() {
       
       {/* Section Divider */}
       <div className="relative h-24 bg-gradient-to-b from-gray-800 to-gray-900">
-        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute inset-0 opacity-10 circuit-bg"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
       </div>
       
@@ -307,7 +307,7 @@ export default function Home() {
       
       {/* Section Divider */}
       <div className="relative h-24 bg-gradient-to-b from-gray-900 to-gray-900">
-        <div className="absolute inset-0 bg-[url('/images/circuit-pattern.png')] bg-repeat opacity-10"></div>
+        <div className="absolute inset-0 opacity-10 circuit-bg"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
       </div>
       
@@ -317,34 +317,104 @@ export default function Home() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-70"></div>
         <div className="absolute top-10 right-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-40 left-1/4 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-40 right-1/4 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center p-2 bg-yellow-900/30 rounded-xl mb-4 border border-yellow-500/20">
-              <FiInfo className="text-yellow-500 h-10 w-10" />
+          <div className="flex flex-col items-center mb-12">
+            <div className="relative inline-flex items-center justify-center p-3 bg-yellow-900/40 rounded-2xl mb-5 border border-yellow-500/30 shadow-lg shadow-yellow-900/10">
+              <FiInfo className="text-yellow-400 h-10 w-10" />
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 rounded-2xl blur opacity-50"></div>
             </div>
-            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600 mb-4 tech-title">
+            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600 mb-3 tech-title text-center">
               About This Project
             </h2>
-            <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+            <div className="w-20 h-1 bg-gradient-to-r from-yellow-500/50 to-amber-500/50 rounded-full mb-4"></div>
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto text-center">
               A comprehensive resource centre for AI enthusiasts and professionals, built by a solo developer.
             </p>
           </div>
-          <div className="glassmorphic-card-content p-8 rounded-xl hover:shadow-lg hover:shadow-yellow-900/20 transition-all duration-300">
-            <div className="max-w-3xl mx-auto">
-              <p className="text-gray-300 mb-6">
-                AI Toolkit Centre is a passion project dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence. I've curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI toolsmore accessible to everyone.
-              </p>
-              <p className="text-gray-300 mb-6">
-                This project combines my technical expertise with a vision to create an authoritative and accessible resource for anyone interested in exploring the world of AI tools and technologies.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <Link href="/about" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-3 rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all tech-text">
-                  Learn About My Mission
-                </Link>
-                <Link href="/about" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text">
-                  Contact Me
-                </Link>
+
+          <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+            {/* Main content card */}
+            <div className="glassmorphic-card-content p-8 rounded-xl hover:shadow-lg hover:shadow-yellow-900/20 transition-all duration-300 lg:w-2/3 border border-yellow-500/20">
+              <div className="relative">
+                <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 text-xs font-bold px-3 py-1 rounded-full tech-text shadow-lg transform rotate-2">
+                  Passion Project
+                </div>
+                
+                <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500 mb-4 tech-title">The Mission</h3>
+                
+                <div className="space-y-4">
+                  <p className="text-gray-300 tech-text relative pl-6">
+                    <span className="absolute left-0 top-0 text-yellow-500">◆</span>
+                    AI Toolkit Centre is dedicated to helping developers, researchers, and businesses navigate the rapidly evolving landscape of artificial intelligence.
+                  </p>
+                  
+                  <p className="text-gray-300 tech-text relative pl-6">
+                    <span className="absolute left-0 top-0 text-yellow-500">◆</span>
+                    I've curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI tools more accessible to everyone.
+                  </p>
+                  
+                  <p className="text-gray-300 tech-text relative pl-6">
+                    <span className="absolute left-0 top-0 text-yellow-500">◆</span>
+                    This project combines my technical expertise with a vision to create an authoritative and accessible resource for anyone interested in exploring the world of AI tools.
+                  </p>
+                </div>
+                
+                <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-start">
+                  <Link href="/about" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-3 rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all tech-text shadow-md shadow-yellow-900/20 hover:shadow-yellow-900/40">
+                    <FiArrowRight className="mr-2" /> Learn About My Mission
+                  </Link>
+                  <Link href="/about" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500/50 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text backdrop-blur-sm">
+                    Contact Me
+                  </Link>
+                </div>
+              </div>
+            </div>
+            
+            {/* Stats/Features card */}
+            <div className="lg:w-1/3 flex flex-col gap-4">
+              <div className="glassmorphic-card-content p-6 rounded-xl hover:shadow-lg hover:shadow-yellow-900/20 transition-all duration-300 border border-yellow-500/20 flex-1">
+                <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500 mb-4 tech-title">Project Highlights</h3>
+                
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3">
+                      <FiGrid className="h-4 w-4 text-yellow-400" />
+                    </div>
+                    <div className="tech-text text-gray-300">500+ AI Tools Cataloged</div>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3">
+                      <FiBarChart className="h-4 w-4 text-yellow-400" />
+                    </div>
+                    <div className="tech-text text-gray-300">Interactive Comparisons</div>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3">
+                      <FiCode className="h-4 w-4 text-yellow-400" />
+                    </div>
+                    <div className="tech-text text-gray-300">Developer Resources</div>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3">
+                      <FiBook className="h-4 w-4 text-yellow-400" />
+                    </div>
+                    <div className="tech-text text-gray-300">Comprehensive Guides</div>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="glassmorphic-card-content p-6 rounded-xl hover:shadow-lg hover:shadow-yellow-900/20 transition-all duration-300 border border-yellow-500/20 flex items-center">
+                <div className="flex items-center tech-text text-gray-300">
+                  <span className="mr-3 text-yellow-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                  </span>
+                  <span>Built with security and privacy in mind</span>
+                </div>
               </div>
             </div>
           </div>

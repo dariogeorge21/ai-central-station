@@ -637,13 +637,9 @@ export default function AboutPage() {
               {/* Photo Section - Right on desktop, top on mobile */}
               <div className="lg:order-2 lg:w-1/3 flex justify-center">
                 <div className="relative w-64 h-64 rounded-full overflow-hidden border-4 border-pink-500/30 shadow-lg shadow-pink-500/20">
-                  <Image 
-                    src="https://instagram.fcjb3-4.fna.fbcdn.net/v/t51.2885-19/489030970_1159729825468397_1097616572704413137_n.jpg?_nc_ht=instagram.fcjb3-4.fna.fbcdn.net&_nc_cat=105&_nc_oc=Q6cZ2QGaLahvcfjHeTWNaFd28q5fSjpPQsEWf-5tH4Jv4JWe5HlAIkjiF-gyWaTpR8grfyCbLvXyYOgDhbW-f0nzeWGM&_nc_ohc=_2odZB5-rVcQ7kNvwF6FXxm&_nc_gid=oBo20z5FxUrfTLY84QjUnQ&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AfHtqerQ2e2RuPCE5AF6n1YoqDXfREHRFa0a32OemQchNQ&oe=67F86A2D&_nc_sid=7a9f4b" 
-                    alt="Developer Portrait" 
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    className="rounded-full"
-                  />
+                  <div className="w-full h-full bg-gradient-to-br from-pink-500/50 to-red-500/50 flex items-center justify-center">
+                    <FiUser className="text-white h-32 w-32" />
+                  </div>
                   <div className="absolute inset-0 rounded-full border border-pink-500/10 bg-gradient-to-br from-pink-500/10 to-red-500/10"></div>
                 </div>
               </div>
