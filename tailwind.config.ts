@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         jetbrains: ["var(--font-jetbrains)"],
       },
       keyframes: {

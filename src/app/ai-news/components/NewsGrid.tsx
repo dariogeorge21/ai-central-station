@@ -21,13 +21,13 @@ interface NewsGridProps {
 }
 
 const SkeletonCard = () => (
-  <div className="bg-gray-800 rounded-xl overflow-hidden shadow-xl animate-pulse">
-    <div className="h-48 bg-gray-700" />
+  <div className="glassmorphic-card-content rounded-xl overflow-hidden shadow-xl animate-pulse">
+    <div className="h-48 bg-gray-700/50" />
     <div className="p-6">
-      <div className="h-6 bg-gray-700 rounded mb-4" />
-      <div className="h-4 bg-gray-700 rounded mb-2" />
-      <div className="h-4 bg-gray-700 rounded mb-2" />
-      <div className="h-4 bg-gray-700 rounded w-2/3" />
+      <div className="h-6 bg-gray-700/50 rounded mb-4" />
+      <div className="h-4 bg-gray-700/50 rounded mb-2" />
+      <div className="h-4 bg-gray-700/50 rounded mb-2" />
+      <div className="h-4 bg-gray-700/50 rounded w-2/3" />
     </div>
   </div>
 );

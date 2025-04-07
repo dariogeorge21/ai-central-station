@@ -37,7 +37,7 @@ export default function NewsCard({
       whileHover={{ scale: 1.02 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="bg-gray-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
+      className="glassmorphic-card-content rounded-xl overflow-hidden shadow-xl hover:shadow-blue-900/20 transition-all duration-300 cursor-pointer hover:border-blue-500/30"
     >
       <div className="relative h-48 w-full">
         <Image
@@ -56,14 +56,14 @@ export default function NewsCard({
           transition={{ duration: 0.3 }}
         />
         <div className="absolute top-2 right-2">
-          <span className="bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
+          <span className="bg-blue-600 text-white text-xs font-medium px-2 py-1 rounded-lg">
             {source.name}
           </span>
         </div>
       </div>
       <div className="p-6">
         <motion.h3 
-          className="text-xl font-bold mb-2 text-white transition-all duration-300"
+          className="text-xl font-bold mb-2 text-white transition-all duration-300 tech-title"
           animate={{ 
             lineClamp: isHovered ? 'unset' : 2,
             WebkitLineClamp: isHovered ? 'unset' : 2,
@@ -75,7 +75,7 @@ export default function NewsCard({
           {title}
         </motion.h3>
         {author && (
-          <p className="text-sm text-gray-400 mb-2">
+          <p className="text-sm text-gray-400 mb-2 tech-text">
             By {author}
           </p>
         )}
@@ -88,14 +88,14 @@ export default function NewsCard({
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <p className="text-gray-300 mb-4">
+              <p className="text-gray-300 mb-4 tech-text">
                 {description}
               </p>
               <motion.a
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-blue-600 text-white px-4 py-2 rounded transition-colors hover:bg-blue-700"
+                className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors hover:bg-blue-700"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -104,7 +104,7 @@ export default function NewsCard({
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="flex justify-between items-center text-sm text-gray-400 mt-4">
+        <div className="flex justify-between items-center text-sm text-gray-400 mt-4 tech-text">
           <motion.time 
             dateTime={publishedAt}
             animate={{ opacity: isHovered ? 0.7 : 1 }}

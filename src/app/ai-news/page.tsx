@@ -76,7 +76,7 @@ export default function AINewsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+    <main className="min-h-screen circuit-bg text-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden">
@@ -87,13 +87,15 @@ export default function AINewsPage() {
             className="object-cover opacity-40"
             priority
           />
+          {/* Overlay for better readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-transparent" />
         </div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+            className="text-5xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600 tech-title"
           >
             AI News: Breaking the Boundaries of Innovation
           </motion.h1>
@@ -101,7 +103,7 @@ export default function AINewsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-8 text-gray-300"
+            className="text-xl md:text-2xl mb-8 text-gray-300 tech-text"
           >
             Stay updated with the latest advancements, breakthroughs, and trends in AI from around the globe.
           </motion.p>
@@ -110,7 +112,7 @@ export default function AINewsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             onClick={scrollToNews}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 flex items-center mx-auto gap-2"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 flex items-center mx-auto gap-2"
           >
             Explore Latest Updates
             <FiChevronDown className="animate-bounce" />
@@ -119,14 +121,16 @@ export default function AINewsPage() {
       </section>
 
       {/* Introduction Section */}
-      <section className="py-16 bg-gray-900/50 backdrop-blur-sm">
+      <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-lg text-gray-300 leading-relaxed">
-            Welcome to your definitive source for daily AI news and insights. Our platform aggregates and curates the most 
-            significant developments in artificial intelligence from trusted sources worldwide. Through rigorous verification 
-            and expert curation, we ensure you receive only the highest quality, most relevant updates in the rapidly evolving 
-            landscape of AI technology.
-          </p>
+          <div className="glassmorphic-card-content p-8 rounded-xl">
+            <p className="text-lg text-gray-300 leading-relaxed tech-text">
+              Welcome to your definitive source for daily AI news and insights. Our platform aggregates and curates the most 
+              significant developments in artificial intelligence from trusted sources worldwide. Through rigorous verification 
+              and expert curation, we ensure you receive only the highest quality, most relevant updates in the rapidly evolving 
+              landscape of AI technology.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -138,7 +142,7 @@ export default function AINewsPage() {
         />
         
         {error && (
-          <div className="text-red-500 text-center mb-8 bg-red-500/10 p-4 rounded-lg">
+          <div className="text-red-500 text-center mb-8 glassmorphic-card-content p-4 rounded-xl">
             {error}
           </div>
         )}
@@ -154,7 +158,7 @@ export default function AINewsPage() {
             <button
               onClick={loadMore}
               disabled={loading}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
             >
               {loading ? (
                 <>
@@ -169,8 +173,8 @@ export default function AINewsPage() {
         )}
 
         {!hasMore && newsItems.length > 0 && (
-          <div className="mt-12 text-center p-4 bg-gray-800/50 rounded-lg">
-            <p className="text-gray-300">
+          <div className="mt-12 text-center glassmorphic-card-content p-6 rounded-xl">
+            <p className="text-gray-300 tech-text">
               You've reached the end of available news. Check back later for more updates!
             </p>
           </div>

@@ -1,20 +1,16 @@
 import '@/app/globals.css'
 import '@/styles/glassmorphic.css'
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Space_Grotesk } from 'next/font/google'
 import { JetBrains_Mono } from 'next/font/google'
 import Header from '@/components/Header'
 import ChatBot from '@/components/ChatBot'
 import WelcomeMessage from '@/components/WelcomeMessage'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
   subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  display: 'swap',
 })
 
 // Configure JetBrains Mono for tech typography
@@ -41,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased`}>
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <Header />
         <main className="min-h-screen w-full max-w-full overflow-hidden pt-14">
           {children}

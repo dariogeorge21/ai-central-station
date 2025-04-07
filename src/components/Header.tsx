@@ -48,13 +48,13 @@ const Header = () => {
   return (
     <header className={`fixed w-full backdrop-blur-md z-50 border-b transition-all duration-300 ${
       scrolled 
-        ? 'bg-white/90 dark:bg-black/90 border-gray-200 dark:border-gray-800' 
-        : 'bg-white/70 dark:bg-black/70 border-gray-200/50 dark:border-gray-800/50'
+        ? 'bg-gray-900/90 border-gray-800' 
+        : 'bg-gray-900/70 border-gray-800/50'
     }`}>
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2 z-10">
-            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-orange-500 to-blue-600 bg-clip-text text-transparent">
+            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 bg-clip-text text-transparent">
               AI Toolkit Hub
             </span>
           </Link>
@@ -65,7 +65,7 @@ const Header = () => {
               <Link 
                 key={item.href}
                 href={item.href} 
-                className="px-3 py-2 text-sm lg:text-base text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200 font-medium rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
+                className="px-3 py-2 text-sm lg:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 font-medium rounded-md hover:bg-gray-800/50"
               >
                 {item.label}
               </Link>
@@ -74,7 +74,7 @@ const Header = () => {
 
           {/* Mobile menu button */}
           <button 
-            className="md:hidden text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 p-2 rounded-md z-10"
+            className="md:hidden text-gray-300 hover:text-blue-400 p-2 rounded-md z-10"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
           >
@@ -99,7 +99,7 @@ const Header = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-[57px] bg-white dark:bg-gray-900 z-40 md:hidden"
+            className="fixed inset-0 top-[57px] bg-gray-900 z-40 md:hidden"
           >
             <div className="flex flex-col h-full overflow-y-auto">
               <nav className="flex flex-col p-4 space-y-1">
@@ -107,7 +107,7 @@ const Header = () => {
                   <Link 
                     key={item.href}
                     href={item.href} 
-                    className="py-3 px-4 text-gray-800 dark:text-gray-100 font-medium border-b border-gray-100 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                    className="py-3 px-4 text-gray-300 font-medium border-b border-gray-800 hover:bg-gray-800 hover:text-blue-400 rounded-md transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}

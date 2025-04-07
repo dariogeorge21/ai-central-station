@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AITool, categoryLabels } from '@/data/aiTools';
-import Pagination from './Pagination';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
-import { X, Star, ExternalLink, Info } from 'lucide-react';
+import { AITool, categoryLabels } from '@/data/aiTools';
+import { ChevronLeft, ChevronRight, Star, X } from 'lucide-react';
 
 interface AIToolsGridProps {
   tools: AITool[];
@@ -15,252 +13,124 @@ interface AIToolsGridProps {
   onClearFilters?: () => void;
 }
 
-const ITEMS_PER_PAGE = 32; // Show 32 items per page
+// Items per page for pagination
+const ITEMS_PER_PAGE = 12;
 
+// Tool Card - Compact version for grid view
 const AIToolCard: React.FC<{ tool: AITool }> = ({ tool }) => {
-  const [showPopup, setShowPopup] = useState(false);
-
-  // Determine if the tool is free
-  const isFree = tool.pricing.toLowerCase().includes('free');
-
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="bg-white/5 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden hover:border-emerald-500/30 transition-all duration-300 flex flex-col h-full cursor-pointer"
-        onClick={() => setShowPopup(true)}
-      >
-        {/* Category Label */}
-        <div className="absolute top-3 right-3 z-10">
-          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-800/70 backdrop-blur-sm text-emerald-400 border border-gray-700/50">
-            {tool.categories.length > 0 && categoryLabels[tool.categories[0]]}
-          </span>
-        </div>
-
-        {/* Free Label */}
-        {isFree && (
-          <div className="absolute top-3 left-3 z-10">
-            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-900/70 backdrop-blur-sm text-emerald-300 border border-emerald-700/50">
-              Free
-            </span>
-          </div>
-        )}
-
+    <div className="glassmorphic-tool-card p-4 rounded-xl border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300 h-full flex flex-col">
+      <div className="flex items-start mb-3 gap-3">
         {/* Logo Image */}
-        <div className="relative h-40 overflow-hidden">
+        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-800 relative">
           {tool.logoUrl ? (
-            <Image 
-              src={tool.logoUrl} 
-              alt={`${tool.name} logo`} 
+            <Image
+              src={tool.logoUrl}
+              alt={`${tool.name} logo`}
               fill
-              className="object-cover transition-transform duration-300 hover:scale-105"
+              className="object-cover"
+              sizes="(max-width: 768px) 48px, 48px"
             />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-              <span className="text-2xl font-bold text-emerald-400">{tool.name.charAt(0)}</span>
+            <div className="w-full h-full flex items-center justify-center bg-blue-900/30 text-blue-400 text-xs">
+              {tool.name.substring(0, 2).toUpperCase()}
             </div>
           )}
         </div>
-
-        {/* Tool Info */}
-        <div className="p-5 flex flex-col flex-grow">
-          <h3 className="text-xl font-bold text-gray-100 mb-2">{tool.name}</h3>
-          <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-grow">{tool.description}</p>
-          
-          <div className="flex items-center justify-between">
-            {/* Rating stars if available */}
-            {tool.rating && (
-              <div className="flex items-center">
-                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
-                <span className="text-gray-400 text-xs">{tool.rating}</span>
-              </div>
+        
+        <div>
+          <h3 className="text-base font-semibold text-gray-100 mb-0.5 line-clamp-1 tech-title">
+            {tool.name}
+          </h3>
+          <div className="flex flex-wrap gap-1">
+            {tool.categories.slice(0, 2).map((category) => (
+              <span
+                key={category}
+                className="inline-block text-xs px-1.5 py-0.5 bg-blue-900/30 text-blue-400 rounded"
+              >
+                {categoryLabels[category]}
+              </span>
+            ))}
+            {tool.categories.length > 2 && (
+              <span className="inline-block text-xs px-1.5 py-0.5 bg-gray-800 text-gray-400 rounded">
+                +{tool.categories.length - 2}
+              </span>
             )}
-            
-            {/* Info button */}
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowPopup(true);
-              }}
-              className="text-emerald-400 hover:text-emerald-300 transition-colors"
-              aria-label="View details"
-            >
-              <Info className="w-5 h-5" />
-            </button>
           </div>
         </div>
-      </motion.div>
-
-      {/* Tool Popup */}
-      <AnimatePresence>
-        {showPopup && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
-              onClick={() => setShowPopup(false)}
-            />
-
-            {/* Popup */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 border border-gray-800 rounded-xl shadow-xl z-50 w-[90%] max-w-md max-h-[90vh] overflow-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header with logo */}
-              <div className="relative h-24 bg-gradient-to-r from-gray-800 to-gray-900 flex items-center justify-center">
-                {tool.logoUrl ? (
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-gray-700">
-                    <Image 
-                      src={tool.logoUrl} 
-                      alt={`${tool.name} logo`} 
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-800 to-emerald-600 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">{tool.name.charAt(0)}</span>
-                  </div>
-                )}
-                
-                {/* Price Badge */}
-                <div className="absolute top-4 right-4">
-                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-                    isFree 
-                      ? "bg-emerald-900/70 text-emerald-300 border border-emerald-700/50" 
-                      : "bg-blue-900/70 text-blue-300 border border-blue-700/50"
-                  }`}>
-                    {isFree ? 'Free' : 'Paid'}
-                  </span>
-                </div>
-                
-                {/* Close Button */}
-                <button
-                  onClick={() => setShowPopup(false)}
-                  className="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                {/* Tool Name */}
-                <h2 className="text-2xl font-bold text-gray-100 mb-4">{tool.name}</h2>
-                
-                {/* Main Use */}
-                <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-emerald-400 mb-1">Main Use</h3>
-                  <p className="text-gray-300">{tool.mainUse}</p>
-                </div>
-
-                {/* Pricing */}
-                <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-emerald-400 mb-1">Pricing</h3>
-                  <p className="text-gray-300">{tool.pricing}</p>
-                </div>
-
-                {/* User Experience (if available) */}
-                {tool.userExperience && (
-                  <div className="mb-4">
-                    <h3 className="text-sm font-semibold text-emerald-400 mb-1">User Experience</h3>
-                    <p className="text-gray-300">{tool.userExperience}</p>
-                  </div>
-                )}
-
-                {/* Rating */}
-                {tool.rating && (
-                  <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-emerald-400 mb-1">Rating</h3>
-                    <div className="flex items-center">
-                      {/* Convert 5-star rating to 10-star rating */}
-                      <div className="flex items-center">
-                        {[...Array(10)].map((_, index) => {
-                          // Calculate the rating out of 10 (original rating is out of 5)
-                          const ratingOutOf10 = tool.rating ? tool.rating * 2 : 0;
-                          return (
-                            <Star
-                              key={index}
-                              size={14}
-                              className={`${
-                                index < Math.round(ratingOutOf10)
-                                  ? 'text-yellow-400 fill-yellow-400'
-                                  : 'text-gray-600'
-                              } mr-0.5`}
-                            />
-                          );
-                        })}
-                      </div>
-                      <span className="ml-2 text-gray-300">{(tool.rating * 2).toFixed(1)}/10</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                  {/* Visit Website Button */}
-                  <a
-                    href={tool.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-                  >
-                    Visit Website
-                    <ExternalLink size={16} />
-                  </a>
-
-                  {/* Learn More Button */}
-                  <Link 
-                    href={`/tools/${tool.id}`}
-                    className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium py-2 px-4 rounded-lg transition-colors"
-                  >
-                    Learn More
-                    <Info size={16} />
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+      </div>
+      
+      <p className="text-gray-400 text-sm mb-3 line-clamp-2 flex-grow tech-text">
+        {tool.description}
+      </p>
+      
+      {tool.rating && (
+        <div className="flex items-center gap-1 mb-2">
+          <div className="flex">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={12}
+                className={`${
+                  i < Math.floor(tool.rating || 0)
+                    ? "text-blue-400 fill-blue-400"
+                    : i < (tool.rating || 0)
+                    ? "text-blue-400 fill-blue-400/50"
+                    : "text-gray-600"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-gray-400">{tool.rating.toFixed(1)}</span>
+        </div>
+      )}
+      
+      <a
+        href={tool.websiteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 text-sm bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-3 rounded-lg transition-colors w-full text-center"
+      >
+        Visit Website
+      </a>
+    </div>
   );
 };
 
+// Loading placeholder component
 const LoadingSkeleton: React.FC = () => {
-  const skeletonCards = Array(12).fill(null);
-  
   return (
-    <>
-      {skeletonCards.map((_, index) => (
-        <div 
-          key={`skeleton-${index}`}
-          className="bg-white/5 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden h-[320px] animate-pulse"
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {[...Array(8)].map((_, i) => (
+        <div
+          key={i}
+          className="glassmorphic-card-content animate-pulse p-4 rounded-xl border border-gray-800/50 h-64"
         >
-          <div className="h-40 bg-gray-800"></div>
-          <div className="p-5">
-            <div className="h-6 bg-gray-700 rounded mb-4 w-3/4"></div>
-            <div className="h-4 bg-gray-700 rounded mb-2 w-full"></div>
-            <div className="h-4 bg-gray-700 rounded mb-2 w-5/6"></div>
-            <div className="h-4 bg-gray-700 rounded mb-2 w-4/6"></div>
+          <div className="flex items-start mb-3 gap-3">
+            <div className="w-12 h-12 rounded-lg bg-gray-700/50"></div>
+            <div className="flex-1">
+              <div className="h-5 bg-gray-700/50 rounded w-3/4 mb-1.5"></div>
+              <div className="flex gap-1">
+                <div className="h-3 bg-gray-700/50 rounded w-12"></div>
+                <div className="h-3 bg-gray-700/50 rounded w-12"></div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="h-3 bg-gray-700/50 rounded"></div>
+            <div className="h-3 bg-gray-700/50 rounded"></div>
+            <div className="h-3 bg-gray-700/50 rounded w-3/4"></div>
+          </div>
+          <div className="mt-auto pt-4">
+            <div className="h-8 bg-gray-700/50 rounded mt-auto"></div>
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
+// Main component with pagination
 const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   tools,
   isLoading,
@@ -268,72 +138,138 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   onClearFilters
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [paginatedTools, setPaginatedTools] = useState<AITool[]>([]);
-
-  // Calculate total pages
-  const totalPages = Math.ceil(tools.length / ITEMS_PER_PAGE);
-
-  // Update current page when tools change
+  const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
+  
+  // Reset to first page when tools list changes
   useEffect(() => {
-    // Reset to page 1 when filters change
     setCurrentPage(1);
   }, [tools.length]);
-
-  // Update paginated tools when page or tools change
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    setPaginatedTools(tools.slice(startIndex, endIndex));
-  }, [currentPage, tools]);
-
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(tools.length / ITEMS_PER_PAGE);
+  const currentItems = tools.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+  
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Scroll to top of list
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to top of grid with smooth behavior
+    window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
   };
   
   if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <LoadingSkeleton />
-      </div>
-    );
+    return <LoadingSkeleton />;
   }
-
+  
   if (tools.length === 0) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <p className="text-lg text-gray-400">No tools found. Try adjusting your filters.</p>
+      <div className="glassmorphic-card-content p-8 rounded-xl text-center">
+        <h3 className="text-xl font-semibold text-gray-100 mb-4 tech-title">No AI tools found</h3>
+        <p className="text-gray-400 mb-6 tech-text">
+          Try adjusting your filters or search query to see more results.
+        </p>
+        {onClearFilters && (
+          <button
+            onClick={onClearFilters}
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <X size={16} />
+            Clear Filters
+          </button>
+        )}
       </div>
     );
   }
-
+  
   return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {paginatedTools.map((tool) => (
-          <AIToolCard key={tool.id} tool={tool} />
+    <div>
+      {/* Grid layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {currentItems.map((tool) => (
+          <motion.div
+            key={tool.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <AIToolCard tool={tool} />
+          </motion.div>
         ))}
       </div>
-
-      {/* Results count and pagination */}
-      {!isLoading && tools.length > 0 && (
-        <div className="mt-8 text-center">
-          <p className="text-gray-400 text-sm mb-4">
-            Showing {Math.min((currentPage - 1) * ITEMS_PER_PAGE + 1, tools.length)} - {Math.min(currentPage * ITEMS_PER_PAGE, tools.length)} of {tools.length} results
-          </p>
-
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
+      
+      {/* Pagination controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
+          <div className="text-sm text-gray-400 tech-text">
+            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to{' '}
+            {Math.min(currentPage * ITEMS_PER_PAGE, tools.length)} of {tools.length} tools
+          </div>
+          
+          <div className="flex items-center gap-1 flex-wrap">
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className={`p-2 rounded-lg ${
+                currentPage === 1
+                  ? 'text-gray-600 cursor-not-allowed'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+              }`}
+            >
+              <ChevronLeft size={20} />
+            </button>
+            
+            {[...Array(totalPages)].map((_, i) => {
+              const pageNum = i + 1;
+              // Show limited number of pages with ellipsis for better UX
+              if (
+                pageNum === 1 ||
+                pageNum === totalPages ||
+                (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+              ) {
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm ${
+                      currentPage === pageNum
+                        ? 'bg-blue-600 text-white'
+                        : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              } else if (
+                (pageNum === currentPage - 2 && pageNum > 1) ||
+                (pageNum === currentPage + 2 && pageNum < totalPages)
+              ) {
+                return (
+                  <span key={pageNum} className="text-gray-600 px-1">
+                    ...
+                  </span>
+                );
+              }
+              return null;
+            })}
+            
+            <button
+              onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className={`p-2 rounded-lg ${
+                currentPage === totalPages
+                  ? 'text-gray-600 cursor-not-allowed'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+              }`}
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

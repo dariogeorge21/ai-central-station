@@ -176,13 +176,13 @@ export default function ExplorePage() {
   // Error component
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-500 mb-4">Oops! Something went wrong</h2>
-          <p className="text-gray-400 mb-4">{error}</p>
+      <div className="min-h-screen circuit-bg flex items-center justify-center">
+        <div className="text-center glassmorphic-card-content p-8 rounded-xl">
+          <h2 className="text-2xl font-bold text-red-500 mb-4 tech-title">Oops! Something went wrong</h2>
+          <p className="text-gray-300 mb-4 tech-text">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Try Again
           </button>
@@ -192,12 +192,11 @@ export default function ExplorePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
+    <main className="min-h-screen circuit-bg">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/50 to-teal-900/50" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-transparent" />
         </div>
 
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
@@ -205,7 +204,7 @@ export default function ExplorePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-600"
+            className="text-5xl md:text-6xl font-bold mb-6 tech-title text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600"
           >
             Discover AI Tools
           </motion.h1>
@@ -214,12 +213,12 @@ export default function ExplorePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-8 text-gray-300"
+            className="text-xl md:text-2xl mb-8 text-gray-300 tech-text"
           >
             Explore powerful tools for{' '}
-            <span className="text-emerald-400">
+            <span className="text-blue-400">
               {text}
-              <Cursor cursorColor="#34D399" />
+              <Cursor cursorColor="#60A5FA" />
             </span>
           </motion.p>
 
@@ -228,9 +227,9 @@ export default function ExplorePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             onClick={scrollToContent}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 flex items-center mx-auto gap-2 group"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 flex items-center mx-auto gap-2 group"
           >
-            Learn More
+            Explore Tools
             <ChevronDown className="animate-bounce group-hover:translate-y-1 transition-transform" />
           </motion.button>
         </div>
@@ -246,10 +245,10 @@ export default function ExplorePage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-600">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 tech-title text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600">
               Explore AI Tools
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto tech-text">
               Discover the perfect AI tools to enhance your workflow and boost productivity
             </p>
           </motion.div>
@@ -276,7 +275,7 @@ export default function ExplorePage() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
                 onClick={() => setIsSortOpen(!isSortOpen)}
-                className="flex items-center justify-center gap-2 bg-gray-800 border border-gray-700 text-gray-200 font-medium py-3 px-6 rounded-lg w-full md:w-auto hover:bg-gray-700 transition-all duration-300"
+                className="flex items-center justify-center gap-2 glassmorphic-card-content text-gray-200 font-medium py-3 px-6 rounded-lg w-full md:w-auto hover:bg-gray-800/60 transition-all duration-300"
               >
                 <ArrowUpDown size={18} aria-hidden="true" />
                 Sort By: {sortOption === 'nameAsc' ? 'Name (A-Z)' :
@@ -304,24 +303,24 @@ export default function ExplorePage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-20"
+                      className="absolute right-0 mt-2 w-56 glassmorphic-card-content rounded-lg shadow-xl z-20"
                     >
                       <div className="py-2">
                         <button
                           onClick={() => handleSortChange('mostlyUsed')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'mostlyUsed' ? 'text-emerald-400' : 'text-gray-200'}`}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'mostlyUsed' ? 'text-blue-400' : 'text-gray-200'}`}
                         >
                           Mostly Used
                         </button>
                         <button
                           onClick={() => handleSortChange('nameAsc')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameAsc' ? 'text-emerald-400' : 'text-gray-200'}`}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'nameAsc' ? 'text-blue-400' : 'text-gray-200'}`}
                         >
                           Name (A-Z)
                         </button>
                         <button
                           onClick={() => handleSortChange('nameDesc')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700 ${sortOption === 'nameDesc' ? 'text-emerald-400' : 'text-gray-200'}`}
+                          className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'nameDesc' ? 'text-blue-400' : 'text-gray-200'}`}
                         >
                           Name (Z-A)
                         </button>
@@ -349,7 +348,7 @@ export default function ExplorePage() {
                 placeholder="Search tools by name or description..."
                 value={searchQuery}
                 onChange={handleSearchInput}
-                className="w-full bg-gray-800 border border-gray-700 text-gray-200 pl-12 pr-12 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                className="w-full glassmorphic-card-content text-gray-200 pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
               />
               {searchQuery && (
                 <button
@@ -377,13 +376,13 @@ export default function ExplorePage() {
             className="mb-8"
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-semibold text-gray-200">
+              <h3 className="text-xl font-semibold text-gray-200 tech-text">
                 Showing {filteredTools.length} of {aiTools.length} AI Tools
               </h3>
               {selectedCategories.length > 0 && (
                 <button
                   onClick={() => setSelectedCategories([])}
-                  className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                  className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                 >
                   Clear filters
                 </button>

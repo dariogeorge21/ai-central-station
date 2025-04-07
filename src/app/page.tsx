@@ -342,7 +342,7 @@ export default function Home() {
                 <Link href="/about" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-3 rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all tech-text">
                   Learn About My Mission
                 </Link>
-                <Link href="/contact" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text">
+                <Link href="/about" className="inline-flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300 border border-yellow-500 hover:border-yellow-400 px-6 py-3 rounded-lg transition-all hover:bg-yellow-900/20 tech-text">
                   Contact Me
                 </Link>
               </div>
