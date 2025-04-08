@@ -75,10 +75,12 @@ const Header = () => {
   ]
 
   return (
-    <header className={`fixed w-full backdrop-blur-md z-50 border-b transition-all duration-300 ${
-      scrolled
-        ? 'bg-gray-900/90 border-gray-800'
-        : 'bg-gray-900/70 border-gray-800/50'
+    <header className={`fixed w-full ${!mobileMenuOpen ? 'backdrop-blur-md' : ''} z-50 border-b transition-all duration-300 ${
+      mobileMenuOpen
+        ? 'bg-gray-900 border-gray-800' // Solid background when menu is open
+        : scrolled
+          ? 'bg-gray-900/90 border-gray-800'
+          : 'bg-gray-900/70 border-gray-800/50'
     }`}>
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex justify-between items-center">
@@ -140,7 +142,7 @@ const Header = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-black/70 z-40 md:hidden"
             onClick={() => setMobileMenuOpen(false)} // Close when clicking outside
             aria-hidden="true"
           />
