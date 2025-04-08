@@ -104,25 +104,25 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
-        <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-pink-500"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12 sm:py-16 md:py-20 px-4">
-        <h3 className="text-lg sm:text-xl text-red-400 mb-4">Oops! Something went wrong</h3>
-        <p className="text-gray-400 text-sm sm:text-base">{error}</p>
+      <div className="glassmorphic-card-content p-8 rounded-xl text-center py-12 sm:py-16 md:py-20 px-4">
+        <h3 className="text-lg sm:text-xl text-red-400 mb-4 tech-title">Oops! Something went wrong</h3>
+        <p className="text-gray-300 text-sm sm:text-base tech-text">{error}</p>
       </div>
     );
   }
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-12 sm:py-16 md:py-20 px-4">
-        <h3 className="text-lg sm:text-xl text-gray-300 mb-4">No blog posts found</h3>
-        <p className="text-gray-400 text-sm sm:text-base">Check back later for new content</p>
+      <div className="glassmorphic-card-content p-8 rounded-xl text-center py-12 sm:py-16 md:py-20 px-4">
+        <h3 className="text-lg sm:text-xl text-gray-300 mb-4 tech-title">No blog posts found</h3>
+        <p className="text-gray-300 text-sm sm:text-base tech-text">Check back later for new content</p>
       </div>
     );
   }
@@ -154,13 +154,13 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
       <div className="text-gray-400 text-xs sm:text-sm mb-4 px-1 flex justify-between items-center">
         <span>Showing {posts.length} blog posts from various AI research sources</span>
         {isMockData && (
-          <span className="text-amber-400 text-xs bg-amber-900/30 px-2 py-1 rounded-full">
+          <span className="text-pink-400 text-xs bg-pink-900/30 px-2 py-1 rounded-full">
             Demo Mode
           </span>
         )}
       </div>
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -171,28 +171,28 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
           return (
             <motion.div
               key={`${post.link}-${index}`}
-              className="bg-gray-800/30 rounded-xl overflow-hidden border border-gray-700/50 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 flex flex-col h-full"
+              className="glassmorphic-card-content rounded-xl overflow-hidden hover:shadow-lg hover:shadow-pink-900/20 transition-all duration-300 hover:border-pink-500/30 flex flex-col h-full"
               variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
             >
-              <div className="px-3 sm:px-4 pt-3 sm:pt-4 flex justify-between items-start">
-                <div className={`text-xs font-medium bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent px-2 py-1 rounded-sm flex items-center truncate max-w-[70%]`}>
+              <div className="px-4 pt-4 flex justify-between items-start">
+                <div className={`text-xs font-medium bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent px-2 py-1 rounded-sm flex items-center truncate max-w-[70%] tech-title`}>
                   {post.source}
                 </div>
-                <div className="flex items-center text-gray-400 text-xs">
+                <div className="flex items-center text-gray-400 text-xs tech-text">
                   <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
                   <span className="truncate">{post.pubDate}</span>
                 </div>
               </div>
 
-              <div className="p-3 sm:p-4 flex flex-col flex-grow">
-                <h3 className="text-base sm:text-lg font-bold text-gray-100 mb-2 sm:mb-3 line-clamp-2 hover:text-blue-400 transition-colors group">
+              <div className="p-4 flex flex-col flex-grow">
+                <h3 className="text-base sm:text-lg font-bold text-gray-100 mb-3 line-clamp-2 hover:text-pink-400 transition-colors tech-title">
                   <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
                     {post.title}
-                    <span className="block h-0.5 w-0 group-hover:w-full bg-blue-400 transition-all duration-300"></span>
                   </a>
                 </h3>
 
-                <p className="text-gray-400 text-xs sm:text-sm mb-4 line-clamp-3 flex-grow">
+                <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow tech-text">
                   {post.description}
                 </p>
 
@@ -201,18 +201,18 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
                     href={post.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 hover:text-blue-300 py-1.5 sm:py-2 px-3 sm:px-4 rounded transition-colors font-medium text-xs sm:text-sm"
+                    className="flex items-center bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg transition-colors font-medium text-sm tech-text"
                   >
-                    Read <span className="hidden sm:inline ml-1">More</span> <ExternalLink className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4" />
+                    Read Article <ExternalLink className="ml-2 w-4 h-4" />
                   </a>
 
                   <button
-                    className="p-1.5 sm:p-2 rounded hover:bg-gray-700/50 text-gray-400 hover:text-blue-400 transition-colors"
+                    className="p-2 rounded-full hover:bg-gray-700/50 text-gray-400 hover:text-pink-400 transition-colors"
                     title="Share article"
                     onClick={() => handleShare(post.title, post.link)}
                     aria-label="Share article"
                   >
-                    <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Share2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
