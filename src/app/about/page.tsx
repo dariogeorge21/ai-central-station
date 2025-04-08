@@ -530,7 +530,7 @@ export default function AboutPage() {
       </section>
 
       {/* Connect Section */}
-      <section className="relative py-16 md:py-24 bg-gray-900/50">
+      <section id="connect" className="relative py-16 md:py-24 bg-gray-900/50">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-70"></div>
         <div className="absolute top-20 right-20 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-teal-500/10 rounded-full blur-3xl"></div>
@@ -647,7 +647,7 @@ export default function AboutPage() {
                     />
                     <div className="absolute inset-0 rounded-full border border-pink-500/10 bg-gradient-to-br from-pink-500/10 to-red-500/10 hover:from-pink-500/0 hover:to-red-500/0 transition-all duration-300"></div>
                   </div>
-                  
+
                 </Link>
               </div>
 
