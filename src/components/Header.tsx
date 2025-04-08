@@ -34,6 +34,35 @@ const Header = () => {
     }
   }, [])
 
+  // Handle keyboard events for accessibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Close mobile menu when Escape key is pressed
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [mobileMenuOpen])
+
+  // Prevent body scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileMenuOpen])
+
   // Menu items array for DRY code
   const menuItems = [
     { href: '/', label: 'Home' },
@@ -74,46 +103,80 @@ const Header = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-gray-300 hover:text-blue-400 p-2 rounded-md z-10"
+            className={`md:hidden p-2 rounded-md z-10 transition-all duration-300 ${mobileMenuOpen ? 'bg-blue-600 text-white' : 'text-gray-300 hover:text-blue-400 hover:bg-gray-800/50'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
-            {mobileMenuOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
+            <motion.div
+              animate={mobileMenuOpen ? "open" : "closed"}
+              variants={{
+                open: { rotate: 90 },
+                closed: { rotate: 0 }
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              {mobileMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </motion.div>
           </button>
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       <AnimatePresence>
+        {/* Backdrop overlay */}
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-[57px] bg-gray-900 z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            onClick={() => setMobileMenuOpen(false)} // Close when clicking outside
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Menu panel */}
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: -300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -300 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            id="mobile-menu"
+            className="fixed left-0 top-[57px] h-[calc(100vh-57px)] w-4/5 max-w-sm bg-gray-900/95 border-r border-gray-800 z-50 md:hidden overflow-hidden"
           >
             <div className="flex flex-col h-full overflow-y-auto">
-              <nav className="flex flex-col p-4 space-y-1">
+              <nav className="flex flex-col p-4 space-y-2">
                 {menuItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="py-3 px-4 text-gray-300 font-medium border-b border-gray-800 hover:bg-gray-800 hover:text-blue-400 rounded-md transition-colors"
+                    className="py-4 px-4 text-gray-300 font-medium border-b border-gray-800/50 hover:bg-gray-800/70 hover:text-blue-400 rounded-md transition-all tech-text flex items-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}
                   </Link>
                 ))}
               </nav>
+
+              {/* Additional mobile menu content */}
+              <div className="mt-auto p-6 border-t border-gray-800/50">
+                <div className="text-sm text-gray-500 tech-text">
+                  <p>AI Central Station</p>
+                  <p className="mt-1">Your hub for AI tools and resources</p>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
