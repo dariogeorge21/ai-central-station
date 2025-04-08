@@ -7,7 +7,7 @@ import { mockBlogPosts } from './mockData';
 const RSS_FEEDS = [
   "https://openai.com/blog/rss/",
   "https://ai.googleblog.com/feeds/posts/default",
-  "http://news.mit.edu/topic/artificial-intelligence2/feed",
+  "https://news.mit.edu/topic/artificial-intelligence2/feed", // Changed to HTTPS
   "https://towardsdatascience.com/feed",
   "https://blogs.nvidia.com/blog/category/artificial-intelligence/feed/",
   "https://machinelearningmastery.com/feed/",
@@ -43,13 +43,16 @@ const parser = new Parser({
       ['content:encoded', 'contentEncoded'],
       ['description', 'description'],
       ['dc:creator', 'creator'],
+      ['enclosure', 'enclosure'],
     ],
   },
   headers: {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
     'Accept': 'application/rss+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Origin': 'https://aicentral.vercel.app', // Add origin for CORS
+    'Referer': 'https://aicentral.vercel.app/', // Add referer for CORS
   },
-  timeout: 10000, // 10 second timeout
+  timeout: 8000, // 8 second timeout per feed (reduced to avoid Vercel timeouts)
   maxRedirects: 5,
 });
 
@@ -120,11 +123,15 @@ async function fetchRssFeeds(): Promise<any[]> {
   const articles: any[] = [];
   articleCache = {}; // Reset cache for new fetch
   const currentTime = Date.now();
+  let successfulFeeds = 0;
 
   // Fetch and parse each RSS feed with a timeout
   await Promise.all(RSS_FEEDS.map(async (feedUrl) => {
     try {
+      console.log(`Fetching feed: ${feedUrl}`);
       const feed = await parser.parseURL(feedUrl);
+      successfulFeeds++;
+      console.log(`Successfully parsed feed: ${feedUrl}, found ${feed.items.length} items`);
       const sourceName = feed.title || new URL(feedUrl).hostname.replace(/^www\./, '');
 
       // Process each item in the feed
@@ -191,7 +198,8 @@ async function fetchRssFeeds(): Promise<any[]> {
         }
       });
     } catch (feedError) {
-      console.error(`Error fetching feed ${feedUrl}:`, feedError);
+      console.error(`Error fetching feed ${feedUrl}:`, feedError instanceof Error ? feedError.message : feedError);
+      // Continue with other feeds
     }
   }));
 
@@ -210,8 +218,17 @@ async function fetchRssFeeds(): Promise<any[]> {
     }
   });
 
+  console.log(`Successfully fetched ${successfulFeeds} out of ${RSS_FEEDS.length} feeds`);
+
+  // Check if we have any articles
+  if (articles.length === 0) {
+    console.error('No articles were fetched from any feeds');
+    throw new Error('Failed to fetch any articles from RSS feeds');
+  }
+
   // Limit to the most recent 50 articles and shuffle them
   const recentArticles = shuffleArray(articles.slice(0, 50));
+  console.log(`Returning ${recentArticles.length} articles`);
 
   // Update cache
   lastFetchedArticles = recentArticles;
@@ -226,37 +243,35 @@ export async function GET() {
 
     // Always shuffle the articles when returning them
     if (currentTime - lastFetchTime < CACHE_TIME && lastFetchedArticles.length > 0) {
+      console.log('Returning cached articles:', lastFetchedArticles.length);
       return NextResponse.json({ articles: shuffleArray(lastFetchedArticles) });
     }
 
-    // Set a timeout for the entire operation
+    // Set a timeout for the entire operation (increased to 30 seconds for Vercel)
     const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('RSS feed fetching timed out')), 15000);
+      setTimeout(() => reject(new Error('RSS feed fetching timed out')), 30000);
     });
 
     // Try to fetch real data with a timeout
     try {
+      console.log('Fetching RSS feeds...');
       const fetchPromise = fetchRssFeeds();
-      const result = await Promise.race([fetchPromise, timeoutPromise]);
+      const result = await Promise.race([fetchPromise, timeoutPromise]) as any[];
+      console.log('Successfully fetched articles:', result.length);
       return NextResponse.json({ articles: result });
     } catch (fetchError) {
       console.error('Error or timeout fetching RSS feeds:', fetchError);
       // Fall back to mock data
+      console.log('Falling back to mock data due to fetch error');
       return NextResponse.json({
         articles: shuffleArray(mockBlogPosts.articles),
         isMockData: true
       });
     }
-
-    // This code is now moved to the fetchRssFeeds function
-    // and will be called via the Promise.race above
-    return NextResponse.json({
-      articles: shuffleArray(mockBlogPosts.articles),
-      isMockData: true
-    });
   } catch (error) {
-    console.error('Error fetching RSS feeds:', error);
+    console.error('Error in GET handler:', error);
     // Return mock data instead of an error
+    console.log('Falling back to mock data due to general error');
     return NextResponse.json({
       articles: shuffleArray(mockBlogPosts.articles),
       isMockData: true

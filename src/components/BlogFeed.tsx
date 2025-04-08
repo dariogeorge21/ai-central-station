@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Clock, Share2, ChevronLeft, ChevronRight } from 'lucide-react';
 import SharePopup from './SharePopup';
+import FallbackBlogPosts from './FallbackBlogPosts';
 
 type BlogPost = {
   title: string;
@@ -44,22 +45,36 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
 
         // Add a cache-busting parameter when forceRefresh is true
         const url = `/api/rss-feeds?t=${Date.now()}`; // Always add timestamp to ensure fresh content
+        console.log('Fetching blog posts from:', url);
 
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          // Add these options to prevent caching issues
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch blog posts: ${response.statusText}`);
+          throw new Error(`Failed to fetch blog posts: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
+        console.log('Received blog data:', data);
+
         const fetchedPosts = data.articles || [];
+        if (fetchedPosts.length === 0) {
+          console.warn('Received empty articles array');
+        }
+
         setAllPosts(fetchedPosts);
         setTotalPages(Math.ceil(fetchedPosts.length / postsPerPage));
         setIsMockData(data.isMockData || false);
         setError(null);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching blog posts:', err);
-        setError('Failed to load blog posts. Please try again later.');
+        setError(`Failed to load blog posts. ${err.message || 'Please try again later.'}`);
       } finally {
         setLoading(false);
       }
@@ -143,21 +158,11 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
   }
 
   if (error) {
-    return (
-      <div className="glassmorphic-card-content p-8 rounded-xl text-center py-12 sm:py-16 md:py-20 px-4">
-        <h3 className="text-lg sm:text-xl text-red-400 mb-4 tech-title">Oops! Something went wrong</h3>
-        <p className="text-gray-300 text-sm sm:text-base tech-text">{error}</p>
-      </div>
-    );
+    return <FallbackBlogPosts errorMessage={error} />;
   }
 
   if (allPosts.length === 0) {
-    return (
-      <div className="glassmorphic-card-content p-8 rounded-xl text-center py-12 sm:py-16 md:py-20 px-4">
-        <h3 className="text-lg sm:text-xl text-gray-300 mb-4 tech-title">No blog posts found</h3>
-        <p className="text-gray-300 text-sm sm:text-base tech-text">Check back later for new content</p>
-      </div>
-    );
+    return <FallbackBlogPosts errorMessage="No blog posts found. Check back later for new content." />;
   }
 
   // Function to generate a random gradient for blog cards
