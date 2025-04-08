@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Parser from 'rss-parser';
 import { parse } from 'node-html-parser';
+import { mockBlogPosts } from './mockData';
 
 // Define RSS feed sources
 const RSS_FEEDS = [
@@ -28,7 +29,7 @@ const RSS_FEEDS = [
 
 // Keywords for relevance filtering
 const RELEVANT_KEYWORDS = [
-  "ai", "machine learning", "deep learning", "gpt", "artificial intelligence", 
+  "ai", "machine learning", "deep learning", "gpt", "artificial intelligence",
   "neural network", "nlp", "robot", "data science", "transformer", "computer vision",
   "reinforcement learning", "pytorch", "tensorflow", "keras", "ml", "llm",
   "large language model", "stable diffusion", "generative ai"
@@ -64,21 +65,21 @@ const CACHE_TIME = 30 * 60 * 1000;
 function extractImageFromHTML(content: string): string {
   try {
     if (!content) return '';
-    
+
     // Parse the HTML content
     const root = parse(content);
-    
+
     // Try to find the first image
     const img = root.querySelector('img');
     if (img && img.getAttribute('src')) {
       const src = img.getAttribute('src') || '';
-      
+
       // Ensure image URL is absolute
       if (src.startsWith('http')) {
         return src;
       }
     }
-    
+
     return '';
   } catch (error) {
     console.error('Error extracting image from HTML:', error);
@@ -90,11 +91,11 @@ function extractImageFromHTML(content: string): string {
 function cleanDescription(html: string): string {
   try {
     if (!html) return '';
-    
+
     // Remove all HTML tags and decode entities
     const root = parse(html);
     const text = root.textContent || '';
-    
+
     // Limit to a reasonable length
     return text.slice(0, 300) + (text.length > 300 ? '...' : '');
   } catch (error) {
@@ -114,117 +115,151 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
+// Function to fetch and process RSS feeds
+async function fetchRssFeeds(): Promise<any[]> {
+  const articles: any[] = [];
+  articleCache = {}; // Reset cache for new fetch
+  const currentTime = Date.now();
+
+  // Fetch and parse each RSS feed with a timeout
+  await Promise.all(RSS_FEEDS.map(async (feedUrl) => {
+    try {
+      const feed = await parser.parseURL(feedUrl);
+      const sourceName = feed.title || new URL(feedUrl).hostname.replace(/^www\./, '');
+
+      // Process each item in the feed
+      feed.items.forEach(item => {
+        const title = item.title || '';
+        const link = item.link || '';
+        const pubDate = item.pubDate || item.isoDate || '';
+
+        // Try multiple content fields that might contain the content
+        const fullContent =
+          item.contentEncoded ||
+          item.content ||
+          item.description ||
+          '';
+
+        // Try to extract image from various sources
+        let imageUrl = '';
+
+        // Check for media content
+        if (item.media && item.media.$ && item.media.$.url) {
+          imageUrl = item.media.$.url;
+        }
+        // Check for enclosures (attachments, often images)
+        else if (item.enclosure && item.enclosure.url) {
+          imageUrl = item.enclosure.url;
+        }
+        // Try to extract from content
+        else {
+          imageUrl = extractImageFromHTML(fullContent);
+        }
+
+        // Clean the description to use as summary
+        const description = cleanDescription(fullContent);
+
+        // Format the date consistently
+        let formattedDate = 'Unknown date';
+        try {
+          const date = new Date(pubDate);
+          formattedDate = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+        } catch (e) {
+          console.error(`Error parsing date: ${pubDate}`, e);
+        }
+
+        // Check if article is relevant and not a duplicate
+        const contentText = (title + ' ' + description).toLowerCase();
+        const isRelevant = RELEVANT_KEYWORDS.some(keyword => contentText.includes(keyword));
+
+        if (isRelevant && !articleCache[link]) {
+          articleCache[link] = true;
+
+          // Add article to the results
+          articles.push({
+            title,
+            link,
+            pubDate: formattedDate,
+            description,
+            source: sourceName,
+            imageUrl
+          });
+        }
+      });
+    } catch (feedError) {
+      console.error(`Error fetching feed ${feedUrl}:`, feedError);
+    }
+  }));
+
+  // Sort articles by date (newest first) and shuffle within each day
+  articles.sort((a, b) => {
+    try {
+      const dateA = new Date(a.pubDate);
+      const dateB = new Date(b.pubDate);
+      if (dateA.toDateString() === dateB.toDateString()) {
+        // If same day, randomize order
+        return Math.random() - 0.5;
+      }
+      return dateB.getTime() - dateA.getTime();
+    } catch (e) {
+      return 0;
+    }
+  });
+
+  // Limit to the most recent 50 articles and shuffle them
+  const recentArticles = shuffleArray(articles.slice(0, 50));
+
+  // Update cache
+  lastFetchedArticles = recentArticles;
+  lastFetchTime = currentTime;
+
+  return recentArticles;
+}
+
 export async function GET() {
   try {
     const currentTime = Date.now();
-    
+
     // Always shuffle the articles when returning them
     if (currentTime - lastFetchTime < CACHE_TIME && lastFetchedArticles.length > 0) {
       return NextResponse.json({ articles: shuffleArray(lastFetchedArticles) });
     }
 
-    const articles: any[] = [];
-    articleCache = {}; // Reset cache for new fetch
-    
-    // Fetch and parse each RSS feed with a timeout
-    await Promise.all(RSS_FEEDS.map(async (feedUrl) => {
-      try {
-        const feed = await parser.parseURL(feedUrl);
-        const sourceName = feed.title || new URL(feedUrl).hostname.replace(/^www\./, '');
-        
-        // Process each item in the feed
-        feed.items.forEach(item => {
-          const title = item.title || '';
-          const link = item.link || '';
-          const pubDate = item.pubDate || item.isoDate || '';
-          
-          // Try multiple content fields that might contain the content
-          const fullContent = 
-            item.contentEncoded || 
-            item.content || 
-            item.description || 
-            '';
-          
-          // Try to extract image from various sources
-          let imageUrl = '';
-          
-          // Check for media content
-          if (item.media && item.media.$ && item.media.$.url) {
-            imageUrl = item.media.$.url;
-          } 
-          // Check for enclosures (attachments, often images)
-          else if (item.enclosure && item.enclosure.url) {
-            imageUrl = item.enclosure.url;
-          }
-          // Try to extract from content
-          else {
-            imageUrl = extractImageFromHTML(fullContent);
-          }
-          
-          // Clean the description to use as summary
-          const description = cleanDescription(fullContent);
-          
-          // Format the date consistently
-          let formattedDate = 'Unknown date';
-          try {
-            const date = new Date(pubDate);
-            formattedDate = date.toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            });
-          } catch (e) {
-            console.error(`Error parsing date: ${pubDate}`, e);
-          }
-          
-          // Check if article is relevant and not a duplicate
-          const contentText = (title + ' ' + description).toLowerCase();
-          const isRelevant = RELEVANT_KEYWORDS.some(keyword => contentText.includes(keyword));
-          
-          if (isRelevant && !articleCache[link]) {
-            articleCache[link] = true;
-            
-            // Add article to the results
-            articles.push({
-              title,
-              link,
-              pubDate: formattedDate,
-              description,
-              source: sourceName,
-              imageUrl
-            });
-          }
-        });
-      } catch (feedError) {
-        console.error(`Error fetching feed ${feedUrl}:`, feedError);
-      }
-    }));
-    
-    // Sort articles by date (newest first) and shuffle within each day
-    articles.sort((a, b) => {
-      try {
-        const dateA = new Date(a.pubDate);
-        const dateB = new Date(b.pubDate);
-        if (dateA.toDateString() === dateB.toDateString()) {
-          // If same day, randomize order
-          return Math.random() - 0.5;
-        }
-        return dateB.getTime() - dateA.getTime();
-      } catch (e) {
-        return 0;
-      }
+    // Set a timeout for the entire operation
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('RSS feed fetching timed out')), 15000);
     });
-    
-    // Limit to the most recent 50 articles and shuffle them
-    const recentArticles = shuffleArray(articles.slice(0, 50));
-    
-    // Update cache
-    lastFetchedArticles = recentArticles;
-    lastFetchTime = currentTime;
-    
-    return NextResponse.json({ articles: recentArticles });
+
+    // Try to fetch real data with a timeout
+    try {
+      const fetchPromise = fetchRssFeeds();
+      const result = await Promise.race([fetchPromise, timeoutPromise]);
+      return NextResponse.json({ articles: result });
+    } catch (fetchError) {
+      console.error('Error or timeout fetching RSS feeds:', fetchError);
+      // Fall back to mock data
+      return NextResponse.json({
+        articles: shuffleArray(mockBlogPosts.articles),
+        isMockData: true
+      });
+    }
+
+    // This code is now moved to the fetchRssFeeds function
+    // and will be called via the Promise.race above
+    return NextResponse.json({
+      articles: shuffleArray(mockBlogPosts.articles),
+      isMockData: true
+    });
   } catch (error) {
     console.error('Error fetching RSS feeds:', error);
-    return NextResponse.json({ error: 'Failed to fetch RSS feeds', details: String(error) }, { status: 500 });
+    // Return mock data instead of an error
+    return NextResponse.json({
+      articles: shuffleArray(mockBlogPosts.articles),
+      isMockData: true
+    });
   }
-} 
+}

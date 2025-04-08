@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
+import { mockNewsData } from './mockData';
 
 async function fetchNewsFromAPI(page: number, category: string = 'all') {
   const apiKey = process.env.NEWS_API_KEY;
+
+  // If API key is not available, use mock data
   if (!apiKey) {
-    throw new Error('NEWS_API_KEY is not configured in environment variables');
+    console.warn('NEWS_API_KEY is not configured. Using mock data instead.');
+    return useMockData(page, category);
   }
 
   // Calculate dates for the last 7 days
@@ -17,7 +21,7 @@ async function fetchNewsFromAPI(page: number, category: string = 'all') {
   // Build the API URL
   const baseUrl = 'https://newsapi.org/v2/everything';
   const pageSize = page === 1 ? 18 : 9; // 18 items for first page, 9 for subsequent pages
-  
+
   // Construct search query based on category
   let query = 'artificial intelligence OR AI technology OR machine learning';
   if (category !== 'all') {
@@ -37,14 +41,40 @@ async function fetchNewsFromAPI(page: number, category: string = 'all') {
   try {
     const response = await fetch(url.toString());
     if (!response.ok) {
-      throw new Error(`NewsAPI request failed: ${response.statusText}`);
+      console.error(`NewsAPI request failed: ${response.statusText}`);
+      return useMockData(page, category);
     }
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching news:', error);
-    throw error;
+    // Fall back to mock data on any error
+    return useMockData(page, category);
   }
+}
+
+// Function to use mock data when the API is unavailable
+function useMockData(page: number, category: string = 'all') {
+  // Filter mock data based on category if needed
+  let filteredArticles = mockNewsData.articles;
+  if (category !== 'all') {
+    const categoryLower = category.toLowerCase();
+    filteredArticles = mockNewsData.articles.filter(article =>
+      article.title.toLowerCase().includes(categoryLower) ||
+      article.description.toLowerCase().includes(categoryLower)
+    );
+  }
+
+  // Calculate pagination
+  const pageSize = page === 1 ? 18 : 9;
+  const startIndex = page === 1 ? 0 : (page - 1) * 9;
+  const endIndex = startIndex + pageSize;
+
+  // Return paginated results
+  return {
+    articles: filteredArticles.slice(startIndex, endIndex),
+    totalResults: filteredArticles.length
+  };
 }
 
 export async function GET(request: Request) {
@@ -61,9 +91,16 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('Error in API route:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch news' },
-      { status: 500 }
-    );
+
+    // Use mock data as a fallback
+    const page = 1;
+    const category = 'all';
+    const mockData = useMockData(page, category);
+
+    return NextResponse.json({
+      news: mockData.articles,
+      hasMore: mockData.articles.length > 18,
+      isMockData: true
+    });
   }
-} 
+}

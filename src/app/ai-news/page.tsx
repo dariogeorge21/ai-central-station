@@ -27,6 +27,7 @@ export default function AINewsPage() {
   const [hasMore, setHasMore] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [error, setError] = useState<string | null>(null);
+  const [isMockData, setIsMockData] = useState(false);
 
   const fetchNews = useCallback(async (pageNum: number) => {
     try {
@@ -47,6 +48,7 @@ export default function AINewsPage() {
       }
 
       setHasMore(data.hasMore);
+      setIsMockData(data.isMockData || false);
     } catch (error) {
       console.error('Error fetching news:', error);
       setError('Failed to load news. Please try again later.');
@@ -139,6 +141,7 @@ export default function AINewsPage() {
           news={newsItems}
           loading={loading}
           page={page}
+          isMockData={isMockData}
         />
 
         {hasMore && (

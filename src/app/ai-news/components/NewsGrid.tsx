@@ -18,6 +18,7 @@ interface NewsGridProps {
   news: NewsItem[];
   loading: boolean;
   page: number;
+  isMockData?: boolean;
 }
 
 const SkeletonCard = () => (
@@ -32,19 +33,27 @@ const SkeletonCard = () => (
   </div>
 );
 
-export default function NewsGrid({ news, loading, page }: NewsGridProps) {
+export default function NewsGrid({ news, loading, page, isMockData = false }: NewsGridProps) {
   // Calculate the number of skeleton cards to show based on the page
   const skeletonCount = page === 1 ? 18 : 9; // 18 skeletons for first page, 9 for subsequent pages
   const existingNewsCount = news.length;
   const shouldShowSkeletons = loading && page > 1;
 
   return (
-    <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <>
+      {isMockData && (
+        <div className="flex justify-end mb-4">
+          <span className="text-amber-400 text-xs bg-amber-900/30 px-3 py-1.5 rounded-full">
+            Demo Mode - Sample Data
+          </span>
+        </div>
+      )}
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
       {/* Render existing news items */}
       {news.map((item, index) => (
         <NewsCard key={`${item.url}-${index}`} {...item} />
@@ -68,5 +77,6 @@ export default function NewsGrid({ news, loading, page }: NewsGridProps) {
         </>
       )}
     </motion.div>
+    </>
   );
-} 
+}

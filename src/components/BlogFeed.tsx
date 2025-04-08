@@ -21,6 +21,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMockData, setIsMockData] = useState(false);
   const [sharePopup, setSharePopup] = useState<{
     isOpen: boolean;
     title: string;
@@ -35,18 +36,19 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     const fetchBlogPosts = async () => {
       try {
         setLoading(true);
-        
+
         // Add a cache-busting parameter when forceRefresh is true
         const url = `/api/rss-feeds?t=${Date.now()}`; // Always add timestamp to ensure fresh content
-          
+
         const response = await fetch(url);
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch blog posts: ${response.statusText}`);
         }
-        
+
         const data = await response.json();
         setPosts(data.articles || []);
+        setIsMockData(data.isMockData || false);
         setError(null);
       } catch (err) {
         console.error('Error fetching blog posts:', err);
@@ -139,20 +141,25 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
       'from-red-500 to-pink-500',
       'from-yellow-500 to-orange-500'
     ];
-    
+
     // Use the seed to deterministically pick a gradient
     const seedSum = seed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const gradientIndex = seedSum % gradients.length;
-    
+
     return gradients[gradientIndex];
   };
 
   return (
     <>
-      <div className="text-gray-400 text-xs sm:text-sm mb-4 px-1">
-        Showing {posts.length} blog posts from various AI research sources
+      <div className="text-gray-400 text-xs sm:text-sm mb-4 px-1 flex justify-between items-center">
+        <span>Showing {posts.length} blog posts from various AI research sources</span>
+        {isMockData && (
+          <span className="text-amber-400 text-xs bg-amber-900/30 px-2 py-1 rounded-full">
+            Demo Mode
+          </span>
+        )}
       </div>
-      <motion.div 
+      <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
         variants={containerVariants}
         initial="hidden"
@@ -160,7 +167,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
       >
         {posts.map((post, index) => {
           const gradientClass = generateGradient(post.source);
-          
+
           return (
             <motion.div
               key={`${post.link}-${index}`}
@@ -176,7 +183,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
                   <span className="truncate">{post.pubDate}</span>
                 </div>
               </div>
-              
+
               <div className="p-3 sm:p-4 flex flex-col flex-grow">
                 <h3 className="text-base sm:text-lg font-bold text-gray-100 mb-2 sm:mb-3 line-clamp-2 hover:text-blue-400 transition-colors group">
                   <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
@@ -184,13 +191,13 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
                     <span className="block h-0.5 w-0 group-hover:w-full bg-blue-400 transition-all duration-300"></span>
                   </a>
                 </h3>
-                
+
                 <p className="text-gray-400 text-xs sm:text-sm mb-4 line-clamp-3 flex-grow">
                   {post.description}
                 </p>
-                
+
                 <div className="flex items-center justify-between mt-auto pt-2">
-                  <a 
+                  <a
                     href={post.link}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -198,8 +205,8 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
                   >
                     Read <span className="hidden sm:inline ml-1">More</span> <ExternalLink className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4" />
                   </a>
-                  
-                  <button 
+
+                  <button
                     className="p-1.5 sm:p-2 rounded hover:bg-gray-700/50 text-gray-400 hover:text-blue-400 transition-colors"
                     title="Share article"
                     onClick={() => handleShare(post.title, post.link)}
@@ -222,4 +229,4 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
       />
     </>
   );
-} 
+}
