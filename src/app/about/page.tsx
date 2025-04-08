@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  FiInfo, 
-  FiGrid, 
-  FiLayers, 
-  FiArrowRight, 
-  FiGithub, 
-  FiTwitter, 
+import {
+  FiInfo,
+  FiGrid,
+  FiLayers,
+  FiArrowRight,
+  FiGithub,
+  FiTwitter,
   FiLinkedin,
   FiMail,
   FiCode,
@@ -41,14 +41,14 @@ export default function AboutPage() {
     { label: 'Updates', value: 'Weekly', icon: <FiCpu /> }
   ]
 
-  // Featured tool categories 
+  // Featured tool categories
   const featuredCategories: ToolCategory[] = [
-    'chatbots', 
-    'code', 
-    'design', 
-    'productivity', 
-    'writing', 
-    'search-engines', 
+    'chatbots',
+    'code',
+    'design',
+    'productivity',
+    'writing',
+    'search-engines',
     'models',
     'music'
   ]
@@ -84,9 +84,9 @@ export default function AboutPage() {
         {/* Decorative elements */}
         <div className="absolute top-10 right-10 w-40 h-40 bg-yellow-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 left-10 w-60 h-60 bg-amber-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -101,17 +101,17 @@ export default function AboutPage() {
             <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-8">
               An independent project dedicated to making AI tools accessible, understandable, and useful for everyone.
             </p>
-            
+
             {/* Stats */}
-            <motion.div 
+            <motion.div
               className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
               {stats.map((stat, index) => (
-                <motion.div 
-                  key={index} 
+                <motion.div
+                  key={index}
                   className="glassmorphic-card-content p-4 rounded-xl"
                   variants={itemVariants}
                 >
@@ -126,13 +126,13 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-      
+
       {/* Mission Section */}
       <section className="relative py-16 md:py-24">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-70"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
+          <motion.div
             className="glassmorphic-card-content p-8 md:p-12 rounded-xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -143,20 +143,20 @@ export default function AboutPage() {
               <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600 mb-6 tech-title">
                 My Mission
               </h2>
-              
+
               <div className="space-y-6 text-gray-300">
                 <p>
                   AI Central Station was created to serve as a comprehensive resource center for AI enthusiasts, developers, researchers, and businesses navigating the rapidly evolving landscape of artificial intelligence tools.
                 </p>
-                
+
                 <p>
                   In a world where new AI tools emerge daily, finding the right solution for your specific needs can be overwhelming. This project aims to simplify that process by providing clear, organized information about the most powerful AI tools available today.
                 </p>
-                
+
                 <p>
                   Whether you're looking for productivity enhancements, creative tools, developer resources, or specialized AI applications, this hub offers curated selections with practical insights to help you make informed decisions.
                 </p>
-                
+
                 <div className="flex items-center p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
                   <FiHeart className="text-yellow-500 w-6 h-6 mr-4 flex-shrink-0" />
                   <p className="text-yellow-200 italic">
@@ -168,15 +168,15 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-      
+
       {/* Tools Coverage Section */}
       <section className="relative py-16 md:py-24 bg-gray-900/50">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-70"></div>
         <div className="absolute top-20 right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -193,8 +193,8 @@ export default function AboutPage() {
               The hub covers a wide range of AI tools across various categories to support different needs and use cases.
             </p>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4"
             variants={containerVariants}
             initial="hidden"
@@ -202,7 +202,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
           >
             {featuredCategories.map((category) => (
-              <motion.div 
+              <motion.div
                 key={category}
                 className="glassmorphic-card-content p-4 rounded-xl group hover:bg-blue-900/20 transition-all duration-300 cursor-pointer"
                 variants={itemVariants}
@@ -218,7 +218,7 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </motion.div>
-          
+
           <div className="text-center mt-10">
             <Link href="/explore" className="inline-flex items-center justify-center gap-2 text-blue-400 hover:text-blue-300 border border-blue-500 hover:border-blue-400 px-6 py-3 rounded-lg transition-all hover:bg-blue-900/20 tech-text">
               View All Categories <FiArrowRight className="ml-1 group-hover:translate-x-1 transition-transform" />
@@ -226,16 +226,16 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Vision Section */}
       <section className="relative py-16 md:py-24">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-70"></div>
         <div className="absolute top-20 left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row gap-8">
-            <motion.div 
+            <motion.div
               className="lg:w-1/2"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -252,7 +252,7 @@ export default function AboutPage() {
                 <p>
                   The AI landscape is evolving at an unprecedented pace, and AI Central Station will continue to grow alongside it. My vision for the future includes:
                 </p>
-                
+
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <FiArrowRight className="text-purple-400 mt-1 mr-3 flex-shrink-0" />
@@ -277,8 +277,8 @@ export default function AboutPage() {
                 </ul>
               </div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="lg:w-1/2"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -295,7 +295,7 @@ export default function AboutPage() {
                 <p>
                   This project is built with a focus on:
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="glassmorphic-card-content p-4 rounded-xl border border-blue-500/20">
                     <h3 className="text-blue-400 font-medium mb-2 tech-title">User-Centric Design</h3>
@@ -303,21 +303,21 @@ export default function AboutPage() {
                       Creating an intuitive interface that makes exploring AI tools simple and enjoyable.
                     </p>
                   </div>
-                  
+
                   <div className="glassmorphic-card-content p-4 rounded-xl border border-purple-500/20">
                     <h3 className="text-purple-400 font-medium mb-2 tech-title">Comprehensive Reviews</h3>
                     <p className="text-sm">
                       Providing detailed, unbiased information about each tool's capabilities and limitations.
                     </p>
                   </div>
-                  
+
                   <div className="glassmorphic-card-content p-4 rounded-xl border border-indigo-500/20">
                     <h3 className="text-indigo-400 font-medium mb-2 tech-title">Modern Technology</h3>
                     <p className="text-sm">
                       Built using cutting-edge web technologies for performance and responsiveness.
                     </p>
                   </div>
-                  
+
                   <div className="glassmorphic-card-content p-4 rounded-xl border border-blue-500/20">
                     <h3 className="text-blue-400 font-medium mb-2 tech-title">Continuous Updates</h3>
                     <p className="text-sm">
@@ -330,15 +330,15 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Technology Stack Section - NEW */}
       <section className="relative py-16 md:py-24 bg-gray-900/50">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-70"></div>
         <div className="absolute top-20 right-20 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-sky-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -355,10 +355,10 @@ export default function AboutPage() {
               The technical architecture and components that power the AI Central Station platform.
             </p>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Core Technologies */}
-            <motion.div 
+            <motion.div
               className="glassmorphic-card-content p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -378,7 +378,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">React framework enabling server-side rendering, static site generation, and API routes in a single project.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-cyan-900/30 p-2 rounded-lg mr-4">
                     <FiMonitor className="text-cyan-400 h-5 w-5" />
@@ -388,7 +388,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">Frontend library for building dynamic and responsive user interfaces with component-based architecture.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-cyan-900/30 p-2 rounded-lg mr-4">
                     <FiRefreshCw className="text-cyan-400 h-5 w-5" />
@@ -398,7 +398,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">Strongly typed programming language that enhances code quality and developer experience.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-cyan-900/30 p-2 rounded-lg mr-4">
                     <FiSmartphone className="text-cyan-400 h-5 w-5" />
@@ -408,7 +408,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">Utility-first CSS framework for rapid UI development with responsive and modern design.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-cyan-900/30 p-2 rounded-lg mr-4">
                     <FiDatabase className="text-cyan-400 h-5 w-5" />
@@ -420,9 +420,9 @@ export default function AboutPage() {
                 </div>
               </div>
             </motion.div>
-            
+
             {/* Key Features & Pages */}
-            <motion.div 
+            <motion.div
               className="glassmorphic-card-content p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -442,7 +442,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">Dynamic hero section with animated elements and content sections showcasing key platform features.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-sky-900/30 p-2 rounded-lg mr-4">
                     <FiSearch className="text-sky-400 h-5 w-5" />
@@ -452,7 +452,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">Interactive tool discovery with filtering, search, and sorting capabilities, using client-side data processing.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-sky-900/30 p-2 rounded-lg mr-4">
                     <FiBookOpen className="text-sky-400 h-5 w-5" />
@@ -462,7 +462,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">MDX-powered documentation with AI generated summary, syntax highlighting, interactive examples, and responsive layouts.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-sky-900/30 p-2 rounded-lg mr-4">
                     <FiFileText className="text-sky-400 h-5 w-5" />
@@ -472,7 +472,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-400">Static content generation for blog posts with rich media support and SEO optimization.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-sky-900/30 p-2 rounded-lg mr-4">
                     <FiClock className="text-sky-400 h-5 w-5" />
@@ -485,9 +485,9 @@ export default function AboutPage() {
               </div>
             </motion.div>
           </div>
-          
+
           {/* Additional Tech Details */}
-          <motion.div 
+          <motion.div
             className="glassmorphic-card-content p-6 rounded-xl mt-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -506,7 +506,7 @@ export default function AboutPage() {
                   Optimized with code splitting, image optimization, and lazy loading for fast loading times. Uses Next.js Edge functions for API routes.
                 </p>
               </div>
-              
+
               <div className="p-4 border border-sky-500/20 rounded-lg">
                 <h4 className="text-sky-400 font-medium mb-2 flex items-center">
                   <FiServer className="mr-2 h-4 w-4" /> Deployment
@@ -515,7 +515,7 @@ export default function AboutPage() {
                   Hosted on Vercel with continuous integration/deployment pipeline from GitHub repository. Automatic previews for pull requests.
                 </p>
               </div>
-              
+
               <div className="p-4 border border-blue-500/20 rounded-lg">
                 <h4 className="text-blue-400 font-medium mb-2 flex items-center">
                   <FiDatabase className="mr-2 h-4 w-4" /> Data Management
@@ -528,15 +528,15 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-      
+
       {/* Connect Section */}
       <section className="relative py-16 md:py-24 bg-gray-900/50">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-70"></div>
         <div className="absolute top-20 right-20 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-teal-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -548,26 +548,26 @@ export default function AboutPage() {
             </h2>
 
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="flex flex-col md:flex-row justify-center gap-6 max-w-4xl mx-auto"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <motion.a 
-              href="mailto:edu.dariogeorge2@gmail.com" 
+            <motion.a
+              href="mailto:edu.dariogeorge2@gmail.com"
               className="flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-4 rounded-lg hover:from-green-700 hover:to-teal-700 transition-all tech-text"
               variants={itemVariants}
             >
               <FiMail className="w-5 h-5" />
               Contact Me
             </motion.a>
-            
-            <motion.a 
-              href="https://github.com/dariogeorge21" 
-              target="_blank" 
+
+            <motion.a
+              href="https://github.com/dariogeorge21"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-6 py-4 rounded-lg transition-all tech-text hover:bg-gray-800/50"
               variants={itemVariants}
@@ -575,10 +575,10 @@ export default function AboutPage() {
               <FiGithub className="w-5 h-5" />
               GitHub
             </motion.a>
-            
-            <motion.a 
-              href="https://twitter.com/dariogeorge21" 
-              target="_blank" 
+
+            <motion.a
+              href="https://twitter.com/dariogeorge21"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-6 py-4 rounded-lg transition-all tech-text hover:bg-gray-800/50"
               variants={itemVariants}
@@ -586,10 +586,10 @@ export default function AboutPage() {
               <FiTwitter className="w-5 h-5" />
               Twitter
             </motion.a>
-            
-            <motion.a 
-              href="https://linkedin.com/in/dariogeorge21" 
-              target="_blank" 
+
+            <motion.a
+              href="https://linkedin.com/in/dariogeorge21"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-6 py-4 rounded-lg transition-all tech-text hover:bg-gray-800/50"
               variants={itemVariants}
@@ -600,15 +600,15 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-      
+
       {/* About Me Section - NEW */}
       <section className="relative py-16 md:py-24">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-70"></div>
         <div className="absolute top-20 right-20 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-red-500/10 rounded-full blur-3xl"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -625,8 +625,8 @@ export default function AboutPage() {
               The creator and developer behind AI Central Station.
             </p>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="glassmorphic-card-content p-8 rounded-xl overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -636,14 +636,21 @@ export default function AboutPage() {
             <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
               {/* Photo Section - Right on desktop, top on mobile */}
               <div className="lg:order-2 lg:w-1/3 flex justify-center">
-                <div className="relative w-64 h-64 rounded-full overflow-hidden border-4 border-pink-500/30 shadow-lg shadow-pink-500/20">
-                  <div className="w-full h-full bg-gradient-to-br from-pink-500/50 to-red-500/50 flex items-center justify-center">
-                    <FiUser className="text-white h-32 w-32" />
+                <Link href="https://github.com/dariogeorge21" target="_blank" rel="noopener noreferrer" className="block">
+                  <div className="relative w-64 h-64 rounded-full overflow-hidden border-4 border-pink-500/30 shadow-lg shadow-pink-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-pink-500/30 hover:scale-105 cursor-pointer">
+                    <Image
+                      src="/images/about/profile-photo.jpg.jpg"
+                      alt="Dario George - Profile Photo"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                    <div className="absolute inset-0 rounded-full border border-pink-500/10 bg-gradient-to-br from-pink-500/10 to-red-500/10 hover:from-pink-500/0 hover:to-red-500/0 transition-all duration-300"></div>
                   </div>
-                  <div className="absolute inset-0 rounded-full border border-pink-500/10 bg-gradient-to-br from-pink-500/10 to-red-500/10"></div>
-                </div>
+                  
+                </Link>
               </div>
-              
+
               {/* Resume Section - Left on desktop, bottom on mobile */}
               <div className="lg:order-1 lg:w-2/3 space-y-6 text-gray-300">
                 <h3 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-600 mb-2 tech-title">
@@ -652,12 +659,12 @@ export default function AboutPage() {
                 <p className="text-lg text-pink-200">
                   Full Stack Developer & AI Enthusiast
                 </p>
-                
+
                 <div className="space-y-4">
                   <p>
                     I'm a passionate developer building web applications and digital products. My journey with AI began in 2024, and I've been fascinated by its potential to transform how we work.
                   </p>
-                  
+
                   <div className="pt-2">
                     <h4 className="text-pink-400 font-medium mb-2">Core Skills:</h4>
                     <div className="flex flex-wrap gap-2">
@@ -668,7 +675,7 @@ export default function AboutPage() {
                       ))}
                     </div>
                   </div>
-                  
+
                   {/* <div className="pt-2">
                     <h4 className="text-pink-400 font-medium mb-2">Professional Experience:</h4>
                     <div className="space-y-3">
@@ -684,7 +691,7 @@ export default function AboutPage() {
                       </div>
                     </div>
                   </div> */}
-                  
+
                   <div className="pt-2">
                     <h4 className="text-pink-400 font-medium mb-2">Why I Built AI Central Station:</h4>
                     <p>
@@ -697,11 +704,11 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-      
+
       {/* Final CTA */}
       <section className="relative py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
+          <motion.div
             className="glassmorphic-card-content p-8 md:p-12 rounded-xl text-center border border-yellow-500/20"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -714,8 +721,8 @@ export default function AboutPage() {
             <p className="text-gray-300 text-lg max-w-3xl mx-auto mb-8">
               Discover the perfect AI tools to enhance your workflow, boost creativity, or solve complex problems.
             </p>
-            <Link 
-              href="/explore" 
+            <Link
+              href="/explore"
               className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-8 py-4 rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all tech-text text-lg"
             >
               Explore AI Tools <FiArrowRight className="ml-1" />
