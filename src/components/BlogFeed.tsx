@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Clock, Share2 } from 'lucide-react';
+import { ExternalLink, Clock, Share2, ChevronLeft, ChevronRight } from 'lucide-react';
 import SharePopup from './SharePopup';
 
 type BlogPost = {
@@ -15,13 +15,17 @@ type BlogPost = {
 
 interface BlogFeedProps {
   forceRefresh?: boolean;
+  postsPerPage?: number;
 }
 
-export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedProps) {
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [currentPosts, setCurrentPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isMockData, setIsMockData] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [sharePopup, setSharePopup] = useState<{
     isOpen: boolean;
     title: string;
@@ -32,6 +36,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     url: ''
   });
 
+  // Fetch blog posts
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
@@ -47,7 +52,9 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
         }
 
         const data = await response.json();
-        setPosts(data.articles || []);
+        const fetchedPosts = data.articles || [];
+        setAllPosts(fetchedPosts);
+        setTotalPages(Math.ceil(fetchedPosts.length / postsPerPage));
         setIsMockData(data.isMockData || false);
         setError(null);
       } catch (err) {
@@ -59,7 +66,14 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     };
 
     fetchBlogPosts();
-  }, [forceRefresh]);
+  }, [forceRefresh, postsPerPage]);
+
+  // Update current posts when page changes or all posts are updated
+  useEffect(() => {
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    setCurrentPosts(allPosts.slice(indexOfFirstPost, indexOfLastPost));
+  }, [currentPage, allPosts, postsPerPage]);
 
   const handleShare = (title: string, url: string) => {
     setSharePopup({
@@ -75,6 +89,25 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
       title: '',
       url: ''
     });
+  };
+
+  // Pagination controls
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of the blog section
+    document.getElementById('content')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      goToPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      goToPage(currentPage + 1);
+    }
   };
 
   // Animation variants for staggered children
@@ -118,7 +151,7 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
     );
   }
 
-  if (posts.length === 0) {
+  if (allPosts.length === 0) {
     return (
       <div className="glassmorphic-card-content p-8 rounded-xl text-center py-12 sm:py-16 md:py-20 px-4">
         <h3 className="text-lg sm:text-xl text-gray-300 mb-4 tech-title">No blog posts found</h3>
@@ -152,7 +185,10 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
   return (
     <>
       <div className="text-gray-400 text-xs sm:text-sm mb-4 px-1 flex justify-between items-center">
-        <span>Showing {posts.length} blog posts from various AI research sources</span>
+        <span>
+          Showing {currentPosts.length} of {allPosts.length} blog posts
+          (Page {currentPage} of {totalPages})
+        </span>
         {isMockData && (
           <span className="text-pink-400 text-xs bg-pink-900/30 px-2 py-1 rounded-full">
             Demo Mode
@@ -164,8 +200,9 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
+        key={`page-${currentPage}`} // Key to force re-render animation when page changes
       >
-        {posts.map((post, index) => {
+        {currentPosts.map((post, index) => {
           const gradientClass = generateGradient(post.source);
 
           return (
@@ -220,6 +257,72 @@ export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
           );
         })}
       </motion.div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="mt-12 flex flex-col items-center">
+          <div className="glassmorphic-card-content p-4 rounded-xl">
+            <div className="flex items-center justify-center space-x-2">
+              {/* Previous Page Button */}
+              <button
+                onClick={goToPreviousPage}
+                disabled={currentPage === 1}
+                className={`flex items-center justify-center w-10 h-10 rounded-lg transition-colors ${currentPage === 1 ? 'text-gray-500 cursor-not-allowed' : 'text-pink-400 hover:bg-pink-900/20'}`}
+                aria-label="Previous page"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center space-x-1">
+                {/* Generate page number buttons */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => {
+                  // Show current page, first page, last page, and pages around current page
+                  const shouldShow =
+                    pageNumber === 1 ||
+                    pageNumber === totalPages ||
+                    (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1);
+
+                  // Show ellipsis for gaps
+                  if (!shouldShow) {
+                    // Show ellipsis only once between gaps
+                    if (pageNumber === 2 || pageNumber === totalPages - 1) {
+                      return (
+                        <span key={`ellipsis-${pageNumber}`} className="text-gray-500 px-2">
+                          ...
+                        </span>
+                      );
+                    }
+                    return null;
+                  }
+
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => goToPage(pageNumber)}
+                      className={`w-10 h-10 rounded-lg transition-colors tech-text ${pageNumber === currentPage ? 'bg-pink-600 text-white' : 'text-gray-300 hover:bg-pink-900/20'}`}
+                      aria-label={`Page ${pageNumber}`}
+                      aria-current={pageNumber === currentPage ? 'page' : undefined}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Next Page Button */}
+              <button
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+                className={`flex items-center justify-center w-10 h-10 rounded-lg transition-colors ${currentPage === totalPages ? 'text-gray-500 cursor-not-allowed' : 'text-pink-400 hover:bg-pink-900/20'}`}
+                aria-label="Next page"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <SharePopup
         isOpen={sharePopup.isOpen}
