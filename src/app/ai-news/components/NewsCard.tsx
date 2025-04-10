@@ -35,14 +35,8 @@ export default function NewsCard({
     setIsClicked(!isClicked);
   };
 
-  const handleButtonClick = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => {
-    event.stopPropagation(); // Stop the click event from propagating to the card
-  };
-
-  return (
-    <motion.article
+    return (
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="bg-card-background rounded-xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer w-full"
@@ -82,22 +76,22 @@ export default function NewsCard({
             </p>
           </div>
         )}
-        <a
-          onClick={handleButtonClick}
-          href={url}
-          target="_blank"
-          
-          rel="noopener noreferrer"
-          className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors hover:bg-blue-700"
-        >
-          Read Full Article
-        </a>
-        <div className="flex justify-between items-center text-sm text-white mt-4">
+        <div className="flex justify-between items-center text-sm text-white mt-3">
           <time dateTime={publishedAt}>
             {format(new Date(publishedAt), 'MMM d, yyyy')}
           </time>
         </div>
+        <div className="flex justify-between items-center text-sm text-white mt-2">
+          <a
+          
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors hover:bg-blue-700"
+          >
+          Read Full Article
+          </a>
+        </div>
       </div>
-    </motion.article>
+    </motion.div>
   );
-} 
