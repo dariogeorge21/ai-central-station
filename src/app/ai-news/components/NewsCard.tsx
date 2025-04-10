@@ -29,7 +29,7 @@ export default function NewsCard({
   const [imageError, setImageError] = useState(false);
 
   const fallbackImage =
-    'https://source.unsplash.com/random/800x600?ai,technology';
+    'https://coingeek.com/wp-content/uploads/2023/07/Artificial-Intelligence-2-jpg.webp';
 
   const handleCardClick = () => {
     setIsClicked(!isClicked);
