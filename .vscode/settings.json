@@ -1,4 +1,6 @@
 {
   "css.lint.unknownAtRules": "ignore",
-  "css.lint.compatibleVendorPrefixes": "ignore"
+  "css.lint.compatibleVendorPrefixes": "ignore",
+  "IDX.aI.enableInlineCompletion": true,
+  "IDX.aI.enableCodebaseIndexing": true
 } 
