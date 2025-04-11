@@ -105,7 +105,7 @@ const Header = () => {
 
           {/* Mobile menu button */}
           <button
-            className={`md:hidden p-2 rounded-md z-10 transition-all duration-300 ${mobileMenuOpen ? 'bg-blue-600 text-white' : 'text-gray-300 hover:text-blue-400 hover:bg-gray-800/50'}`}
+            className={`md:hidden p-2 rounded-md z-10 transition-all duration-300 ${mobileMenuOpen ? 'bg-blue-00 text-white' : 'text-gray-300 hover:text-blue-400 hover:bg-gray-800/50'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
             aria-expanded={mobileMenuOpen}
@@ -114,20 +114,16 @@ const Header = () => {
             <motion.div
               animate={mobileMenuOpen ? "open" : "closed"}
               variants={{
-                open: { rotate: 90 },
+                open: { rotate: 0 },
                 closed: { rotate: 0 }
               }}
               transition={{ duration: 0.2 }}
             >
-              {mobileMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
+              
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-              )}
+              
             </motion.div>
           </button>
         </div>
