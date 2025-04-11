@@ -42,7 +42,7 @@ export default function Documentation() {
           <div className="flex items-center justify-center mb-4">
             <FiCode className="text-blue-400 w-8 h-8 mr-3" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-600 tech-title mb-0">
-              AI Tools Explorer
+              AI Documentation
             </h1>
             <FiGrid className="text-orange-400 w-8 h-8 ml-3" />
           </div>
