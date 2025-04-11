@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import { useState, MouseEvent } from 'react';
+import { useState } from 'react';
 
 interface NewsCardProps {
   title: string;
@@ -35,7 +35,7 @@ export default function NewsCard({
     setIsClicked(!isClicked);
   };
 
-    return (
+  return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -45,7 +45,7 @@ export default function NewsCard({
       <div className="relative h-48 w-full">
         <Image
           src={!imageError && urlToImage ? urlToImage : fallbackImage}
-          alt={title}
+          alt={title || "News image"} // Provide a more descriptive alt text if possible, or remove the alt attribute if the image is decorative.
           fill
           className="object-cover"
           onError={() => setImageError(true)}
@@ -88,6 +88,7 @@ export default function NewsCard({
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors hover:bg-blue-700"
+          aria-label="Read full article (opens in a new tab)"
           >
           Read Full Article
           </a>
@@ -95,3 +96,4 @@ export default function NewsCard({
       </div>
     </motion.div>
   );
+}
