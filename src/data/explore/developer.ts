@@ -1,0 +1,121 @@
+import { AITool } from '../types';
+
+export const developer: AITool[] = [
+  {
+    id: 'openai-api',
+    name: 'OpenAI API',
+    description: 'Access to GPT-3, GPT-4 models, and Codex for various AI applications',
+    logoUrl: 'https://th.bing.com/th/id/OIP.rGJmE3TC0tntzTFXJIsUQwHaHa?rs=1&pid=ImgDetMain',
+    categories: ['models', 'developer'],
+    mainUse: 'Integrate AI capabilities into applications with state-of-the-art language models',
+    pricing: 'Pay-per-use pricing based on tokens and model used',
+    otherUses: 'Text generation, summarization, translation, code generation',
+    userExperience: 'Developer-friendly API with comprehensive documentation',
+    websiteUrl: 'https://openai.com/api/',
+    rating: 5
+  },
+  {
+    id: 'github-copilot',
+    name: 'GitHub Copilot',
+    description: 'AI pair programmer that suggests code and functions in real-time',
+    logoUrl: 'https://techstory.in/wp-content/uploads/2022/06/OIP-7.jpeg',
+    categories: ['code', 'developer'],
+    mainUse: 'AI pair programmer for code suggestions and completion',
+    pricing: '$10/month or $100/year, free for students',
+    otherUses: 'Learning programming, exploring solutions, code documentation',
+    userExperience: 'Seamless integration with code editors like VS Code',
+    websiteUrl: 'https://github.com/features/copilot',
+    rating: 5
+  },
+  {
+    id: 'cursor',
+    name: 'Cursor',
+    description: 'AI-first code editor built for pair programming',
+    logoUrl: 'https://custom.typingmind.com/assets/models/cursor.png',
+    categories: ['code', 'developer'],
+    mainUse: 'AI-assisted coding and development',
+    pricing: 'Free tier with premium plans',
+    otherUses: 'Code explanation, debugging, refactoring',
+    userExperience: 'Code editor with integrated AI capabilities',
+    websiteUrl: 'https://cursor.sh/',
+    rating: 5
+  },
+  {
+    id: 'tabnine',
+    name: 'Tabnine',
+    description: 'AI-powered code completion tool for developers',
+    logoUrl: 'https://res.cloudinary.com/dvzkzccvn/images/f_auto,q_auto/v1694154415/Tabnine/Tabnine.jpg?_i=AA',
+    categories: ['code', 'developer'],
+    mainUse: 'AI-powered code completion and suggestion',
+    pricing: 'Free tier with Pro plans starting at $12/month',
+    otherUses: 'Learning new languages, improving code quality',
+    userExperience: 'Works with multiple programming languages and IDEs',
+    websiteUrl: 'https://www.tabnine.com/',
+    rating: 4
+  },
+  {
+    id: 'sourcegraph-cody',
+    name: 'Sourcegraph Cody',
+    description: 'AI coding assistant that understands your entire codebase',
+    logoUrl: 'https://a-us.storyblok.com/f/1014951/400x400/1ef743556e/sourcegraph-cody-logo.jpg/m/250x250',
+    categories: ['code', 'developer'],
+    mainUse: 'AI-powered code assistance with codebase understanding',
+    pricing: 'Free tier with premium plans for teams',
+    otherUses: 'Code search, documentation, onboarding',
+    userExperience: 'IDE extensions and web interface',
+    websiteUrl: 'https://sourcegraph.com/cody',
+    rating: 4
+  },
+  {
+    id: 'anthropic-api',
+    name: 'Anthropic API',
+    description: 'Access to Claude family of AI assistants for various applications',
+    logoUrl: 'https://image.cnbcfm.com/api/v1/image/107320283-1697736965856-gettyimages-1734163998-omarques_19102023_TECHPOL-1.jpeg?v=1709514408&w=1920&h=1080',
+    categories: ['models', 'developer'],
+    mainUse: 'Integrate Claude AI into applications',
+    pricing: 'Pay-per-token with volume discounts',
+    otherUses: 'Content moderation, customer support, research',
+    userExperience: 'Well-documented API with safety features',
+    websiteUrl: 'https://www.anthropic.com/api',
+    rating: 5
+  },
+  {
+    id: 'codewhisperer',
+    name: 'Amazon CodeWhisperer',
+    description: 'AI coding assistant from AWS for multiple programming languages',
+    logoUrl: 'https://d1.awsstatic.com/codewhisper/icon_cw_serviceicon.65af1ed185a8674249a5aa38894f469e974714d3.png',
+    categories: ['code', 'developer'],
+    mainUse: 'AI code suggestions and generation',
+    pricing: 'Free for individual developers, premium for business',
+    otherUses: 'Code completion, security scanning, learning',
+    userExperience: 'IDE integration with multiple editors',
+    websiteUrl: 'https://aws.amazon.com/codewhisperer/',
+    rating: 4
+  },
+  {
+    id: 'devin',
+    name: 'Devin',
+    description: 'Autonomous AI software engineer that can understand, plan, and execute coding tasks',
+    logoUrl: 'https://th.bing.com/th/id/OIP.soadmhG6q4XGPrhfpG4QkgHaHa?rs=1&pid=ImgDetMain',
+    categories: ['code', 'developer'],
+    mainUse: 'Autonomous software development',
+    pricing: 'Waitlist/Limited access',
+    otherUses: 'Debugging, code review, project planning',
+    userExperience: 'End-to-end project handling and development',
+    websiteUrl: 'https://www.cognition.dev/',
+    rating: 5
+  },
+  {
+    id: 'fritz-ai',
+    name: 'Fritz AI',
+    description: 'AI platform for building machine learning features into mobile apps',
+    logoUrl: 'https://iconape.com/wp-content/png_logo_vector/fritz-logo.png',
+    categories: ['developer', 'productivity'],
+    mainUse: 'On-device machine learning for mobile apps',
+    pricing: 'Free tier with enterprise options',
+    otherUses: 'Image segmentation, object detection, style transfer',
+    userExperience: 'Developer tools and SDKs for mobile AI',
+    websiteUrl: 'https://www.fritz.ai/',
+    rating: 4
+  }
+];

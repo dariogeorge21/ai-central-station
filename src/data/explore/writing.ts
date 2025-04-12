@@ -1,0 +1,121 @@
+import { AITool } from '../types';
+
+export const writing: AITool[] = [
+    {
+      id: 'grammarly',
+      name: 'Grammarly',
+      description: 'AI-powered writing assistant for grammar, style, and tone',
+      logoUrl: 'https://th.bing.com/th/id/OIP.ib25Y8C7MuLgV57KREii2AHaFj?rs=1&pid=ImgDetMain',
+      categories: ['writing', 'productivity'],
+      mainUse: 'Grammar and writing improvement',
+      pricing: 'Free with premium plans starting at $12/month',
+      otherUses: 'Content editing, style adjustment, plagiarism checking',
+      userExperience: 'Browser extension and desktop app',
+      websiteUrl: 'https://www.grammarly.com/',
+      rating: 5
+    },
+    {
+      id: 'wordtune',
+      name: 'Wordtune',
+      description: 'AI writing assistant and content summarizer',
+      logoUrl: 'https://www.pngall.com/wp-content/uploads/15/WordTune-Logo-PNG-Pic.png',
+      categories: ['writing', 'browser-extensions', 'productivity'],
+      mainUse: 'Improving writing and summarizing content',
+      pricing: 'Free tier with premium plans starting at $9.99/month',
+      otherUses: 'Content rewriting, tone adjustment, summarization',
+      userExperience: 'Browser extension with clean interface',
+      websiteUrl: 'https://www.wordtune.com/',
+      rating: 4
+    },
+    {
+      id: 'flowrite',
+      name: 'Flowrite',
+      description: 'AI writing tool that turns instructions into ready-to-send emails',
+      logoUrl: 'https://th.bing.com/th/id/OIP.QVTgtYYmFc6nS86R-fVZeQAAAA?rs=1&pid=ImgDetMain',
+      categories: ['writing', 'productivity', 'email'],
+      mainUse: 'Generating professional emails from instructions',
+      pricing: 'Plans starting at $19/month',
+      otherUses: 'Business communication, follow-ups, outreach',
+      userExperience: 'Browser extension and web app',
+      websiteUrl: 'https://www.flowrite.com/',
+      rating: 4
+    },
+    {
+      id: 'quillbot',
+      name: 'QuillBot',
+      description: 'AI writing tool for paraphrasing, summarizing, and enhancing text',
+      logoUrl: 'https://th.bing.com/th/id/OIP.dKa0rU4uQ8IcggsmSHlHtQAAAA?rs=1&pid=ImgDetMain',
+      categories: ['writing', 'productivity'],
+      mainUse: 'Text paraphrasing and rewriting',
+      pricing: 'Free tier with premium from $8.33/month',
+      otherUses: 'Grammar checking, summarization, citation generation',
+      userExperience: 'Simple interface with multiple paraphrasing modes',
+      websiteUrl: 'https://quillbot.com/',
+      rating: 4
+    },
+    {
+      id: 'copy-ai',
+      name: 'Copy.ai',
+      description: 'AI copywriting tool for creating marketing content, emails, and social media posts',
+      logoUrl: 'https://th.bing.com/th/id/OIP.sfp3VDfpxyJlYCeRgwaQrQHaEo?rs=1&pid=ImgDetMain',
+      categories: ['writing', 'content-creation'],
+      mainUse: 'AI-powered copywriting for marketing',
+      pricing: 'Free tier with premium from $36/month',
+      otherUses: 'Email writing, blog outlines, social media content',
+      userExperience: 'Template-based with customizable outputs',
+      websiteUrl: 'https://www.copy.ai/',
+      rating: 4
+    },
+    {
+      id: 'rytr',
+      name: 'Rytr',
+      description: 'Budget-friendly AI writing assistant for content creation and copywriting',
+      logoUrl: 'https://www.toolpilot.ai/cdn/shop/files/rytrlogo.jpg?v=1686391683',
+      categories: ['writing', 'content-creation'],
+      mainUse: 'Affordable AI content creation',
+      pricing: 'Free tier with premium from $9/month',
+      otherUses: 'Blog writing, email composition, AIDA copywriting',
+      userExperience: 'User-friendly with multiple language support',
+      websiteUrl: 'https://rytr.me/',
+      rating: 4
+    },
+    {
+      id: 'paperpal',
+      name: 'Paperpal',
+      description: 'AI assistant for academic writing and editing with field-specific suggestions',
+      logoUrl: 'https://th.bing.com/th/id/OIP.hljVBaeR9rsw2yQdN3kxUAHaE6?rs=1&pid=ImgDetMain',
+      categories: ['academia', 'writing'],
+      mainUse: 'Academic writing improvement and editing',
+      pricing: 'Free with premium features',
+      otherUses: 'Grammar checking, citation formatting, academic style improvement',
+      userExperience: 'Field-specific recommendations for scientific writing',
+      websiteUrl: 'https://paperpal.com/',
+      rating: 4
+    },
+    {
+      id: 'deepl-write',
+      name: 'DeepL Write',
+      description: 'AI writing tool that helps improve text clarity and style',
+      logoUrl: 'https://th.bing.com/th/id/OIP.l8z1iYaFjGxxhaC5CsJ6vAHaDt?rs=1&pid=ImgDetMain',
+      categories: ['writing', 'translation'],
+      mainUse: 'Text improvement and rewriting',
+      pricing: 'Free tier with Pro from $8.99/month',
+      otherUses: 'Style enhancement, grammar correction, clarity improvement',
+      userExperience: 'Clean interface with parallel original and improved text',
+      websiteUrl: 'https://www.deepl.com/write',
+      rating: 4
+    },
+    {
+      id: 'notion-ai',
+      name: 'Notion AI',
+      description: 'AI writing assistant integrated into Notion workspace',
+      logoUrl: 'https://th.bing.com/th/id/OIP.TKYkyqxVSN5n43svqrj4HAHaEK?rs=1&pid=ImgDetMain',
+      categories: ['productivity', 'writing'],
+      mainUse: 'Enhanced writing and content organization in Notion',
+      pricing: 'Add-on to Notion, $10/month',
+      otherUses: 'Summarization, brainstorming, editing',
+      userExperience: 'Seamless integration with Notion workspace',
+      websiteUrl: 'https://www.notion.so/product/ai',
+      rating: 4
+    }
+  ];
