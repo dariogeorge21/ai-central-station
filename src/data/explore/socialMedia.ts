@@ -53,19 +53,7 @@ export const socialMedia: AITool[] = [
         websiteUrl: "https://hootsuite.com",
         rating: 4.6
       },
-      {
-        id: "canva",
-        name: "Canva",
-        description: "AI-based design platform for creating visually engaging content for social media, presentations, and other marketing materials.",
-        logoUrl: "https://www.canva.com/favicon.ico",
-        categories: ["social-media", "content-creation", "design"],
-        mainUse: "Designing eye-catching social media content and marketing materials.",
-        pricing: "Free and premium plans starting at $12.99/month.",
-        otherUses: "Social media graphics, presentations, posters, ads.",
-        userExperience: "Easy-to-use, with a wide variety of templates and tools for content creation.",
-        websiteUrl: "https://www.canva.com",
-        rating: 4.8
-      },
+
       {
         id: "socialbakers",
         name: "Socialbakers",
