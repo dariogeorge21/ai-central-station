@@ -14,8 +14,8 @@ interface AIToolsGridProps {
   sectionRef?: React.RefObject<HTMLElement | null>;
 }
 
-// Items per page for pagination
-const ITEMS_PER_PAGE = 12;
+// Default number of rows per page
+const DEFAULT_ROWS_PER_PAGE = 6; // Increased from 3 to show more cards
 
 // Tool Card - Compact version for grid view
 const AIToolCard: React.FC<{ tool: AITool }> = ({ tool }) => {
@@ -141,17 +141,53 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
+  const [columns, setColumns] = useState(4); // Default to 4 columns (desktop)
+  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ROWS_PER_PAGE * columns);
 
-  // Reset to first page when tools list changes
+  // Update columns and items per page based on screen size
+  useEffect(() => {
+    const updateGridLayout = () => {
+      let newColumns = 4; // Default (large screens)
+      let rowsPerPage = DEFAULT_ROWS_PER_PAGE; // Default number of rows
+
+      // Determine number of columns based on screen width
+      if (window.innerWidth < 640) {
+        newColumns = 1; // Mobile
+        rowsPerPage = 8; // More rows for mobile to compensate for fewer columns
+      } else if (window.innerWidth < 768) {
+        newColumns = 2; // Small tablets
+        rowsPerPage = 7; // More rows for small tablets
+      } else if (window.innerWidth < 1024) {
+        newColumns = 3; // Tablets/small laptops
+        rowsPerPage = 6; // Standard number of rows
+      } else {
+        // Large screens
+        rowsPerPage = 6; // Standard number of rows
+      }
+
+      setColumns(newColumns);
+      // Calculate items per page as rows * columns
+      setItemsPerPage(rowsPerPage * newColumns);
+    };
+
+    // Initial calculation
+    updateGridLayout();
+
+    // Update on resize
+    window.addEventListener('resize', updateGridLayout);
+    return () => window.removeEventListener('resize', updateGridLayout);
+  }, []);
+
+  // Reset to first page when tools list changes or items per page changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [tools.length]);
+  }, [tools.length, itemsPerPage]);
 
   // Calculate pagination
-  const totalPages = Math.ceil(tools.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(tools.length / itemsPerPage);
   const currentItems = tools.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   // Handle page change
@@ -211,8 +247,8 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
           <div className="text-sm text-gray-400 tech-text">
-            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to{' '}
-            {Math.min(currentPage * ITEMS_PER_PAGE, tools.length)} of {tools.length} tools
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
+            {Math.min(currentPage * itemsPerPage, tools.length)} of {tools.length} tools
             </div>
 
           <div className="flex items-center gap-1 flex-wrap">
