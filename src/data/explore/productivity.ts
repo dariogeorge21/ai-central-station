@@ -81,19 +81,7 @@ export const productivity: AITool[] = [{
     websiteUrl: 'https://pocketguard.com/',
     rating: 4
   },
-  {
-    id: 'explainpaper',
-    name: 'ExplainPaper',
-    description: 'AI tool that explains complex research papers in simple language',
-    logoUrl: 'https://appscribed.com/wp-content/uploads/2024/09/pandachat-ai-logo.png',
-    categories: ['academia', 'productivity'],
-    mainUse: 'Making academic papers more accessible',
-    pricing: 'Free with limitations',
-    otherUses: 'Term explanation, paper summarization, research assistance',
-    userExperience: 'Upload papers and click any text for explanations',
-    websiteUrl: 'https://www.explainpaper.com/',
-    rating: 4
-  },
+
   {
     id: 'duolingo-max',
     name: 'Duolingo Max',
@@ -198,19 +186,7 @@ export const productivity: AITool[] = [{
     websiteUrl: 'https://otter.ai/meeting-gems',
     rating: 4
   },
-  {
-    id: 'grammarly',
-    name: 'Grammarly',
-    description: 'AI-powered writing assistant for grammar, style, and tone',
-    logoUrl: 'https://th.bing.com/th/id/OIP.ib25Y8C7MuLgV57KREii2AHaFj?rs=1&pid=ImgDetMain',
-    categories: ['writing', 'productivity'],
-    mainUse: 'Grammar and writing improvement',
-    pricing: 'Free with premium plans starting at $12/month',
-    otherUses: 'Content editing, style adjustment, plagiarism checking',
-    userExperience: 'Browser extension and desktop app',
-    websiteUrl: 'https://www.grammarly.com/',
-    rating: 5
-  },
+
   {
     id: 'notion-ai',
     name: 'Notion AI',
@@ -417,4 +393,4 @@ export const productivity: AITool[] = [{
     websiteUrl: 'https://merlin.foyer.work/',
     rating: 4
   }
-];  
+];

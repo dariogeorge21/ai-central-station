@@ -54,19 +54,7 @@ export const academics: AITool[] = [
     websiteUrl: "https://scribe.ai/",
     rating: 4.5
   },
-  {
-    id: "grammarly",
-    name: "Grammarly",
-    description: "An AI-powered writing assistant that helps improve writing clarity, grammar, style, and correctness for academic papers.",
-    logoUrl: "https://grammarly.com/favicon.ico",
-    categories: ["academic", "writing", "grammar"],
-    mainUse: "Grammar checking and writing enhancement.",
-    pricing: "Free; Premium starts at $12/month.",
-    otherUses: "Style improvement, plagiarism detection.",
-    userExperience: "Very user-friendly, integrates with major writing platforms.",
-    websiteUrl: "https://grammarly.com/",
-    rating: 4.8
-  },
+
   {
     id: "mendeley",
     name: "Mendeley",

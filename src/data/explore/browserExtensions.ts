@@ -27,19 +27,7 @@ export const browserExtensions: AITool[] = [
     websiteUrl: 'https://truestory.ai/',
     rating: 4
   },
-  {
-    id: 'grammarly',
-    name: 'Grammarly',
-    description: 'Real-time grammar and tone checker for writing.',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Grammarly_logo.svg',
-    categories: ['writing', 'productivity', 'browser-extensions'],
-    mainUse: 'Writing assistance and proofreading.',
-    pricing: 'Free plan, Premium starts at $12/month',
-    otherUses: 'Improves clarity, conciseness, and engagement in writing.',
-    userExperience: 'Highly rated for accuracy and ease of use.',
-    websiteUrl: 'https://chrome.google.com/webstore/detail/grammarly-for-chrome/alephflglljfgpooiddmboljopebdjao',
-    rating: 4.8,
-  },
+
   {
     id: 'wordtune',
     name: 'Wordtune',

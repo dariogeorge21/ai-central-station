@@ -154,19 +154,6 @@ const baseAiTools: AITool[] = [
 
   // Chatbots
   {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    description: 'Advanced conversational AI for natural language processing and generation',
-    logoUrl: 'https://img.freepik.com/premium-vector/chatbot-icon-concept-chat-bot-chatterbot-robot-virtual-assistance-website_123447-1615.jpg',
-    categories: ['chatbots'],
-    mainUse: 'Conversational assistant for various tasks',
-    pricing: 'Free tier available, paid plans start at $20/month',
-    otherUses: 'Writing assistance, coding help, creative writing, translations',
-    userExperience: 'User-friendly interface with quick response times',
-    websiteUrl: 'https://chat.openai.com/',
-    rating: 5
-  },
-  {
     id: 'claude',
     name: 'Claude',
     description: 'Anthropic\'s AI assistant known for helpfulness, harmlessness, and honesty',
@@ -484,7 +471,7 @@ const updatedSpecializedTools = specializedAiTools.map(tool => {
     }
     return category as ToolCategory;
   });
-  
+
   return {
     ...tool,
     categories: updatedCategories

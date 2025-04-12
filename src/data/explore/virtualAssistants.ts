@@ -105,19 +105,7 @@ export const virtualAssistants: AITool[] = [
         websiteUrl: "https://www.viv.ai",
         rating: 4.7
       },
-      {
-        id: "chatgpt",
-        name: "ChatGPT",
-        description: "AI conversational model by OpenAI, capable of generating human-like responses and assisting with tasks.",
-        logoUrl: "https://openai.com/favicon.ico",
-        categories: ["virtual-assistant", "ai"],
-        mainUse: "Conversational AI for generating text and assisting with tasks.",
-        pricing: "Free and paid versions.",
-        otherUses: "Answering questions, writing assistance, brainstorming ideas.",
-        userExperience: "Highly intuitive and versatile conversational AI.",
-        websiteUrl: "https://chat.openai.com",
-        rating: 4.9
-      },
+
       {
         id: "mycroft-ai",
         name: "Mycroft AI",
