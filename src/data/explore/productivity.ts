@@ -314,19 +314,6 @@ export const productivity: AITool[] = [{
     rating: 4
   },
   {
-    id: 'wordtune',
-    name: 'Wordtune',
-    description: 'AI writing assistant and content summarizer',
-    logoUrl: 'https://www.pngall.com/wp-content/uploads/15/WordTune-Logo-PNG-Pic.png',
-    categories: ['writing', 'browser-extensions', 'productivity'],
-    mainUse: 'Improving writing and summarizing content',
-    pricing: 'Free tier with premium plans starting at $9.99/month',
-    otherUses: 'Content rewriting, tone adjustment, summarization',
-    userExperience: 'Browser extension with clean interface',
-    websiteUrl: 'https://www.wordtune.com/',
-    rating: 4
-  },
-  {
     id: 'aiprm',
     name: 'AIPRM for ChatGPT',
     description: 'Browser extension with curated prompt templates for ChatGPT',
