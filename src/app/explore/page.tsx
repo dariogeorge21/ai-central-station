@@ -386,7 +386,7 @@ export default function ExplorePage() {
               )}
             </div>
 
-            <AIToolsGrid tools={filteredAndSortedTools} isLoading={isLoading} />
+            <AIToolsGrid tools={filteredAndSortedTools} isLoading={isLoading} sectionRef={exploreRef} />
             {!isLoading && filteredAndSortedTools.length === 0 && (
               <p className="text-gray-400 text-center">No tools found. Try adjusting your filters or search query.</p>
             )}

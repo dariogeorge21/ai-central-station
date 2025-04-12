@@ -11,6 +11,7 @@ interface AIToolsGridProps {
   isLoading: boolean;
   onSelectTool?: (tool: AITool) => void;
   onClearFilters?: () => void;
+  sectionRef?: React.RefObject<HTMLElement | null>;
 }
 
 // Items per page for pagination
@@ -135,7 +136,8 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   tools,
   isLoading,
   onSelectTool,
-  onClearFilters
+  onClearFilters,
+  sectionRef
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
@@ -155,8 +157,13 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Scroll to top of grid with smooth behavior
-    window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
+    // Scroll to the explore section with smooth behavior
+    if (sectionRef && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Fallback if ref is not available
+      window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
+    }
   };
 
   if (isLoading) {
