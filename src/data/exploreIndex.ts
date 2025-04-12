@@ -7,12 +7,12 @@ export type ToolCategory =
   | 'chatgpt-extensions'
   | 'productivity'
   | 'meeting'
-  | 'academia'
+  | 'academics'
   | 'text-generators'
   | 'developer'
   | 'code'
   | 'website-builders'
-  | 'voice-cloning'
+  | 'voice'
   | 'virtual-assistants'
   | 'translation'
   | 'social-media'
@@ -30,6 +30,40 @@ export type ToolCategory =
   | 'home'
   | 'music'
   | 'video';
+
+  export const categoryLabels: Record<ToolCategory, string> = {
+  'models': 'AI Models',
+  'chatbots': 'Chatbots',
+  'search-engines': 'Search Engines',
+  'local-search': 'Local Search',
+  'writing': 'Writing Assistants',
+  'chatgpt-extensions': 'ChatGPT Extensions',
+  'productivity': 'Productivity',
+  'meeting': 'Meeting Assistants',
+  'academics': 'Academic Tools',
+  'text-generators': 'Text Generators',
+  'developer': 'Developer Tools',
+  'code': 'Code Tools',
+  'website-builders': 'Website Builders',
+  'voice': 'Voice Cloning',
+  'virtual-assistants': 'Virtual Assistants',
+  'translation': 'Translation',
+  'social-media': 'Social Media',
+  'sales': 'Sales Tools',
+  'recruitment': 'Recruitment',
+  'email': 'Email Tools',
+  'customer-support': 'Customer Support',
+  'content-creation': 'Content Creation',
+  'browser-extensions': 'Browser Extensions',
+  'design': 'Design Tools',
+  'finance': 'Finance Tools',
+  'health': 'Health & Wellness',
+  'language-learning': 'Language Learning',
+  'travel': 'Travel & Navigation',
+  'home': 'Home Management',
+  'music': 'Music Generation',
+  'video': 'Video Creation'
+};
 
 
 import { models } from './explore/models';
