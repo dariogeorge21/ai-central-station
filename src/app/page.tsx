@@ -378,7 +378,7 @@ export default function Home() {
                     <div className="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3">
                       <FiGrid className="h-4 w-4 text-yellow-400" />
                     </div>
-                    <div className="tech-text text-gray-300">500+ AI Tools Cataloged</div>
+                    <div className="tech-text text-gray-300">300+ AI Tools Cataloged</div>
                   </li>
                   <li className="flex items-center">
                     <div className="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3">
