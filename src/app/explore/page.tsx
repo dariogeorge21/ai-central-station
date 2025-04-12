@@ -377,7 +377,9 @@ export default function ExplorePage() {
           >
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-semibold text-gray-200 tech-text">
-                Showing {filteredTools.length} of {aiTools.length} AI Tools
+                {selectedCategories.length > 0 || isSearching
+                  ? `Showing ${filteredTools.length} of ${aiTools.length} AI Tools`
+                  : `Showing ${aiTools.length} AI Tools`}
               </h3>
               {selectedCategories.length > 0 && (
                 <button
