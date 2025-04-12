@@ -1,3 +1,6 @@
+import { AITool } from './types';
+export type { AITool } from './types';
+
 export type ToolCategory =
   | 'models'
   | 'chatbots'
@@ -31,40 +34,40 @@ export type ToolCategory =
   | 'music'
   | 'video';
 
-  export const categoryLabels: Record<ToolCategory, string> = {
-  'models': 'AI Models',
-  'chatbots': 'Chatbots',
+
+export const categoryLabels: Record<ToolCategory, string> = {
+  models: 'AI Models',
+  chatbots: 'Chatbots',
   'search-engines': 'Search Engines',
   'local-search': 'Local Search',
-  'writing': 'Writing Assistants',
+  writing: 'Writing Assistants',
   'chatgpt-extensions': 'ChatGPT Extensions',
-  'productivity': 'Productivity',
-  'meeting': 'Meeting Assistants',
-  'academics': 'Academic Tools',
+  productivity: 'Productivity',
+  meeting: 'Meeting Assistants',
+  academics: 'Academic Tools',
   'text-generators': 'Text Generators',
-  'developer': 'Developer Tools',
-  'code': 'Code Tools',
+  developer: 'Developer Tools',
+  code: 'Code Tools',
   'website-builders': 'Website Builders',
-  'voice': 'Voice Cloning',
+  voice: 'Voice Cloning',
   'virtual-assistants': 'Virtual Assistants',
-  'translation': 'Translation',
+  translation: 'Translation',
   'social-media': 'Social Media',
-  'sales': 'Sales Tools',
-  'recruitment': 'Recruitment',
-  'email': 'Email Tools',
+  sales: 'Sales Tools',
+  recruitment: 'Recruitment',
+  email: 'Email Tools',
   'customer-support': 'Customer Support',
   'content-creation': 'Content Creation',
   'browser-extensions': 'Browser Extensions',
-  'design': 'Design Tools',
-  'finance': 'Finance Tools',
-  'health': 'Health & Wellness',
+  design: 'Design Tools',
+  finance: 'Finance Tools',
+  health: 'Health & Wellness',
   'language-learning': 'Language Learning',
-  'travel': 'Travel & Navigation',
-  'home': 'Home Management',
-  'music': 'Music Generation',
-  'video': 'Video Creation'
+  travel: 'Travel & Navigation',
+  home: 'Home Management',
+  music: 'Music Generation',
+  video: 'Video Creation',
 };
-
 
 import { models } from './explore/models';
 import { chatbots } from './explore/chatbots';
@@ -96,8 +99,9 @@ import { translation } from './explore/translation';
 import { virtualAssistants } from './explore/virtualAssistants';
 import { voice } from './explore/voice';
 import { websiteBuilders } from './explore/websiteBuilders';
+import { chatgptExtensions } from './explore/chatgptExtensions';
 
-export const AllTools = [
+export const aiTools = [
   ...models,
   ...chatbots,
   ...writing,
@@ -127,23 +131,14 @@ export const AllTools = [
   ...translation,
   ...virtualAssistants,
   ...voice,
-  ...websiteBuilders
+  ...websiteBuilders,
+  ...chatgptExtensions,
 ];
 
+const validTools = aiTools.filter(tool => tool.name && tool.websiteUrl);
+
 const uniqueTools = Array.from(
-  new Map(AllTools.map(tool => [tool.name + tool.websiteUrl, tool])).values()
+  new Map(validTools.map(tool => [tool.name + tool.websiteUrl, tool])).values()
 );
 
 export default uniqueTools;
-
-// Export a function to get tools by category
-// // import { AITool } from '../explore/'; // Adjusted the path to the correct location
-
-// export const getToolsByCategory = (category: ToolCategory): AITool[] => {
-//   return exploreIndex.filter(tool => tool.categories.includes(category));
-// };
-
-// // Export a function to get tool by ID
-// export const getToolById = (id: string): AITool | undefined => {
-//   return exploreIndex.find(tool => tool.id === id);
-// };

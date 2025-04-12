@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowUpDown, Search } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-import { ToolCategory, AITool, aiTools } from '@/data/aiTools';
+import uniqueTools, { ToolCategory, AITool } from '@/data/exploreIndex';
 import { useDebounce } from 'use-debounce';
 
 // Import components
@@ -25,7 +25,7 @@ export default function ExplorePage() {
   const [error, setError] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>('mostlyUsed');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -38,7 +38,7 @@ export default function ExplorePage() {
   }, [debouncedSearchQuery]);
 
   // Combine all AI tools with error handling
-  const allTools = useMemo(() => aiTools, []);
+  const allTools = useMemo(() => uniqueTools, []);
 
   // Initialize filtered tools with loading state
   const [filteredTools, setFilteredTools] = useState<AITool[]>([]);
@@ -51,7 +51,7 @@ export default function ExplorePage() {
         // Simulate network delay for demo
         await new Promise(resolve => setTimeout(resolve, 500));
         // Sort tools by mostly used by default
-        const sortedTools = sortToolsByOption(aiTools, 'mostlyUsed');
+        const sortedTools = sortToolsByOption(uniqueTools, 'mostlyUsed');
         setFilteredTools(sortedTools);
       } catch (err) {
         setError('Failed to initialize tools');
@@ -90,11 +90,11 @@ export default function ExplorePage() {
 
     switch (option) {
       case 'nameAsc':
-        return toolsCopy.sort((a, b) => 
+        return toolsCopy.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
       case 'nameDesc':
-        return toolsCopy.sort((a, b) => 
+        return toolsCopy.sort((a, b) =>
           b.name.toLowerCase().localeCompare(a.name.toLowerCase())
         );
       case 'mostlyUsed':
@@ -103,7 +103,7 @@ export default function ExplorePage() {
           // Primary sort by rating (higher rating = more used)
           const ratingDiff = (b.rating || 0) - (a.rating || 0);
           if (ratingDiff !== 0) return ratingDiff;
-          
+
           // Secondary sort by categories length (more categories = more versatile)
           return b.categories.length - a.categories.length;
         });
@@ -137,12 +137,12 @@ export default function ExplorePage() {
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-    
+
     // Clear any existing timeout
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
-    
+
     // Set a new timeout for debouncing
     searchTimeoutRef.current = setTimeout(() => {
       setIsSearching(value.trim() !== '');
@@ -180,10 +180,6 @@ export default function ExplorePage() {
 
   // Error component
   if (error) {
-    function initializeTools(event: React.MouseEvent<HTMLButtonElement>): void {
-      throw new Error('Function not implemented.');
-    }
-
     return (
       <div className="min-h-screen circuit-bg flex items-center justify-center">
         <div className="text-center glassmorphic-card-content p-8 rounded-xl">
@@ -194,12 +190,6 @@ export default function ExplorePage() {
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Try Again
-          </button>
-          <button
-            onClick={initializeTools} // Retry fetching tools
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-          >
-            Retry
           </button>
         </div>
       </div>
@@ -279,7 +269,7 @@ export default function ExplorePage() {
               />
             </div>
 
-            {/* Sort Dropdown with improved accessibility */}
+            {/* Sort Dropdown */}
             <div className="relative sort-dropdown">
               <motion.button
                 aria-haspopup="true"
@@ -296,7 +286,7 @@ export default function ExplorePage() {
                 Sort By: {sortOption === 'nameAsc' ? 'Name (A-Z)' :
                           sortOption === 'nameDesc' ? 'Name (Z-A)' :
                           'Mostly Used'}
-                <ChevronDown 
+                <ChevronDown
                   className={`ml-2 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
                   aria-hidden="true"
                 />
@@ -304,44 +294,34 @@ export default function ExplorePage() {
 
               <AnimatePresence>
                 {isSortOpen && (
-                  <>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="fixed inset-0 z-10"
-                      onClick={() => setIsSortOpen(false)}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-56 glassmorphic-card-content rounded-lg shadow-xl z-20"
-                    >
-                      <div className="py-2">
-                        <button
-                          onClick={() => handleSortChange('mostlyUsed')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'mostlyUsed' ? 'text-blue-400' : 'text-gray-200'}`}
-                        >
-                          Mostly Used
-                        </button>
-                        <button
-                          onClick={() => handleSortChange('nameAsc')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'nameAsc' ? 'text-blue-400' : 'text-gray-200'}`}
-                        >
-                          Name (A-Z)
-                        </button>
-                        <button
-                          onClick={() => handleSortChange('nameDesc')}
-                          className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'nameDesc' ? 'text-blue-400' : 'text-gray-200'}`}
-                        >
-                          Name (Z-A)
-                        </button>
-                      </div>
-                    </motion.div>
-                  </>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-56 glassmorphic-card-content rounded-lg shadow-xl z-20"
+                  >
+                    <div className="py-2">
+                      <button
+                        onClick={() => handleSortChange('mostlyUsed')}
+                        className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'mostlyUsed' ? 'text-blue-400' : 'text-gray-200'}`}
+                      >
+                        Mostly Used
+                      </button>
+                      <button
+                        onClick={() => handleSortChange('nameAsc')}
+                        className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'nameAsc' ? 'text-blue-400' : 'text-gray-200'}`}
+                      >
+                        Name (A-Z)
+                      </button>
+                      <button
+                        onClick={() => handleSortChange('nameDesc')}
+                        className={`w-full text-left px-4 py-2 hover:bg-gray-700/50 ${sortOption === 'nameDesc' ? 'text-blue-400' : 'text-gray-200'}`}
+                      >
+                        Name (Z-A)
+                      </button>
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
@@ -380,14 +360,6 @@ export default function ExplorePage() {
                 Found {filteredAndSortedTools.length} result{filteredAndSortedTools.length !== 1 ? 's' : ''}
               </div>
             )}
-            {isSearching && (
-              <button
-                onClick={clearSearch}
-                className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
-              >
-                Clear search
-              </button>
-            )}
           </motion.div>
 
           {/* AI Tools Grid */}
@@ -401,8 +373,8 @@ export default function ExplorePage() {
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-semibold text-gray-200 tech-text">
                 {selectedCategories.length > 0 || isSearching
-                  ? `Showing ${filteredAndSortedTools.length} of ${aiTools.length} AI Tools`
-                  : `Showing ${aiTools.length} AI Tools`}
+                  ? `Showing ${filteredAndSortedTools.length} of ${uniqueTools.length} AI Tools`
+                  : `Showing ${uniqueTools.length} AI Tools`}
               </h3>
               {selectedCategories.length > 0 && (
                 <button
@@ -413,7 +385,7 @@ export default function ExplorePage() {
                 </button>
               )}
             </div>
-            
+
             <AIToolsGrid tools={filteredAndSortedTools} isLoading={isLoading} />
             {!isLoading && filteredAndSortedTools.length === 0 && (
               <p className="text-gray-400 text-center">No tools found. Try adjusting your filters or search query.</p>

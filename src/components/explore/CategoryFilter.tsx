@@ -3,13 +3,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Filter, X, ChevronDown } from 'lucide-react';
-import { ToolCategory, categoryLabels } from '@/data/aiTools';
+import { ToolCategory, categoryLabels } from '@/data/exploreIndex';
 
 interface CategoryFilterProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  selectedCategories: ToolCategory[];
-  setSelectedCategories: React.Dispatch<React.SetStateAction<ToolCategory[]>>;
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({
@@ -50,7 +50,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
               onClick={() => setIsOpen(false)}
             />
-            
+
             {/* Filter Modal */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -74,15 +74,14 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
                   <button
                     key={id}
                     onClick={() => {
-                      const category = id as ToolCategory;
                       setSelectedCategories((prev) =>
-                        prev.includes(category)
-                          ? prev.filter((c) => c !== category)
-                          : [...prev, category]
+                        prev.includes(id)
+                          ? prev.filter((c) => c !== id)
+                          : [...prev, id]
                       );
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-md ${
-                      selectedCategories.includes(id as ToolCategory)
+                      selectedCategories.includes(id)
                         ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                         : 'bg-gray-800/50 text-gray-300 border border-gray-700/50 hover:bg-gray-700/50'
                     }`}

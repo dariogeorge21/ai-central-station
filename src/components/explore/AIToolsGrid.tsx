@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { AITool, categoryLabels } from '@/data/aiTools';
+import { AITool, categoryLabels } from '@/data/exploreIndex';
 import { ChevronLeft, ChevronRight, Star, X } from 'lucide-react';
 
 interface AIToolsGridProps {
@@ -37,7 +37,7 @@ const AIToolCard: React.FC<{ tool: AITool }> = ({ tool }) => {
             </div>
           )}
         </div>
-        
+
         <div>
           <h3 className="text-base font-semibold text-gray-100 mb-0.5 line-clamp-1 tech-title">
             {tool.name}
@@ -48,7 +48,7 @@ const AIToolCard: React.FC<{ tool: AITool }> = ({ tool }) => {
                 key={category}
                 className="inline-block text-xs px-1.5 py-0.5 bg-blue-900/30 text-blue-400 rounded"
               >
-                {categoryLabels[category]}
+                {categoryLabels[category as keyof typeof categoryLabels] || category}
               </span>
             ))}
             {tool.categories.length > 2 && (
@@ -59,11 +59,11 @@ const AIToolCard: React.FC<{ tool: AITool }> = ({ tool }) => {
           </div>
         </div>
       </div>
-      
+
       <p className="text-gray-400 text-sm mb-3 line-clamp-2 flex-grow tech-text">
         {tool.description}
       </p>
-      
+
       {tool.rating && (
         <div className="flex items-center gap-1 mb-2">
           <div className="flex">
@@ -84,7 +84,7 @@ const AIToolCard: React.FC<{ tool: AITool }> = ({ tool }) => {
           <span className="text-xs text-gray-400">{tool.rating.toFixed(1)}</span>
         </div>
       )}
-      
+
       <a
         href={tool.websiteUrl}
         target="_blank"
@@ -158,11 +158,11 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
     // Scroll to top of grid with smooth behavior
     window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
   };
-  
+
   if (isLoading) {
     return <LoadingSkeleton />;
   }
-  
+
   if (tools.length === 0) {
     return (
       <div className="glassmorphic-card-content p-8 rounded-xl text-center">
@@ -182,7 +182,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
       </div>
     );
   }
-  
+
   return (
     <div>
       {/* Grid layout */}
@@ -199,7 +199,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
           </motion.div>
         ))}
               </div>
-      
+
       {/* Pagination controls */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
@@ -207,7 +207,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
             Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to{' '}
             {Math.min(currentPage * ITEMS_PER_PAGE, tools.length)} of {tools.length} tools
             </div>
-          
+
           <div className="flex items-center gap-1 flex-wrap">
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
@@ -220,7 +220,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
             >
               <ChevronLeft size={20} />
             </button>
-            
+
             {[...Array(totalPages)].map((_, i) => {
               const pageNum = i + 1;
               // Show limited number of pages with ellipsis for better UX
@@ -254,7 +254,7 @@ const AIToolsGrid: React.FC<AIToolsGridProps> = ({
               }
               return null;
             })}
-            
+
             <button
               onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}

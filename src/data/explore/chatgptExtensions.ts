@@ -1,0 +1,57 @@
+import { AITool } from '../types';
+
+export const chatgptExtensions: AITool[] = [
+{
+    id: 'aiprm',
+    name: 'AIPRM for ChatGPT',
+    description: 'Browser extension with curated prompt templates for ChatGPT',
+    logoUrl: 'https://img.simplerousercontent.net/scaled_image/7171091/98ab67ce9d14c4c1767412659f250de3ec323fdc/AIPRM-quad-1600x1600-1600w-1600h.png',
+    categories: ['productivity', 'browser-extensions', 'chatgpt-extensions'],
+    mainUse: 'Enhanced ChatGPT experience with prompt templates',
+    pricing: 'Free tier with premium plans',
+    otherUses: 'Content creation, SEO, marketing, customer support',
+    userExperience: 'Seamless integration with ChatGPT interface',
+    websiteUrl: 'https://www.aiprm.com/',
+    rating: 4
+},
+{
+    id: 'chatgpt-writer',
+    name: 'ChatGPT Writer',
+    description: 'Generates email and message drafts using OpenAI’s GPT technology.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4f/OpenAI_Logo.svg',
+    categories: ['writing', 'browser-extensions', 'chatgpt-extensions'],
+    mainUse: 'Email drafting and communication.',
+    pricing: 'Free',
+    otherUses: 'Generates social media posts and other written content.',
+    userExperience: 'Fast and efficient, but can be generic in some responses.',
+    websiteUrl: 'https://chat.openai.com',
+    rating: 4.6,
+},
+{
+    id: 'chatgpt-for-google',
+    name: 'ChatGPT for Google',
+    description: 'Integrates ChatGPT results alongside Google search results.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4f/OpenAI_Logo.svg',
+    categories: ['search-engines', 'browser-extensions', 'chatgpt-extensions'],
+    mainUse: 'Search enhancement with AI-powered summaries and answers.',
+    pricing: 'Free',
+    otherUses: 'Quick answers and chat-based research assistance.',
+    userExperience: 'Makes browsing more efficient with AI insights.',
+    websiteUrl: 'https://chrome.google.com/webstore/detail/chatgpt-for-google',
+    rating: 4.8,
+},
+{
+    id: 'webchatgpt',
+    name: 'WebChatGPT',
+    description: 'Enhances ChatGPT with web access for more accurate and up-to-date results.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4f/OpenAI_Logo.svg',
+    categories: ['search-engines', 'browser-extensions', 'chatgpt-extensions'],
+    mainUse: 'Adds web browsing to ChatGPT for live results.',
+    pricing: 'Free',
+    otherUses: 'Useful for real-time research and keeping responses current.',
+    userExperience: 'Great for getting accurate answers with real-time info.',
+    websiteUrl: 'https://chrome.google.com/webstore/detail/webchatgpt',
+    rating: 4.7,
+},
+// Add more
+];
