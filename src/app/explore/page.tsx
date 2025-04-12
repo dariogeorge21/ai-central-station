@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowUpDown, Search } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { ToolCategory, AITool, aiTools } from '@/data/aiTools';
+import { useDebounce } from 'use-debounce';
 
 // Import components
 import CategoryFilter from '@/components/explore/CategoryFilter';
@@ -12,6 +13,12 @@ import AIToolsGrid from '@/components/explore/AIToolsGrid';
 
 // Sort options type
 type SortOption = 'nameAsc' | 'nameDesc' | 'mostlyUsed';
+
+const SORT_OPTIONS = {
+  NAME_ASC: 'nameAsc',
+  NAME_DESC: 'nameDesc',
+  MOSTLY_USED: 'mostlyUsed',
+};
 
 export default function ExplorePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +32,10 @@ export default function ExplorePage() {
 
   // Debounce search query
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
+  useEffect(() => {
+    setIsSearching(debouncedSearchQuery.trim() !== '');
+  }, [debouncedSearchQuery]);
 
   // Combine all AI tools with error handling
   const allTools = useMemo(() => aiTools, []);
@@ -102,30 +113,24 @@ export default function ExplorePage() {
   };
 
   // Filter and sort tools when categories, search, or sort option changes
-  useEffect(() => {
-    let result: AITool[] = allTools;
-    
-    // First apply category filtering
+  const filteredAndSortedTools = useMemo(() => {
+    let result = allTools;
+
     if (selectedCategories.length > 0) {
       result = result.filter((tool) =>
-        selectedCategories.some(category => tool.categories.includes(category))
+        selectedCategories.some((category) => tool.categories.includes(category))
       );
     }
-    
-    // Then apply search filtering if search is active
+
     if (isSearching && searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase().trim();
-      result = result.filter((tool) => 
-        tool.name.toLowerCase().includes(query) || 
+      result = result.filter((tool) =>
+        tool.name.toLowerCase().includes(query) ||
         tool.description.toLowerCase().includes(query)
       );
     }
-    
-    // Apply sorting
-    result = sortToolsByOption(result, sortOption);
-    
-    // Update filtered tools
-    setFilteredTools(result);
+
+    return sortToolsByOption(result, sortOption);
   }, [selectedCategories, sortOption, allTools, searchQuery, isSearching]);
 
   // Handle search input with debounce
@@ -175,6 +180,10 @@ export default function ExplorePage() {
 
   // Error component
   if (error) {
+    function initializeTools(event: React.MouseEvent<HTMLButtonElement>): void {
+      throw new Error('Function not implemented.');
+    }
+
     return (
       <div className="min-h-screen circuit-bg flex items-center justify-center">
         <div className="text-center glassmorphic-card-content p-8 rounded-xl">
@@ -185,6 +194,12 @@ export default function ExplorePage() {
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Try Again
+          </button>
+          <button
+            onClick={initializeTools} // Retry fetching tools
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          >
+            Retry
           </button>
         </div>
       </div>
@@ -354,7 +369,7 @@ export default function ExplorePage() {
                 <button
                   onClick={clearSearch}
                   className="absolute right-4 text-gray-400 hover:text-gray-200"
-                  aria-label="Clear search"
+                  aria-label="Clear search input"
                 >
                   ✕
                 </button>
@@ -362,8 +377,16 @@ export default function ExplorePage() {
             </div>
             {isSearching && (
               <div className="mt-2 text-sm text-gray-400">
-                Found {filteredTools.length} result{filteredTools.length !== 1 ? 's' : ''}
+                Found {filteredAndSortedTools.length} result{filteredAndSortedTools.length !== 1 ? 's' : ''}
               </div>
+            )}
+            {isSearching && (
+              <button
+                onClick={clearSearch}
+                className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                Clear search
+              </button>
             )}
           </motion.div>
 
@@ -378,7 +401,7 @@ export default function ExplorePage() {
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-semibold text-gray-200 tech-text">
                 {selectedCategories.length > 0 || isSearching
-                  ? `Showing ${filteredTools.length} of ${aiTools.length} AI Tools`
+                  ? `Showing ${filteredAndSortedTools.length} of ${aiTools.length} AI Tools`
                   : `Showing ${aiTools.length} AI Tools`}
               </h3>
               {selectedCategories.length > 0 && (
@@ -391,7 +414,10 @@ export default function ExplorePage() {
               )}
             </div>
             
-            <AIToolsGrid tools={filteredTools} isLoading={isLoading} />
+            <AIToolsGrid tools={filteredAndSortedTools} isLoading={isLoading} />
+            {!isLoading && filteredAndSortedTools.length === 0 && (
+              <p className="text-gray-400 text-center">No tools found. Try adjusting your filters or search query.</p>
+            )}
           </motion.div>
         </div>
       </section>
