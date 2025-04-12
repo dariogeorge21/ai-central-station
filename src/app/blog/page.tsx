@@ -98,7 +98,7 @@ export default function BlogPage() {
           </p>
         </motion.div>
 
-        <BlogFeed forceRefresh={false} postsPerPage={15} />
+        <BlogFeed forceRefresh={false} />
       </section>
     </main>
   );

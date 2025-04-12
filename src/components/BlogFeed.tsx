@@ -19,6 +19,9 @@ interface BlogFeedProps {
   postsPerPage?: number;
 }
 
+// Default number of rows per page
+const DEFAULT_ROWS_PER_PAGE = 4; // We'll show 4 rows by default
+
 export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedProps) {
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [currentPosts, setCurrentPosts] = useState<BlogPost[]>([]);
@@ -27,6 +30,8 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
   const [isMockData, setIsMockData] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [columns, setColumns] = useState(3); // Default to 3 columns (desktop)
+  const [dynamicPostsPerPage, setDynamicPostsPerPage] = useState(DEFAULT_ROWS_PER_PAGE * columns);
   const [sharePopup, setSharePopup] = useState<{
     isOpen: boolean;
     title: string;
@@ -36,6 +41,38 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
     title: '',
     url: ''
   });
+
+  // Update columns and posts per page based on screen size
+  useEffect(() => {
+    const updateGridLayout = () => {
+      let newColumns = 3; // Default (large screens)
+      let rowsPerPage = DEFAULT_ROWS_PER_PAGE; // Default number of rows
+
+      // Determine number of columns based on screen width
+      if (window.innerWidth < 640) {
+        newColumns = 1; // Mobile
+        rowsPerPage = 6; // More rows for mobile to compensate for fewer columns
+      } else if (window.innerWidth < 1024) {
+        newColumns = 2; // Tablets
+        rowsPerPage = 5; // More rows for tablets
+      } else {
+        // Large screens
+        newColumns = 3; // Desktop
+        rowsPerPage = 4; // Standard number of rows
+      }
+
+      setColumns(newColumns);
+      // Calculate posts per page as rows * columns
+      setDynamicPostsPerPage(rowsPerPage * newColumns);
+    };
+
+    // Initial calculation
+    updateGridLayout();
+
+    // Update on resize
+    window.addEventListener('resize', updateGridLayout);
+    return () => window.removeEventListener('resize', updateGridLayout);
+  }, []);
 
   // Fetch blog posts
   useEffect(() => {
@@ -69,7 +106,7 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
         }
 
         setAllPosts(fetchedPosts);
-        setTotalPages(Math.ceil(fetchedPosts.length / postsPerPage));
+        setTotalPages(Math.ceil(fetchedPosts.length / dynamicPostsPerPage));
         setIsMockData(data.isMockData || false);
         setError(null);
       } catch (err: any) {
@@ -81,14 +118,23 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
     };
 
     fetchBlogPosts();
-  }, [forceRefresh, postsPerPage]);
+  }, [forceRefresh, dynamicPostsPerPage]);
 
   // Update current posts when page changes or all posts are updated
   useEffect(() => {
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const indexOfLastPost = currentPage * dynamicPostsPerPage;
+    const indexOfFirstPost = indexOfLastPost - dynamicPostsPerPage;
     setCurrentPosts(allPosts.slice(indexOfFirstPost, indexOfLastPost));
-  }, [currentPage, allPosts, postsPerPage]);
+  }, [currentPage, allPosts, dynamicPostsPerPage]);
+
+  // Update total pages when posts per page changes
+  useEffect(() => {
+    if (allPosts.length > 0) {
+      setTotalPages(Math.ceil(allPosts.length / dynamicPostsPerPage));
+      // Reset to first page when posts per page changes
+      setCurrentPage(1);
+    }
+  }, [dynamicPostsPerPage, allPosts.length]);
 
   const handleShare = (title: string, url: string) => {
     setSharePopup({
@@ -191,7 +237,7 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
     <>
       <div className="text-gray-400 text-xs sm:text-sm mb-4 px-1 flex justify-between items-center">
         <span>
-          Showing {currentPosts.length} of {allPosts.length} blog posts
+          Showing {(currentPage - 1) * dynamicPostsPerPage + 1} to {Math.min(currentPage * dynamicPostsPerPage, allPosts.length)} of {allPosts.length} blog posts
           (Page {currentPage} of {totalPages})
         </span>
         {isMockData && (
