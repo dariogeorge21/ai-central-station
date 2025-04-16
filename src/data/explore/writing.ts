@@ -31,7 +31,7 @@ export const writing: AITool[] = [
       id: 'flowrite',
       name: 'Flowrite',
       description: 'AI writing tool that turns instructions into ready-to-send emails',
-      logoUrl: 'https://th.bing.com/th/id/OIP.QVTgtYYmFc6nS86R-fVZeQAAAA?rs=1&pid=ImgDetMain',
+      logoUrl: 'https://cdn-1.webcatalog.io/catalog/flowrite/flowrite-icon-filled-256.png?v=1714780766060',
       categories: ['writing', 'productivity', 'email'],
       mainUse: 'Generating professional emails from instructions',
       pricing: 'Plans starting at $19/month',
