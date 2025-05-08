@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description: 'Discover a wide range of AI tools for productivity, creativity, coding, and more. Find the perfect AI assistant for your workflow.',
   icons: {
     icon: [
-      { url: '/icon.svg' }
+      { url: './favicon.ico' }
     ]
   },
 }
