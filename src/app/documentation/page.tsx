@@ -27,7 +27,7 @@ export default function Documentation() {
       
       // Filter by selected categories
       const matchesCategories = selectedCategories.length === 0 || 
-        tool.categories.some(category => selectedCategories.includes(category));
+        tool.categories.some(category => selectedCategories.includes(category as ToolCategory));
       
       return matchesSearch && matchesCategories;
     });
