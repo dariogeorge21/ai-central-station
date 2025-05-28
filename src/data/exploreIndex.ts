@@ -137,8 +137,20 @@ export const aiTools = [
 
 const validTools = aiTools.filter(tool => tool.name && tool.websiteUrl);
 
-const uniqueTools = Array.from(
-  new Map(validTools.map(tool => [tool.name + tool.websiteUrl, tool])).values()
-);
+const uniqueTools = validTools.reduce((unique, tool) => {
+  const key = `${tool.name}-${tool.websiteUrl}`;
+  if (!unique.has(key)) {
+    unique.set(key, tool);
+  }
+  return unique;
+}, new Map()).values();
+
+export const getToolsByCategory = (category: ToolCategory): AITool[] => {
+  return aiTools.filter(tool => tool.categories.includes(category));
+}
+
+export const getToolById = (id: string): AITool | undefined => {
+  return aiTools.find(tool => tool.id === id);
+}
 
 export default uniqueTools;

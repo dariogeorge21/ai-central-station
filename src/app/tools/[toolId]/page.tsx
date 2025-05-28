@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FiArrowLeft, FiExternalLink, FiStar } from 'react-icons/fi';
 import { getAllTools, getToolById } from '@/lib/tools';
 import { Metadata } from 'next';
-import { AITool } from '@/data/aiTools';
+import { AITool } from '@/data/exploreIndex';
 
 // Type for the internal parameters
 type PageParams = {
@@ -17,14 +17,14 @@ type Props = {
 };
 
 export async function generateStaticParams(): Promise<Array<PageParams>> {
-  const tools = getAllTools();
-  return tools.map(tool => ({
+  const tools: AITool[] = getAllTools();
+  return tools.map((tool: AITool) => ({
     toolId: tool.id,
   }));
 }
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const tool = getToolById(params.toolId);
+  const { toolId } = await params;
+  const tool = getToolById(toolId);
   
   if (!tool) {
     return {
@@ -41,7 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // Define the component with the correct props type
 export default async function ToolPage({ params }: Props) {
-  const tool = getToolById(params.toolId);
+  const { toolId } = await params;
+  const tool = getToolById(toolId);
   
   if (!tool) {
     notFound();

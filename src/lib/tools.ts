@@ -1,4 +1,4 @@
-import { aiTools, type ToolCategory } from '@/data/aiTools';
+import { aiTools, type ToolCategory } from '@/data/exploreIndex';
 
 export function getAllTools() {
   return aiTools;

@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import ProductCard from '@/components/documentation/ProductCard'
 import ProductOverview from '@/components/documentation/ProductOverview'
 import CategoryList from '@/components/documentation/CategoryList'
-import { aiTools, ToolCategory } from '@/data/aiTools'
+import { aiTools, ToolCategory } from '@/data/exploreIndex'
 import { FiSearch, FiCode, FiGrid, FiFilter } from 'react-icons/fi'
 import CategoryFilter from '@/components/documentation/CategoryFilter'
 

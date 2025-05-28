@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiFilter, FiX, FiChevronDown } from 'react-icons/fi';
-import { categoryLabels, ToolCategory } from '@/data/aiTools';
+import { categoryLabels, ToolCategory } from '@/data/exploreIndex';
 import { cn } from '@/lib/utils';
 
 interface CategoryFilterProps {

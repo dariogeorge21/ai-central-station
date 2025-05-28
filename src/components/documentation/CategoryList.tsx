@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { categoryLabels, type ToolCategory, getToolsByCategory } from '@/data/aiTools'
+import { categoryLabels, type ToolCategory, getToolsByCategory } from '@/data/exploreIndex'
 import { FiArrowRight, FiLink, FiStar, FiHeart, FiDollarSign, FiGlobe, FiHome, FiMusic, FiVideo, FiTrendingUp } from 'react-icons/fi'
 import Link from 'next/link'
 
@@ -79,11 +79,11 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
     'browser-extensions',
     'models',
     'developer',
-    'academia',
+    'academics',
     'translation',
     'virtual-assistants',
     'home',
-    'voice-cloning',
+    'voice',
     'website-builders',
     'chatgpt-extensions',
     'text-generators',
