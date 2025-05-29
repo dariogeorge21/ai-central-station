@@ -11,6 +11,7 @@ interface CategoryListProps {
   selectedCategories: ToolCategory[];
   categoryPageState?: Record<string, number>;
   onCategoryPageChange?: (category: string, page: number) => void;
+  onToolClick?: (toolId: string) => void;
 }
 
 // List of new tools to show badges for
@@ -27,7 +28,7 @@ const trendingTools = [
 
 const TOOLS_PER_PAGE = 5;
 
-const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories, categoryPageState, onCategoryPageChange }) => {
+const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories, categoryPageState, onCategoryPageChange, onToolClick }) => {
   const [visibleCategories, setVisibleCategories] = useState<boolean>(false);
   
   // Animation effect when component mounts
@@ -195,10 +196,14 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {paginatedTools.map((tool, toolIndex) => (
-                <Link
+                <div
                   key={tool.id}
-                  href={`/tools/${tool.id}`}
                   className={`glassmorphic-tool-card group cursor-pointer fade-in delay-${Math.min((categoryIndex + toolIndex) * 50, 500)}`}
+                  onClick={() => onToolClick ? onToolClick(tool.id) : window.location.assign(`/documentation/${tool.id}`)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyPress={e => { if (e.key === 'Enter') onToolClick ? onToolClick(tool.id) : window.location.assign(`/documentation/${tool.id}`); }}
+                  data-testid={`tool-card-${tool.id}`}
                 >
                   <div className="glassmorphic-card-content hover:bg-gray-800/60 hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 h-full flex flex-col justify-between p-4 neon-glow relative">
                     {/* New badge */}
@@ -233,7 +238,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
             {/* Pagination for this category */}

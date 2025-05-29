@@ -8,7 +8,7 @@ import { AITool } from '@/data/exploreIndex';
 
 // Type for the internal parameters
 type PageParams = {
-  toolId: string;
+  toolid: string;
 };
 
 // Type for the component props that satisfies Next.js expectations
@@ -19,12 +19,12 @@ type Props = {
 export async function generateStaticParams(): Promise<Array<PageParams>> {
   const tools: AITool[] = getAllTools();
   return tools.map((tool: AITool) => ({
-    toolId: tool.id,
+    toolid: tool.id,
   }));
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { toolId } = await params;
-  const tool = getToolById(toolId);
+  const { toolid } = params;
+  const tool = getToolById(toolid);
   
   if (!tool) {
     return {
@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // Define the component with the correct props type
 export default async function ToolPage({ params }: Props) {
-  const { toolId } = await params;
-  const tool = getToolById(toolId);
+  const { toolid } = params;
+  const tool = getToolById(toolid);
   
   if (!tool) {
     notFound();
@@ -376,4 +376,4 @@ function getAlternatives(tool: AITool, allTools: AITool[]) {
     
     <p>Each of these alternatives offers similar functionality to ${tool.name}, but may differ in terms of pricing, feature set, or user experience.</p>
   `;
-} 
+}
