@@ -134,6 +134,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
   }
 
   // Responsive tools per page
+  // Move these hooks to the top level, not conditionally
   const [toolsPerPage, setToolsPerPage] = useState(5);
   useEffect(() => {
     const updateToolsPerPage = () => {

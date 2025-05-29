@@ -1,17 +1,14 @@
 "use client"
 
 import React from 'react'
-import { AITool } from '@/data/exploreIndex'
 
-interface ProductCardProps {
-  tool: AITool;
-}
+interface ProductCardProps {}
 
 /**
  * ProductCard - Placeholder component for future card design
  * This component has been cleaned up to accommodate new styling and design
  */
-const ProductCard = ({ tool }: ProductCardProps) => {
+const ProductCard = ({}: ProductCardProps) => {
   return (
     <div className="product-card-container">
       {/* Card content will be redesigned */}

@@ -16,13 +16,12 @@ type BlogPost = {
 
 interface BlogFeedProps {
   forceRefresh?: boolean;
-  postsPerPage?: number;
 }
 
 // Default number of rows per page
 const DEFAULT_ROWS_PER_PAGE = 4; // We'll show 4 rows by default
 
-export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedProps) {
+export default function BlogFeed({ forceRefresh }: BlogFeedProps) {
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [currentPosts, setCurrentPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -109,9 +108,16 @@ export default function BlogFeed({ forceRefresh, postsPerPage = 15 }: BlogFeedPr
         setTotalPages(Math.ceil(fetchedPosts.length / dynamicPostsPerPage));
         setIsMockData(data.isMockData || false);
         setError(null);
-      } catch (err: any) {
-        console.error('Error fetching blog posts:', err);
-        setError(`Failed to load blog posts. ${err.message || 'Please try again later.'}`);
+      } catch (err) {
+        // Specify error type as unknown, then use type guard
+        const error = err as unknown;
+        if (error instanceof Error) {
+          console.error('Error fetching blog posts:', error);
+          setError(`Failed to load blog posts. ${error.message}`);
+        } else {
+          console.error('Error fetching blog posts:', error);
+          setError('Failed to load blog posts. Please try again later.');
+        }
       } finally {
         setLoading(false);
       }
