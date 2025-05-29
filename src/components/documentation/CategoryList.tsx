@@ -4,10 +4,13 @@ import React, { useState, useEffect } from 'react'
 import { categoryLabels, type ToolCategory, getToolsByCategory } from '@/data/exploreIndex'
 import { FiArrowRight, FiLink, FiStar, FiHeart, FiDollarSign, FiGlobe, FiHome, FiMusic, FiVideo, FiTrendingUp } from 'react-icons/fi'
 import Link from 'next/link'
+import Pagination from './Pagination' // Adjust the import path as necessary
 
 interface CategoryListProps {
   searchQuery: string;
   selectedCategories: ToolCategory[];
+  categoryPageState?: Record<string, number>;
+  onCategoryPageChange?: (category: string, page: number) => void;
 }
 
 // List of new tools to show badges for
@@ -22,7 +25,9 @@ const trendingTools = [
   'notion-ai', 'grammarly', 'eleven-labs', 'quillbot', 'runway'
 ];
 
-const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories }) => {
+const TOOLS_PER_PAGE = 5;
+
+const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories, categoryPageState, onCategoryPageChange }) => {
   const [visibleCategories, setVisibleCategories] = useState<boolean>(false);
   
   // Animation effect when component mounts
@@ -145,8 +150,12 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
                 tool.description.toLowerCase().includes(query)
               );
             });
-            
         if (filteredTools.length === 0) return null;
+
+        // Pagination logic
+        const currentPage = categoryPageState?.[category] || 1;
+        const totalPages = Math.ceil(filteredTools.length / TOOLS_PER_PAGE);
+        const paginatedTools = filteredTools.slice((currentPage - 1) * TOOLS_PER_PAGE, currentPage * TOOLS_PER_PAGE);
         
         // Determine if this is a specialized category
         const isSpecializedCategory = [
@@ -170,7 +179,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
             </h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {filteredTools.map((tool, toolIndex) => (
+              {paginatedTools.map((tool, toolIndex) => (
                 <Link
                   key={tool.id}
                   href={`/tools/${tool.id}`}
@@ -212,6 +221,16 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
                 </Link>
               ))}
             </div>
+            {/* Pagination for this category */}
+            {totalPages > 1 && (
+              <div className="mt-6">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={(page) => onCategoryPageChange && onCategoryPageChange(category, page)}
+                />
+              </div>
+            )}
           </div>
         );
       })}
@@ -219,4 +238,4 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
   );
 };
 
-export default CategoryList; 
+export default CategoryList;

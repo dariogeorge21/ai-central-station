@@ -137,13 +137,26 @@ export const aiTools = [
 
 const validTools = aiTools.filter(tool => tool.name && tool.websiteUrl);
 
-const uniqueTools = validTools.reduce((unique, tool) => {
-  const key = `${tool.name}-${tool.websiteUrl}`;
-  if (!unique.has(key)) {
-    unique.set(key, tool);
+// Efficiently deduplicate tools by a unique, normalized key (prefer 'id', fallback to normalized name+website)
+function getToolUniqueKey(tool: any) {
+  // Prefer a unique 'id' if present and non-empty
+  if (tool.id && typeof tool.id === 'string' && tool.id.trim().length > 0) {
+    return tool.id.trim().toLowerCase();
   }
-  return unique;
-}, new Map()).values();
+  // Fallback: normalized name + websiteUrl (trimmed, lowercased, no spaces)
+  const name = (tool.name || '').toString().trim().toLowerCase().replace(/\s+/g, '');
+  const url = (tool.websiteUrl || '').toString().trim().toLowerCase();
+  return `${name}::${url}`;
+}
+
+const uniqueToolsMap = new Map();
+for (const tool of validTools) {
+  const key = getToolUniqueKey(tool);
+  if (!uniqueToolsMap.has(key)) {
+    uniqueToolsMap.set(key, tool);
+  }
+}
+const uniqueTools = Array.from(uniqueToolsMap.values());
 
 export const getToolsByCategory = (category: ToolCategory): AITool[] => {
   return aiTools.filter(tool => tool.categories.includes(category));

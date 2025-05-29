@@ -7,12 +7,14 @@ import CategoryList from '@/components/documentation/CategoryList'
 import { aiTools, ToolCategory } from '@/data/exploreIndex'
 import { FiSearch, FiCode, FiGrid, FiFilter } from 'react-icons/fi'
 import CategoryFilter from '@/components/documentation/CategoryFilter'
+import Pagination from '@/components/documentation/Pagination'
 
 export default function Documentation() {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
+  const [categoryPageState, setCategoryPageState] = useState<Record<string, number>>({});
 
   // Filter tools based on search query and selected categories
   const filteredTools = useMemo(() => {
@@ -31,6 +33,16 @@ export default function Documentation() {
       
       return matchesSearch && matchesCategories;
     });
+  }, [searchQuery, selectedCategories]);
+
+  // Handler to change page for a category
+  const handleCategoryPageChange = (category: string, page: number) => {
+    setCategoryPageState((prev) => ({ ...prev, [category]: page }));
+  };
+
+  // Reset pagination when search or filter changes
+  useMemo(() => {
+    setCategoryPageState({});
   }, [searchQuery, selectedCategories]);
 
   return (
@@ -133,6 +145,8 @@ export default function Documentation() {
               <CategoryList 
                 searchQuery={searchQuery} 
                 selectedCategories={selectedCategories}
+                categoryPageState={categoryPageState}
+                onCategoryPageChange={handleCategoryPageChange}
               />
             </div>
           )}
