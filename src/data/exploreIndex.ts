@@ -138,7 +138,7 @@ export const aiTools = [
 const validTools = aiTools.filter(tool => tool.name && tool.websiteUrl);
 
 // Efficiently deduplicate tools by a unique, normalized key (prefer 'id', fallback to normalized name+website)
-function getToolUniqueKey(tool: any) {
+function getToolUniqueKey(tool: AITool) {
   // Prefer a unique 'id' if present and non-empty
   if (tool.id && typeof tool.id === 'string' && tool.id.trim().length > 0) {
     return tool.id.trim().toLowerCase();
