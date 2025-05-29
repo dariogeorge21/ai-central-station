@@ -11,7 +11,7 @@ export default function ToolNotFound() {
           </h1>
           
           <p className="text-gray-300 mb-6">
-            Sorry, we couldn't find the AI tool you're looking for. It may have been removed or the URL might be incorrect.
+            Sorry, we couldn&apos;t find the AI tool you&apos;re looking for. It may have been removed or the URL might be incorrect.
           </p>
           
           <div className="flex flex-col gap-4">
@@ -33,4 +33,4 @@ export default function ToolNotFound() {
       </div>
     </div>
   );
-} 
+}

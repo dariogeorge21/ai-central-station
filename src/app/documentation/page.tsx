@@ -1,13 +1,11 @@
 "use client"
 
 import { useState, useMemo } from 'react'
-import ProductCard from '@/components/documentation/ProductCard'
 import ProductOverview from '@/components/documentation/ProductOverview'
 import CategoryList from '@/components/documentation/CategoryList'
 import { aiTools, ToolCategory } from '@/data/exploreIndex'
-import { FiSearch, FiCode, FiGrid, FiFilter } from 'react-icons/fi'
+import { FiSearch, FiCode, FiGrid } from 'react-icons/fi'
 import CategoryFilter from '@/components/documentation/CategoryFilter'
-import Pagination from '@/components/documentation/Pagination'
 
 export default function Documentation() {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
@@ -15,25 +13,6 @@ export default function Documentation() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<ToolCategory[]>([]);
   const [categoryPageState, setCategoryPageState] = useState<Record<string, number>>({});
-
-  // Filter tools based on search query and selected categories
-  const filteredTools = useMemo(() => {
-    if (!searchQuery.trim() && selectedCategories.length === 0) return aiTools;
-    
-    const query = searchQuery.toLowerCase().trim();
-    return aiTools.filter(tool => {
-      // Filter by search query
-      const matchesSearch = !query || 
-        tool.name.toLowerCase().includes(query) ||
-        tool.description.toLowerCase().includes(query);
-      
-      // Filter by selected categories
-      const matchesCategories = selectedCategories.length === 0 || 
-        tool.categories.some(category => selectedCategories.includes(category as ToolCategory));
-      
-      return matchesSearch && matchesCategories;
-    });
-  }, [searchQuery, selectedCategories]);
 
   // Handler to change page for a category
   const handleCategoryPageChange = (category: string, page: number) => {
