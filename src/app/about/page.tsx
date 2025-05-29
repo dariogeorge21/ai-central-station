@@ -662,7 +662,7 @@ export default function AboutPage() {
 
                 <div className="space-y-4">
                   <p>
-                    I'm a passionate developer building web applications and digital products. My journey with AI began in 2024, and I've been fascinated by its potential to transform how we work.
+                    I&apos;m a passionate developer building web applications and digital products. My journey with AI began in 2024, and I&apos;ve been fascinated by its potential to transform how we work.
                   </p>
 
                   <div className="pt-2">
