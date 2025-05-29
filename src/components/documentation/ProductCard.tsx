@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-interface ProductCardProps {}
+type ProductCardProps = object;
 
 /**
  * ProductCard - Placeholder component for future card design

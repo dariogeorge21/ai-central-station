@@ -111,7 +111,7 @@ function cleanDescription(html: string): string {
 
     // Limit to a reasonable length
     return text.slice(0, 300) + (text.length > 300 ? '...' : '');
-  } catch (error) {
+  } catch {
     // If HTML parsing fails, remove tags using regex (less reliable but better than nothing)
     const text = html.replace(/<[^>]*>/g, '');
     return text.slice(0, 300) + (text.length > 300 ? '...' : '');

@@ -307,7 +307,7 @@ export default function AboutPage() {
                   <div className="glassmorphic-card-content p-4 rounded-xl border border-purple-500/20">
                     <h3 className="text-purple-400 font-medium mb-2 tech-title">Comprehensive Reviews</h3>
                     <p className="text-sm">
-                      Providing detailed, unbiased information about each tool's capabilities and limitations.
+                      Providing detailed, unbiased information about each tool&apos;s capabilities and limitations.
                     </p>
                   </div>
 

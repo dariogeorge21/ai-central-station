@@ -27,6 +27,20 @@ const trendingTools = [
 
 const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories, categoryPageState, onCategoryPageChange, onToolClick }) => {
   const [visibleCategories, setVisibleCategories] = useState<boolean>(false);
+  // Responsive tools per page (move to top level)
+  const [toolsPerPage, setToolsPerPage] = useState(5);
+  useEffect(() => {
+    const updateToolsPerPage = () => {
+      if (window.innerWidth < 640) {
+        setToolsPerPage(1); // Mobile: 1 tool per page
+      } else {
+        setToolsPerPage(5); // Laptop/large: 5 tools per page
+      }
+    };
+    updateToolsPerPage();
+    window.addEventListener('resize', updateToolsPerPage);
+    return () => window.removeEventListener('resize', updateToolsPerPage);
+  }, []);
   
   // Animation effect when component mounts
   useEffect(() => {
@@ -133,22 +147,6 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
     );
   }
 
-  // Responsive tools per page
-  // Move these hooks to the top level, not conditionally
-  const [toolsPerPage, setToolsPerPage] = useState(5);
-  useEffect(() => {
-    const updateToolsPerPage = () => {
-      if (window.innerWidth < 640) {
-        setToolsPerPage(1); // Mobile: 1 tool per page
-      } else {
-        setToolsPerPage(5); // Laptop/large: 5 tools per page
-      }
-    };
-    updateToolsPerPage();
-    window.addEventListener('resize', updateToolsPerPage);
-    return () => window.removeEventListener('resize', updateToolsPerPage);
-  }, []);
-  
   return (
     <div className={`categories-container space-y-12 ${visibleCategories ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
       {categoriesWithTools.map((category, categoryIndex) => {
@@ -200,7 +198,15 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
                   onClick={() => onToolClick ? onToolClick(tool.id) : window.location.assign(`/documentation/${tool.id}`)}
                   role="button"
                   tabIndex={0}
-                  onKeyPress={e => { if (e.key === 'Enter') onToolClick ? onToolClick(tool.id) : window.location.assign(`/documentation/${tool.id}`); }}
+                  onKeyPress={e => {
+                    if (e.key === 'Enter') {
+                      if (onToolClick) {
+                        onToolClick(tool.id);
+                      } else {
+                        window.location.assign(`/documentation/${tool.id}`);
+                      }
+                    }
+                  }}
                   data-testid={`tool-card-${tool.id}`}
                 >
                   <div className="glassmorphic-card-content hover:bg-gray-800/60 hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 h-full flex flex-col justify-between p-4 neon-glow relative">
