@@ -58,11 +58,21 @@ const parser = new Parser({
 
 // Cache the fetched articles to avoid duplicates
 let articleCache: Record<string, boolean> = {};
-let lastFetchedArticles: any[] = [];
+let lastFetchedArticles: Article[] = [];
 let lastFetchTime = 0;
 
 // 30 minutes cache time in milliseconds
 const CACHE_TIME = 30 * 60 * 1000;
+
+// Article type definition
+interface Article {
+  title: string;
+  link: string;
+  pubDate: string;
+  description: string;
+  source: string;
+  imageUrl: string;
+}
 
 // Helper function to extract image from HTML content
 function extractImageFromHTML(content: string): string {
@@ -119,8 +129,8 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 // Function to fetch and process RSS feeds
-async function fetchRssFeeds(): Promise<any[]> {
-  const articles: any[] = [];
+async function fetchRssFeeds(): Promise<Article[]> {
+  const articles: Article[] = [];
   articleCache = {}; // Reset cache for new fetch
   const currentTime = Date.now();
   let successfulFeeds = 0;
@@ -175,8 +185,8 @@ async function fetchRssFeeds(): Promise<any[]> {
             month: 'long',
             day: 'numeric'
           });
-        } catch (e) {
-          console.error(`Error parsing date: ${pubDate}`, e);
+        } catch {
+          // ignore date parse error
         }
 
         // Check if article is relevant and not a duplicate
@@ -213,7 +223,7 @@ async function fetchRssFeeds(): Promise<any[]> {
         return Math.random() - 0.5;
       }
       return dateB.getTime() - dateA.getTime();
-    } catch (e) {
+    } catch {
       return 0;
     }
   });
@@ -256,7 +266,7 @@ export async function GET() {
     try {
       console.log('Fetching RSS feeds...');
       const fetchPromise = fetchRssFeeds();
-      const result = await Promise.race([fetchPromise, timeoutPromise]) as any[];
+      const result = await Promise.race([fetchPromise, timeoutPromise]) as Article[];
       console.log('Successfully fetched articles:', result.length);
       return NextResponse.json({ articles: result });
     } catch (fetchError) {
