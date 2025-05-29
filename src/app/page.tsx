@@ -276,7 +276,7 @@ export default function Home() {
             {[
               'How to Optimize Prompts for Better AI Results',
               'Building Your First AI-Powered Web Application',
-              'Understanding Large Language Models: A Beginner\'s Guide',
+              'Understanding Large Language Models: A Beginner&apos;s Guide',
               'Ethical Considerations in AI Development'
             ].map((title, index) => (
               <div key={index} className="flex glassmorphic-card-content p-6 rounded-xl hover:shadow-lg hover:shadow-pink-900/20 transition-all duration-300 group">
@@ -348,7 +348,7 @@ export default function Home() {
 
                   <p className="text-gray-300 tech-text relative pl-6">
                     <span className="absolute left-0 top-0 text-yellow-500">◆</span>
-                    I've curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI tools more accessible to everyone.
+                    I&apos;ve curated and reviewed the best AI tools, provided educational resources, and created this platform to make AI tools more accessible to everyone.
                   </p>
 
                   <p className="text-gray-300 tech-text relative pl-6">
