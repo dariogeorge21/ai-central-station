@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Copy, 
   Facebook, 
-  Twitter, 
   Linkedin,
   Mail,
   X,
@@ -207,4 +206,4 @@ export default function SharePopup({ isOpen, onClose, title, url }: SharePopupPr
 
   // Return null during SSR, and use portal after mounting
   return mounted ? createPortal(content, document.body) : null;
-} 
+}

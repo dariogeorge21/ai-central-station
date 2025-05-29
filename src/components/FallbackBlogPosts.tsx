@@ -40,7 +40,7 @@ export default function FallbackBlogPosts({ errorMessage }: FallbackBlogPostsPro
         <h3 className="text-lg sm:text-xl text-red-400 mb-4 tech-title">Oops! Something went wrong</h3>
         <p className="text-gray-300 text-sm sm:text-base tech-text mb-4">{errorMessage}</p>
         <p className="text-gray-300 text-sm sm:text-base tech-text">
-          We're showing some sample blog posts below while we fix the issue.
+          We&apos;re showing some sample blog posts below while we fix the issue.
         </p>
       </div>
 
