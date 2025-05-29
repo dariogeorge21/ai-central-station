@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { categoryLabels, type ToolCategory, getToolsByCategory } from '@/data/exploreIndex'
-import { FiArrowRight, FiLink, FiStar, FiHeart, FiDollarSign, FiGlobe, FiHome, FiMusic, FiVideo, FiTrendingUp } from 'react-icons/fi'
-import Link from 'next/link'
+import { FiArrowRight, FiStar, FiHeart, FiDollarSign, FiGlobe, FiHome, FiMusic, FiVideo, FiTrendingUp } from 'react-icons/fi'
 import Pagination from './Pagination' // Adjust the import path as necessary
 
 interface CategoryListProps {
@@ -25,8 +24,6 @@ const trendingTools = [
   'midjourney', 'claude', 'perplexity', 'anthropic-claude', 'synthesia', 'stable-diffusion',
   'notion-ai', 'grammarly', 'eleven-labs', 'quillbot', 'runway'
 ];
-
-const TOOLS_PER_PAGE = 5;
 
 const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCategories, categoryPageState, onCategoryPageChange, onToolClick }) => {
   const [visibleCategories, setVisibleCategories] = useState<boolean>(false);

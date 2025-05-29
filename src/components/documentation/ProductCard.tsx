@@ -5,14 +5,13 @@ import { AITool } from '@/data/exploreIndex'
 
 interface ProductCardProps {
   tool: AITool;
-  onSelect: () => void;
 }
 
 /**
  * ProductCard - Placeholder component for future card design
  * This component has been cleaned up to accommodate new styling and design
  */
-const ProductCard = ({ tool, onSelect }: ProductCardProps) => {
+const ProductCard = ({ tool }: ProductCardProps) => {
   return (
     <div className="product-card-container">
       {/* Card content will be redesigned */}
@@ -20,4 +19,4 @@ const ProductCard = ({ tool, onSelect }: ProductCardProps) => {
   )
 }
 
-export default ProductCard 
+export default ProductCard
