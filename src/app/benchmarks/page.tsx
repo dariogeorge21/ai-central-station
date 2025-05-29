@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { 
   BarChart, 
   Bar, 
@@ -34,7 +33,6 @@ import {
   Card, 
   CardContent, 
   CardDescription, 
-  CardFooter, 
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card"
@@ -54,7 +52,7 @@ export default function BenchmarksPage() {
   const [selectedModels, setSelectedModels] = useState<string[]>([])
   const [selectedMetric, setSelectedMetric] = useState('inferenceTime')
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [comparisonData, setComparisonData] = useState<any[]>([])
+  const [comparisonData, setComparisonData] = useState<{ name: string; [key: string]: number | string | undefined | object }[]>([])
   const [activeTab, setActiveTab] = useState('overview')
   const [isLoading, setIsLoading] = useState(true)
 
