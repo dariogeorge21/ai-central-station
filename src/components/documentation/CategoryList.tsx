@@ -135,6 +135,21 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
     );
   }
 
+  // Responsive tools per page
+  const [toolsPerPage, setToolsPerPage] = useState(5);
+  useEffect(() => {
+    const updateToolsPerPage = () => {
+      if (window.innerWidth < 640) {
+        setToolsPerPage(1); // Mobile: 1 tool per page
+      } else {
+        setToolsPerPage(5); // Laptop/large: 5 tools per page
+      }
+    };
+    updateToolsPerPage();
+    window.addEventListener('resize', updateToolsPerPage);
+    return () => window.removeEventListener('resize', updateToolsPerPage);
+  }, []);
+  
   return (
     <div className={`categories-container space-y-12 ${visibleCategories ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
       {categoriesWithTools.map((category, categoryIndex) => {
@@ -154,8 +169,8 @@ const CategoryList: React.FC<CategoryListProps> = ({ searchQuery, selectedCatego
 
         // Pagination logic
         const currentPage = categoryPageState?.[category] || 1;
-        const totalPages = Math.ceil(filteredTools.length / TOOLS_PER_PAGE);
-        const paginatedTools = filteredTools.slice((currentPage - 1) * TOOLS_PER_PAGE, currentPage * TOOLS_PER_PAGE);
+        const totalPages = Math.ceil(filteredTools.length / toolsPerPage);
+        const paginatedTools = filteredTools.slice((currentPage - 1) * toolsPerPage, currentPage * toolsPerPage);
         
         // Determine if this is a specialized category
         const isSpecializedCategory = [
