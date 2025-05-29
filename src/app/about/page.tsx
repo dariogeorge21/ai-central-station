@@ -154,13 +154,13 @@ export default function AboutPage() {
                 </p>
 
                 <p>
-                  Whether you're looking for productivity enhancements, creative tools, developer resources, or specialized AI applications, this hub offers curated selections with practical insights to help you make informed decisions.
+                  Whether you&apos;re looking for productivity enhancements, creative tools, developer resources, or specialized AI applications, this hub offers curated selections with practical insights to help you make informed decisions.
                 </p>
 
                 <div className="flex items-center p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
                   <FiHeart className="text-yellow-500 w-6 h-6 mr-4 flex-shrink-0" />
                   <p className="text-yellow-200 italic">
-                    "My goal is to democratize access to AI by making these powerful technologies understandable and accessible to everyone, regardless of technical background."
+                    &quot;My goal is to democratize access to AI by making these powerful technologies understandable and accessible to everyone, regardless of technical background.&quot;
                   </p>
                 </div>
               </div>
@@ -657,7 +657,7 @@ export default function AboutPage() {
                   Dario George
                 </h3>
                 <p className="text-lg text-pink-200">
-                  Full Stack Developer & AI Enthusiast
+                  Full Stack Developer &amp; AI Enthusiast
                 </p>
 
                 <div className="space-y-4">
@@ -695,7 +695,7 @@ export default function AboutPage() {
                   <div className="pt-2">
                     <h4 className="text-pink-400 font-medium mb-2">Why I Built AI Central Station:</h4>
                     <p>
-                      I created this platform to help others navigate the rapidly evolving AI landscape. My goal is to make AI tools familiar and accessible to everyone, whether you're a developer, student, researcher, or business professional.
+                      I created this platform to help others navigate the rapidly evolving AI landscape. My goal is to make AI tools familiar and accessible to everyone, whether you&apos;re a developer, student, researcher, or business professional.
                     </p>
                   </div>
                 </div>
