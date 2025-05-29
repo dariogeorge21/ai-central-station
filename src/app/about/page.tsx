@@ -29,7 +29,7 @@ import {
   FiClock
 } from 'react-icons/fi'
 import Link from 'next/link'
-import { categoryLabels, ToolCategory } from '@/data/aiTools'
+import { categoryLabels, ToolCategory } from '@/data/exploreIndex'
 import Image from 'next/image'
 
 export default function AboutPage() {
