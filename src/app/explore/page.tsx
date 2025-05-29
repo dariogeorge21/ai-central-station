@@ -4,7 +4,8 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowUpDown, Search } from 'lucide-react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-import uniqueTools, { ToolCategory, AITool } from '@/data/exploreIndex';
+import { aiTools } from '@/data/exploreIndex';
+import type { AITool } from '@/data/types'; // Add correct AITool type import
 import { useDebounce } from 'use-debounce';
 
 // Import components
@@ -13,12 +14,6 @@ import AIToolsGrid from '@/components/explore/AIToolsGrid';
 
 // Sort options type
 type SortOption = 'nameAsc' | 'nameDesc' | 'mostlyUsed';
-
-const SORT_OPTIONS = {
-  NAME_ASC: 'nameAsc',
-  NAME_DESC: 'nameDesc',
-  MOSTLY_USED: 'mostlyUsed',
-};
 
 export default function ExplorePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,10 +33,7 @@ export default function ExplorePage() {
   }, [debouncedSearchQuery]);
 
   // Combine all AI tools with error handling
-  const allTools = useMemo(() => uniqueTools, []);
-
-  // Initialize filtered tools with loading state
-  const [filteredTools, setFilteredTools] = useState<AITool[]>([]);
+  const allTools = useMemo(() => aiTools, []);
 
   // Effect for initial load
   useEffect(() => {
@@ -51,9 +43,8 @@ export default function ExplorePage() {
         // Simulate network delay for demo
         await new Promise(resolve => setTimeout(resolve, 500));
         // Sort tools by mostly used by default
-        const sortedTools = sortToolsByOption(uniqueTools, 'mostlyUsed');
-        setFilteredTools(sortedTools);
-      } catch (err) {
+        const sortedTools = sortToolsByOption(aiTools, 'mostlyUsed');
+      } catch {
         setError('Failed to initialize tools');
       } finally {
         setIsLoading(false);
@@ -373,8 +364,8 @@ export default function ExplorePage() {
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-semibold text-gray-200 tech-text">
                 {selectedCategories.length > 0 || isSearching
-                  ? `Showing ${filteredAndSortedTools.length} of ${uniqueTools.length} AI Tools`
-                  : `Showing ${uniqueTools.length} AI Tools`}
+                  ? `Showing ${filteredAndSortedTools.length} of ${aiTools.length} AI Tools`
+                  : `Showing ${aiTools.length} AI Tools`}
               </h3>
               {selectedCategories.length > 0 && (
                 <button
