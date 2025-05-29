@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Filter, X, ChevronDown } from 'lucide-react';
-import { ToolCategory, categoryLabels } from '@/data/exploreIndex';
+import { categoryLabels } from '@/data/exploreIndex';
 
 interface CategoryFilterProps {
   isOpen: boolean;

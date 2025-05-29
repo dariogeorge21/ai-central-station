@@ -9,7 +9,6 @@ import { ChevronLeft, ChevronRight, Star, X } from 'lucide-react';
 interface AIToolsGridProps {
   tools: AITool[];
   isLoading: boolean;
-  onSelectTool?: (tool: AITool) => void;
   onClearFilters?: () => void;
   sectionRef?: React.RefObject<HTMLElement | null>;
 }
@@ -135,12 +134,10 @@ const LoadingSkeleton: React.FC = () => {
 const AIToolsGrid: React.FC<AIToolsGridProps> = ({
   tools,
   isLoading,
-  onSelectTool,
   onClearFilters,
   sectionRef
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
   const [columns, setColumns] = useState(4); // Default to 4 columns (desktop)
   const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ROWS_PER_PAGE * columns);
 
