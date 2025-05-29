@@ -27,7 +27,7 @@ const nextConfig = {
   },
   // Disable ESLint during build
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   // Disable TypeScript type checking during build
   typescript: {
