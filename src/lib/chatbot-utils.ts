@@ -1,4 +1,4 @@
-import { aiTools, ToolCategory, categoryLabels } from '@/data/aiTools';
+import { aiTools, ToolCategory, categoryLabels } from '@/data/exploreIndex';
 
 // Function to get tools by category
 export function getToolsByCategory(category: ToolCategory) {
@@ -64,14 +64,14 @@ export function parseQueryForCategories(query: string): ToolCategory[] {
     'organize': ['productivity'],
     'search': ['search-engines'],
     'find': ['search-engines'],
-    'research': ['search-engines', 'academia'],
-    'academic': ['academia'],
-    'student': ['academia'],
-    'study': ['academia'],
+    'research': ['search-engines', 'academics'],
+    'academic': ['academics'],
+    'student': ['academics'],
+    'study': ['academics'],
     'meeting': ['meeting'],
-    'voice': ['voice-cloning'],
-    'speech': ['voice-cloning'],
-    'audio': ['voice-cloning', 'music'],
+    'voice': ['voice'],
+    'speech': ['voice'],
+    'audio': ['voice', 'music'],
     'website': ['website-builders'],
     'webpage': ['website-builders'],
     'assistant': ['virtual-assistants'],
@@ -132,7 +132,7 @@ export function formatToolsForChat(tools: typeof aiTools, maxTools = 4) {
   const limitedTools = tools.slice(0, maxTools);
   
   const formattedTools = limitedTools.map(tool => {
-    const categories = tool.categories.map(cat => categoryLabels[cat]).join(', ');
+    const categories = tool.categories.map(cat => categoryLabels[cat as ToolCategory]).join(', ');
     const pricingInfo = tool.pricing || 'Pricing information not available';
     const rating = tool.rating ? `Rating: ${tool.rating}/5` : '';
     
