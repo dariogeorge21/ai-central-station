@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import ProductOverview from '@/components/documentation/ProductOverview'
 import CategoryList from '@/components/documentation/CategoryList'
-import { aiTools, ToolCategory } from '@/data/exploreIndex'
+import { ToolCategory } from '@/data/exploreIndex'
 import { FiSearch, FiCode, FiGrid } from 'react-icons/fi'
 import CategoryFilter from '@/components/documentation/CategoryFilter'
 
@@ -22,7 +22,7 @@ export default function Documentation() {
   // Reset pagination when search or filter changes
   useMemo(() => {
     setCategoryPageState({});
-  }, [searchQuery, selectedCategories]);
+  }, []); // Remove unnecessary dependencies
 
   return (
     <main className="min-h-screen circuit-bg">

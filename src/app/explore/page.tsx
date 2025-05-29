@@ -43,7 +43,6 @@ export default function ExplorePage() {
         // Simulate network delay for demo
         await new Promise(resolve => setTimeout(resolve, 500));
         // Sort tools by mostly used by default
-        const sortedTools = sortToolsByOption(aiTools, 'mostlyUsed');
       } catch {
         setError('Failed to initialize tools');
       } finally {
