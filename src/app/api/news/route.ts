@@ -1,13 +1,37 @@
 import { NextResponse } from 'next/server';
 import { mockNewsData } from './mockData';
 
+// Renamed useMockData to getMockData to avoid React Hook naming confusion
+function getMockData(page: number, category: string = 'all') {
+  // Filter mock data based on category if needed
+  let filteredArticles = mockNewsData.articles;
+  if (category !== 'all') {
+    const categoryLower = category.toLowerCase();
+    filteredArticles = mockNewsData.articles.filter(article =>
+      article.title.toLowerCase().includes(categoryLower) ||
+      article.description.toLowerCase().includes(categoryLower)
+    );
+  }
+
+  // Calculate pagination
+  const pageSize = page === 1 ? 18 : 9;
+  const startIndex = page === 1 ? 0 : (page - 1) * 9;
+  const endIndex = startIndex + pageSize;
+
+  // Return paginated results
+  return {
+    articles: filteredArticles.slice(startIndex, endIndex),
+    totalResults: filteredArticles.length
+  };
+}
+
 async function fetchNewsFromAPI(page: number, category: string = 'all') {
   const apiKey = process.env.NEWS_API_KEY;
 
   // If API key is not available, use mock data
   if (!apiKey) {
     console.warn('NEWS_API_KEY is not configured. Using mock data instead.');
-    return useMockData(page, category);
+    return getMockData(page, category);
   }
 
   // Calculate dates for the last 7 days
@@ -42,39 +66,15 @@ async function fetchNewsFromAPI(page: number, category: string = 'all') {
     const response = await fetch(url.toString());
     if (!response.ok) {
       console.error(`NewsAPI request failed: ${response.statusText}`);
-      return useMockData(page, category);
+      return getMockData(page, category);
     }
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching news:', error);
     // Fall back to mock data on any error
-    return useMockData(page, category);
+    return getMockData(page, category);
   }
-}
-
-// Function to use mock data when the API is unavailable
-function useMockData(page: number, category: string = 'all') {
-  // Filter mock data based on category if needed
-  let filteredArticles = mockNewsData.articles;
-  if (category !== 'all') {
-    const categoryLower = category.toLowerCase();
-    filteredArticles = mockNewsData.articles.filter(article =>
-      article.title.toLowerCase().includes(categoryLower) ||
-      article.description.toLowerCase().includes(categoryLower)
-    );
-  }
-
-  // Calculate pagination
-  const pageSize = page === 1 ? 18 : 9;
-  const startIndex = page === 1 ? 0 : (page - 1) * 9;
-  const endIndex = startIndex + pageSize;
-
-  // Return paginated results
-  return {
-    articles: filteredArticles.slice(startIndex, endIndex),
-    totalResults: filteredArticles.length
-  };
 }
 
 export async function GET(request: Request) {
@@ -95,7 +95,7 @@ export async function GET(request: Request) {
     // Use mock data as a fallback
     const page = 1;
     const category = 'all';
-    const mockData = useMockData(page, category);
+    const mockData = getMockData(page, category);
 
     return NextResponse.json({
       news: mockData.articles,
