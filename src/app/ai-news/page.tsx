@@ -166,7 +166,7 @@ export default function AINewsPage() {
         {!hasMore && newsItems.length > 0 && (
           <div className="mt-12 text-center glassmorphic-card-content p-6 rounded-xl">
             <p className="text-gray-300 tech-text">
-              You've reached the end of available news. Check back later for more updates!
+              You&apos;ve reached the end of available news. Check back later for more updates!
             </p>
           </div>
         )}

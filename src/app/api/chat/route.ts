@@ -43,8 +43,6 @@ export async function POST(request: NextRequest) {
     const useGroqApi = apiKey && apiKey !== '';
 
     // Process last user message to handle query
-    let response = '';
-    
     if (messages.length > 0) {
       const lastUserMessage = messages[messages.length - 1].content.toLowerCase();
       
@@ -182,8 +180,6 @@ Keep responses helpful, conversational, and relatively concise. If you don't kno
       
       // Fallback to local response system
       if (messages.length > 0) {
-        const lastUserMessage = messages[messages.length - 1].content.toLowerCase();
-        
         // Generic fallback response
         return NextResponse.json({
           response: "I'm here to help you find AI tools and learn about our website. What would you like to know about AI Central Station or AI tools in general?"
@@ -196,4 +192,4 @@ Keep responses helpful, conversational, and relatively concise. If you don't kno
       response: "I'm here to help you find AI tools and learn about our website. What would you like to know about AI Central Station or AI tools in general?"
     });
   }
-} 
+}
