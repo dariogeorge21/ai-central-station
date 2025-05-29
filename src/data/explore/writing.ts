@@ -117,5 +117,6 @@ export const writing: AITool[] = [
       userExperience: 'Seamless integration with Notion workspace',
       websiteUrl: 'https://www.notion.so/product/ai',
       rating: 4
-    }
+    },
+    //Add more writing tools here
   ];
