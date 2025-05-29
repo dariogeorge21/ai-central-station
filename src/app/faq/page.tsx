@@ -242,7 +242,7 @@ export default function FAQPage() {
               Still Have Questions?
             </h2>
             <p className="text-gray-300 max-w-3xl mx-auto mb-8 tech-text">
-              If you couldn't find the answer you were looking for, feel free to reach out to us directly.
+              If you couldn&apos;t find the answer you were looking for, feel free to reach out to us directly.
             </p>
             <Link
               href="/about#connect"

@@ -133,7 +133,7 @@ export default function TermsOfServicePage() {
               Terms of Service
             </h1>
             <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-8">
-              Guidelines for using AI Central Station's open-source resources
+              Guidelines for using AI Central Station&apos;s open-source resources
             </p>
             <div className="text-gray-400 text-sm">
               Last Updated: {lastUpdated}
@@ -226,7 +226,7 @@ export default function TermsOfServicePage() {
               Have Questions About Our Terms?
             </h2>
             <p className="text-gray-300 max-w-3xl mx-auto mb-8 tech-text">
-              If you have any questions or concerns about our terms of service, please don't hesitate to reach out to us.
+              If you have any questions or concerns about our terms of service, please don&apos;t hesitate to reach out to us.
             </p>
             <Link
               href="/about#connect"

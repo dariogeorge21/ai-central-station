@@ -218,7 +218,7 @@ export default function PrivacyPolicyPage() {
               Have Questions About Our Privacy Policy?
             </h2>
             <p className="text-gray-300 max-w-3xl mx-auto mb-8 tech-text">
-              If you have any questions or concerns about our privacy practices, please don't hesitate to reach out to us.
+              If you have any questions or concerns about our privacy practices, please don&apos;t hesitate to reach out to us.
             </p>
             <Link
               href="/about#connect"
