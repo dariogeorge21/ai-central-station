@@ -172,5 +172,71 @@ export const academics: AITool[] = [
     websiteUrl: "https://notion.so/",
     rating: 4.7
   },
+  {
+    id: "grammarly",
+    name: "Grammarly",
+    description: "Grammarly is an AI writing assistant that helps students and professionals improve their writing by checking grammar, spelling, and style.",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8y6wi5Tg40IDq9eMNJuPOKcuw8FGNKloTiw&s",
+    categories: ["academic", "writing", "grammar-checking"],
+    mainUse: "Grammar and style checking for academic writing.",
+    pricing: "Free; Premium starts at $12/month.",
+    otherUses: "Plagiarism checking, citation assistance.",
+    userExperience: "Enhances the quality of academic writing through AI feedback.",
+    websiteUrl: "https://grammarly.com/",
+    rating: 4.8
+  },
+  {
+    id: "elicit",
+    name: "Elicit",
+    description: "Elicit is an AI tool that helps students and researchers find and evaluate research papers, providing insights and recommendations.",
+    logoUrl: "https://yt3.googleusercontent.com/ksfLLIjvy8Y5vvtAmnSzIeF-svAUzrZyJBs-YwCVZUZGct8XNDb6-KJSepMwCrcuFkb6b8oCczo=s900-c-k-c0x00ffffff-no-rj",
+    categories: ["academic", "research", "paper-evaluation"],
+    mainUse: "Research paper evaluation and recommendation.",
+    pricing: "Free; Premium starts at $12/month.",
+    otherUses: "Paper summarization, citation analysis.",
+    userExperience: "Helps in finding and evaluating relevant research papers.",
+    websiteUrl: "https://elicit.com/",
+    rating: 4.7
+  },
+  {
+    id: "scite-ai",
+    name: "Scite AI",
+    description: "Scite AI is an AI tool that helps Analyzes scientific citations to show whether a paper supports or contradicts a claim, helping assess the credibility of sources.",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDrc_VwLwmKuBiPVUOKD-a69SiTfWa_eE-tw&s",
+    categories: ["academic", "research", "literature","paper-evaluation"],
+    mainUse: "Research paper evaluation and recommendation.",
+    pricing: "Free; Premium starts at $12/month.",
+    otherUses: "Paper summarization, citation analysis.",
+    userExperience: "Helps in finding and evaluating relevant research papers.",
+    websiteUrl: "https://scite.ai/",
+    rating: 4.7
+  },
+  {
+    id:"jenni-ai",
+    name: "Jenni AI",
+    description: "Jenni AI is an AI tool that provides real-time writing suggestions, helping with idea development and maintaining coherence in academic texts.",
+    logoUrl: "https://media.licdn.com/dms/image/v2/D560BAQHnMt_6QH2j9Q/company-logo_200_200/company-logo_200_200/0/1732877147590/jenniai_logo?e=2147483647&v=beta&t=LU3x0cwzrP4xBLqPeP-Cizwx_9jQcz36FlHN2BkfQLI",
+    categories: ["academic", "research", "paper-evaluation","writing"],
+    mainUse: "Research paper evaluation and recommendation.",
+    pricing: "Free; Premium starts at $12/month.",
+    otherUses: "Paper summarization, citation analysis.",
+    userExperience: "Helps in finding and evaluating relevant research papers.",
+    websiteUrl: "https://jenni.ai/",
+    rating: 4.7
+  },
+  {
+    id :"trinka",
+    name: "Trinka",
+    description: "Trinka is an AI tool tailored for academic and technical writing, it offers grammar checks, language enhancements, and publication readiness assessments..",
+    logoUrl: "https://www.trinka.ai/assets/images/Trinka.jpg",
+    categories: ["academic", "research", "paper-evaluation","writing"],
+    mainUse: "Research paper evaluation and recommendation.",
+    pricing: "Free; Premium starts at $12/month.",
+    otherUses: "Paper summarization, citation analysis.",
+    userExperience: "Helps in finding and evaluating relevant research papers.",
+    websiteUrl: "https://trinka.ai/",
+    rating: 4.7
+
+  }
   //Add more
 ];
