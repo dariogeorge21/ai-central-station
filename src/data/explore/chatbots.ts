@@ -81,4 +81,60 @@ import { AITool } from '../types';
     userExperience: 'Integrated with Microsoft ecosystem',
     websiteUrl: 'https://copilot.microsoft.com/',
     rating: 4
-  }];
+  },
+  {
+    id: 'google-bard',
+    name: 'Google Bard',
+    description: 'AI assistant from Google for conversational interactions',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg',
+    categories: ['chatbots', 'search-engines'],
+    mainUse: 'Conversational AI for various tasks',
+    pricing: 'Free with Google account',
+    otherUses: 'Content creation, research, image generation',
+    userExperience: 'Integrated with Google ecosystem',
+    websiteUrl: 'https://bard.google.com/',
+    rating: 4
+
+  },
+  {
+    id : "gemini",
+    name: "Gemini",
+    description: "Google's multimodal AI for text, image, and video understanding (formerly Bard)",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThr7qrIazsvZwJuw-uZCtLzIjaAyVW_ZrlEQ&s",
+    categories: ["chatbots", "models"],
+    mainUse: "Multimodal understanding and generation",
+    pricing: "Free tier available, Gemini Advanced at $19.99/month",
+    otherUses: "Image analysis, code generation, research assistance",
+    userExperience: "Integrated with Google ecosystem",
+    websiteUrl: "https://gemini.google.com/",
+    rating: 4
+  },
+  {
+    id:"grok",
+    name: "Grok",
+    description: "AI assistant from Grok for conversational interactions",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOv3K6RevHQCscoWPa2BvxKTq-9ygcQ4mhRA&s",
+    categories: ["chatbots", "models"],
+    mainUse: "Conversational AI for various tasks",
+    pricing: "Free tier available, Grok Pro at $19.99/month",
+    otherUses: "Content creation, research, image generation",
+    userExperience: "Integrated with Grok ecosystem",
+    websiteUrl: "https://grok.com/",
+    rating: 4
+  },
+  {
+    id: "muse",
+    name: "Muse",
+    description: "AI assistant from Muse for conversational interactions",
+    logoUrl: "https://gdm-catalog-fmapi-prod.imgix.net/ProductLogo/79dbb02a-9ca5-42f6-a868-13de7bde91fe.png",
+    categories: ["chatbots", "models"],
+    mainUse: "Conversational AI for various tasks",
+    pricing: "Free tier available, Muse Pro at $19.99/month",
+    otherUses: "Content creation, research, image generation",
+    userExperience: "Integrated with Muse ecosystem",
+    websiteUrl: "https://muse.com/",
+    rating: 4
+  }
+
+
+];
