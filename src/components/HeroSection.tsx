@@ -72,7 +72,7 @@ const HeroSection = () => {
           {/* Quick Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 sm:mt-16">
             <div className="glassmorphic-card-content p-4 text-left">
-              <div className="text-2xl sm:text-3xl font-bold text-blue-400">500+</div>
+              <div className="text-2xl sm:text-3xl font-bold text-blue-400">400+</div>
               <div className="text-xs sm:text-sm text-gray-300">AI Tools</div>
             </div>
             <div className="glassmorphic-card-content p-4 text-left">
