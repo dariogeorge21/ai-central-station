@@ -204,7 +204,15 @@ export default function Footer() {
         {/* Bottom section */}
         <div className="pt-6 sm:pt-8 border-t border-gray-800/50 flex flex-col sm:flex-row justify-between items-center">
           <div className="text-gray-400 text-xs sm:text-sm tech-text text-center sm:text-left">
-            &copy; {currentYear} AI Central Station by <span className="text-blue-400">Dario George</span>. All rights reserved.
+            &copy; {currentYear} AI Central Station by <span className="text-blue-400">Dario George</span>. All rights reserved. 
+            <a
+              href="https://ko-fi.com/U7U61GHVW1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Support me
+            </a>
           </div>
           <div className="flex items-center text-gray-400 text-xs sm:text-sm mt-3 sm:mt-0 tech-text">
             <span>Made with</span>
