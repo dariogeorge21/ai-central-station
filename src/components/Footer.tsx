@@ -211,7 +211,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-               Support me
+                 Support me
             </a>
           </div>
           <div className="flex items-center text-gray-400 text-xs sm:text-sm mt-3 sm:mt-0 tech-text">
