@@ -206,7 +206,7 @@ export default function Footer() {
           <div className="text-gray-400 text-xs sm:text-sm tech-text text-center sm:text-left">
             &copy; {currentYear} AI Central Station by <span className="text-blue-400">Dario George</span>. All rights reserved. 
             <a
-              href="https://ko-fi.com/U7U61GHVW1"
+              href="https://buymeacoffee.com/dariogeorge21"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline"
