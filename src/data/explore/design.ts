@@ -144,5 +144,18 @@ export const design: AITool[] = [
         websiteUrl: "https://www.adobe.com/products/photoshop-ai.html",
         rating: 4.7
       },
+      {
+        id: "landscapioai",
+        name: "LandscapioAI",
+        description: "An AI landscape design generator that turns yard and garden photos into realistic exterior redesign concepts for homeowners and contractors.",
+        logoUrl: "https://www.landscapioai.com/favicon.ico",
+        categories: ["landscape-design", "image-generation", "design"],
+        mainUse: "Generating AI landscape and garden redesign concepts from photos.",
+        pricing: "Free design generation with paid upgrade options.",
+        otherUses: "Garden planning, curb appeal ideas, contractor inspiration.",
+        userExperience: "Upload an outdoor space photo and receive realistic redesign ideas quickly.",
+        websiteUrl: "https://www.landscapioai.com",
+        rating: 4.6
+      },
       //Add more
     ];
